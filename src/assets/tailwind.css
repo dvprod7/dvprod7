@@ -24,7 +24,7 @@
 /* Custom classes */
 @layer components {
   .menu-container {
-    @apply w-full flex flex-row bg-mainBlack text-white px-5 pt-5 md:py-4 lg:py-5 lg:px-0
+    @apply w-full flex flex-row bg-mainBlack text-white pt-5 md:py-5 lg:py-5 lg:px-0
   }
   .menu-item {
     font-family: Visuelt ProBold;
@@ -32,5 +32,8 @@
   }
   .menu-mobile {
     @apply md:static absolute bg-mainBlack md:w-auto w-full duration-150 ease-in px-5 lg:px-0
+  }
+  .active {
+    @apply text-[#F5F749]
   }
 }

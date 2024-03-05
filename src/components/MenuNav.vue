@@ -1,6 +1,6 @@
 <template>
     <div class="menu-container shadow-lg">
-      <div class="container mx-auto">
+      <div class="container px-5">
         <div class="flex flex-col md:flex-row lg:flex-row">
           <div class="basis-full md:basis-6/12 lg:basis-6/12 my-3 flex align-middle">
             <a href="#" class="inline-block">
@@ -16,8 +16,54 @@
           <div class="basis-full md:basis-6/12 lg:basis-6/12 my-3 flex align-middle">
             <ul class="menu-mobile w-full md:flex md:items-center md:justify-end" 
                 :class="[menuBtn ? 'left-0' : 'left-[-100%]']">
-              <li class="md:mx-4 mb-5 md:mb-0" v-for="(item, index) in menuItems" :key="index">
-                  <a class="menu-item" :href="item.link">{{ item.name }}</a>
+              <li class="md:mx-4 mb-5 md:mb-0">
+                  <a class="menu-item" href="#">{{ t('menu.about') }}</a>
+              </li>
+              <li class="md:mx-4 mb-5 md:mb-0">
+                  <a class="menu-item" href="#">{{ t('menu.projects') }}</a>
+              </li>
+              <li class="md:mx-4 mb-5 md:mb-0">
+                  <a class="menu-item" href="#">{{ t('menu.contact') }}</a>
+              </li>
+              <li class="md:mx-4 mb-5 md:mb-0">
+                <button class="menu-item inline-flex items-center"  
+                  @click="changeLanguage('es')" 
+                  :class="{ 'active': currentLanguage === 'es' }">
+                  <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_15_49)">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H15.3214V16.0179H0V0Z" fill="#FFE800"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 8.00891H15.3214V16.0178H0V8.00891Z" fill="#00148E"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 12.0134H15.3214V16.0179H0V12.0134Z" fill="#DA0010"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_15_49">
+                    <rect width="15.3214" height="16.0179" fill="white"/>
+                    </clipPath>
+                    </defs>
+                  </svg>
+                  <span class="pl-[5px]">ESP</span>
+                </button>
+              </li>
+              <li class="md:mx-4 mb-5 md:mb-0">
+                <button class="menu-item inline-flex items-center"  
+                  @click="changeLanguage('en')" 
+                  :class="{ 'active': currentLanguage === 'en' }">
+                  <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_15_54)">
+                    <path d="M0.696289 0H16.0177V16.0179H0.696289V0Z" fill="#012169"/>
+                    <path d="M16.0177 0V2.00223L10.332 8.00893L16.0177 13.8592V16.0179H14.0128L8.29715 10.1363L2.73117 16.0179H0.696289V13.8905L6.26228 8.04021L0.696289 2.31508V0H2.55162L8.29715 5.88156L13.8631 0H16.0177Z" fill="white"/>
+                    <path d="M6.20243 10.1363L6.5316 11.2L1.95312 16.0179H0.696289V15.924L6.20243 10.1363ZM9.91309 9.76088L11.529 10.0112L16.0177 14.61V16.0179L9.91309 9.76088ZM16.0177 0L10.2722 6.13184L10.1525 4.7553L14.6412 0H16.0177ZM0.696289 0.0312849L6.47175 5.94413L4.70619 5.69385L0.696289 1.53296V0.0312849Z" fill="#C8102E"/>
+                    <path d="M5.96303 0V16.0179H10.751V0H5.96303ZM0.696289 5.50614V10.5117H16.0177V5.50614H0.696289Z" fill="white"/>
+                    <path d="M0.696289 6.50725V9.5106H16.0177V6.50725H0.696289ZM6.92062 0V16.0179H9.79339V0H6.92062Z" fill="#C8102E"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_15_54">
+                    <rect width="15.3214" height="16.0179" fill="white" transform="translate(0.696289)"/>
+                    </clipPath>
+                    </defs>
+                  </svg>
+                  <span class="pl-[5px]">ENG</span>
+                </button>
               </li>
             </ul>
           </div>
@@ -28,20 +74,23 @@
 
 <script>
 import { ref } from '@vue/reactivity';
+import { useI18n } from 'vue-i18n';
 
 export default {
-  name: 'MenuNav',
   setup() {
     let menuBtn = ref(false);
-    let menuItems = [
-      {name: "About", link: "#"},
-      {name: "Projects", link: "#"},
-      {name: "Contact", link: "#"}
-    ];
+    const currentLanguage = ref('en');
+    const { t, locale } = useI18n();
+    const changeLanguage = (lang) => {
+      locale.value = lang;
+      currentLanguage.value = lang;
+    };
+
     function MenuOpen() {
       menuBtn.value = !menuBtn.value; 
     }
-    return {menuItems, menuBtn, MenuOpen}
+    
+    return {menuBtn, MenuOpen, t, changeLanguage, currentLanguage}
   }
 }
 </script>
