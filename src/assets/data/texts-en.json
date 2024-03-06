@@ -6,6 +6,9 @@
     },
     "hero": {
         "greeting": "Hi, I’m",
-        "profile": "English: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        "main": "Daniel Valenzuela",
+        "intro": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "btnOne": "Projects",
+        "btnTwo": "Hire me 😎"
     }
 } 

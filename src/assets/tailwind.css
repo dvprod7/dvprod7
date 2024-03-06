@@ -21,19 +21,66 @@
   src: url(./fonts/VisueltPro-ExtraLight.ttf);
 }
 
+@layer base {
+  html {
+    font-family: Visuelt ProRegular;
+  }
+}
+
 /* Custom classes */
 @layer components {
+  h1 {
+    font-family: Visuelt ProBold;
+    @apply text-5xl uppercase
+  }
+  h2 {
+    font-family: Visuelt ProBold;
+    @apply text-4xl uppercase
+  }
+  h3 {
+    font-family: Visuelt ProLight;
+    @apply text-4xl
+  }
+  h4 {
+    font-family: Visuelt ProRegular;
+    @apply text-3xl
+  }
+  h5 {
+    font-family: Visuelt ProRegular;
+    @apply text-2xl
+  }
+  h6 {
+    font-family: Visuelt ProRegular;
+    @apply text-xl
+  }
   .menu-container {
     @apply w-full flex flex-row bg-mainBlack text-white pt-5 md:py-5 lg:py-5 lg:px-0
   }
   .menu-item {
     font-family: Visuelt ProBold;
-    @apply text-white transition hover:text-[#F5F749] uppercase
+    @apply text-white transition hover:text-electricYellow uppercase
   }
   .menu-mobile {
     @apply md:static absolute bg-mainBlack md:w-auto w-full duration-150 ease-in px-5 lg:px-0
   }
   .active {
-    @apply text-[#F5F749]
+    @apply text-electricYellow
+  }
+  .hero-container {
+    @apply py-10
+  }
+  .buttons-dv-green {
+    font-family: Visuelt ProBold;
+    @apply w-full bg-electricYellow hover:bg-mainBlack text-mainBlack hover:text-electricYellow py-2 px-4 duration-150 ease-in max-w-[45%]
+  }
+  .buttons-dv-black {
+    font-family: Visuelt ProBold;
+    @apply w-full bg-mainBlack hover:bg-electricYellow text-electricYellow hover:text-mainBlack py-2 px-4 duration-150 ease-in max-w-[45%]
+  }
+  .social-btn {
+    @apply inline-block bg-electricYellow hover:bg-mainBlack text-mainBlack hover:text-electricYellow duration-150 ease-in rounded-full
+  }
+  .social-btn:hover svg path{
+    fill: #F5F749;
   }
 }
