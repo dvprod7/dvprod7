@@ -1,0 +1,33 @@
+// 🖋️ Tipografía
+
+@font-face {
+    font-family: 'Roboto Condensed';
+    font-style: italic;
+    font-weight: 800;
+    src: url('/assets/fonts/RobotoCondensed-ExtraBoldItalic.woff2') format('woff2');
+
+}
+
+@font-face {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/assets/fonts/Manrope-Regular.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/assets/fonts/Manrope-Bold.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 800;
+    src: url('/assets/fonts/Manrope-ExtraBold.woff2') format('woff2');
+    font-display: swap;
+}
