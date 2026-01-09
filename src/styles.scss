@@ -2,3 +2,10 @@
 @use 'app/styles/grid' as *;
 @use 'app/styles/helpers' as *;
 @use 'app/styles/globals' as *;
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}

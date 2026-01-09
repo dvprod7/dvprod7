@@ -1,14 +1,15 @@
 @use 'variables' as *;
 
 .navbar {
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 1000;
+    margin: 30px auto;
 
     &__inner {
         display: flex;
         flex-wrap: wrap;
         width: min(100%, 1620px);
-        margin: 30px auto;
         align-items: center;
 
         @media (max-width: 1620px) {
