@@ -3,42 +3,42 @@
 
 // Container
 .container {
-    width: 100%;
-    max-width: 1620px;
-    margin-inline: auto;
-    padding-inline: clamp(10px, 8vw, $gutter-width * 2);
+  width: 100%;
+  max-width: 1620px;
+  margin-inline: auto;
+  padding-inline: clamp(10px, 8vw, $gutter-width * 2);
 }
 
 // Row
 .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-inline: calc(#{$gutter-width} / -2);
+  display: flex;
+  flex-wrap: wrap;
+  margin-inline: calc(#{$gutter-width} / -2);
 }
 
 // Columns
 @for $i from 1 through $grid-columns {
-    .col-#{$i} {
-        flex: 0 0 math.percentage(math.div($i, $grid-columns));
-        max-width: math.percentage(math.div($i, $grid-columns));
-        padding-inline: calc(#{$gutter-width} / 2);
-    }
+  .col-#{$i} {
+    flex: 0 0 math.percentage(math.div($i, $grid-columns));
+    max-width: math.percentage(math.div($i, $grid-columns));
+    padding-inline: calc(#{$gutter-width} / 2);
+  }
 }
 
 // Responsive columns + order
 @each $breakpoint, $size in $breakpoints {
-    @media (min-width: $size) {
-        @for $i from 1 through $grid-columns {
-            .col-#{$breakpoint}-#{$i} {
-                flex: 0 0 math.percentage(math.div($i, $grid-columns));
-                max-width: math.percentage(math.div($i, $grid-columns));
-            }
-        }
-
-        @for $i from 0 through $grid-columns {
-            .order-#{$breakpoint}-#{$i} {
-                order: $i;
-            }
-        }
+  @media (min-width: $size) {
+    @for $i from 1 through $grid-columns {
+      .col-#{$breakpoint}-#{$i} {
+        flex: 0 0 math.percentage(math.div($i, $grid-columns));
+        max-width: math.percentage(math.div($i, $grid-columns));
+      }
     }
+
+    @for $i from 0 through $grid-columns {
+      .order-#{$breakpoint}-#{$i} {
+        order: $i;
+      }
+    }
+  }
 }

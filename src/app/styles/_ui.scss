@@ -1,0 +1,38 @@
+@use 'variables' as *;
+
+.btn {
+  display: inline-block;
+  width: fit-content;
+  text-align: center;
+  color: $white;
+  text-decoration: none;
+  font-weight: 700;
+  line-height: 1.5;
+  padding: 0 2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &--large {
+    font-size: 2rem;
+  }
+
+  &--medium {
+    font-size: 1.5rem;
+  }
+
+  &--small {
+    font-size: 1rem;
+  }
+
+  &--small {
+    font-size: 1rem;
+  }
+
+  &--primary {
+    background-color: $Flame;
+  }
+
+  &--secondary {
+    background-color: $Moonstone;
+  }
+}

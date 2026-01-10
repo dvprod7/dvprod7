@@ -1,11 +1,11 @@
 @use 'fonts' as *;
 
 // 🎨 Paleta de colores
-$Icterine: #FAFF70;
+$Icterine: #faff70;
 $Jet: #333333;
-$Flame: #DD6031;
-$Moonstone: #489FB5;
-$white: #ECEBF3;
+$Flame: #dd6031;
+$Moonstone: #489fb5;
+$white: #ecebf3;
 
 // 🖋️ Tipografía
 $Roboto: 'Roboto Condensed', sans-serif;
@@ -17,9 +17,9 @@ $grid-columns: 12;
 $gutter-width: 24px;
 $navbar-height: 120px;
 $breakpoints: (
-  "sm": 480px,
-  "md": 768px,
-  "lg": 1024px,
-  "xl": 1366px,
-  "2xl": 1620px
+  'sm': 480px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1366px,
+  '2xl': 1620px,
 );

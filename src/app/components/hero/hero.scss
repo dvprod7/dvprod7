@@ -1,5 +1,32 @@
 @use 'variables' as *;
 
-/* .hero {
-    min-height: calc(100dvh - $navbar-height);
-} */
+.hero {
+  &__title-container {
+    h1 {
+      color: $Icterine;
+      padding-top: 5%;
+      span {
+        display: block;
+        font-size: clamp(3rem, 12vw, 13.75rem);
+      }
+      span:last-child {
+        text-align: right;
+      }
+    }
+  }
+  &__cta-container {
+    margin-top: 3%;
+    .btn {
+      float: right;
+    }
+  }
+  &__socials {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 16px;
+    span {
+      color: $Flame;
+    }
+  }
+}
