@@ -9,12 +9,9 @@
   &__inner {
     display: flex;
     flex-wrap: wrap;
-    width: min(100%, 1620px);
+    width: 100%;
+    padding-inline: clamp(10px, 8vw, $gutter-width * 2);
     align-items: center;
-
-    @media (max-width: 1620px) {
-      padding-inline: clamp(10px, 8vw, $gutter-width * 2);
-    }
 
     @media (max-width: 1080px) {
       justify-content: space-between;

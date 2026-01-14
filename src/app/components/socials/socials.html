@@ -1,0 +1,11 @@
+<div class="social-links">
+  @for (link of socialLinks; track link.name) {
+  <a
+    [href]="link.url"
+    target="_blank"
+    class="icon"
+    [innerHTML]="link.icon"
+    aria-label="{{ link.name }}"
+  ></a>
+  }
+</div>
