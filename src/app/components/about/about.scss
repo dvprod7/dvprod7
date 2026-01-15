@@ -1,0 +1,7 @@
+@use 'variables' as *;
+
+.about {
+  h3 > span {
+    color: $Flame;
+  }
+}

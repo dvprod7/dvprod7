@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00a7bd",
+                        "background-light": "#f9fafb",
+                        "background-dark": "#171e2c",
+                        "card-dark": "#2C3540",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>.noise-bg {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDJRGtK6i4Xw0pALyU-P_gBoV1WnHe4GipYMDL7eGsbKVqMtt2HDMuy3IinoHHyF-e2V3aDAo4Al1CMT9f1JJXsj2KfJfj7F22lBvwZECABImrjwSGQ05iZc8Nh8WTOl3OH4qgtYMAK-gQn0BLcfs6ihW-7FBlmZat-LnwCTEIu_3SQPYGSnmsEupRElBmOBC-gwAGjBfjp7r2H-FXKKL2PNBRjxkejZ_co-kZsFstX0NAnRHe_zAVolEhNfUO3buOMiMlT1gH6BLU);
+    opacity: 0.03
+    }
+.skill-card:hover .skill-icon {
+    filter: grayscale(0%) brightness(1.2);
+    transform: scale(1.1)
+    }
+.skill-icon {
+    filter: grayscale(100%) opacity(0.6);
+    transition: all 0.3s ease
+    }
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 1.5rem
+    }</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white transition-colors duration-300">
+<div class="relative min-h-screen w-full flex flex-col overflow-x-hidden">
+<!-- Floating Navigation -->
+<div class="layout-container flex h-full grow flex-col">
+<div class="lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 lg:px-10 py-4 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">terminal</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight uppercase tracking-widest">Dev.Matrix</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-10 items-center">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Manifesto</a>
+<a class="text-sm font-medium text-primary" href="#">Stack</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Lab</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Ping</a>
+</nav>
+<button class="bg-primary hover:bg-primary/80 text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-lg shadow-primary/20">
+                                Collaborate
+                            </button>
+</div>
+</header>
+<!-- Hero Title Section -->
+<section class="pt-20 pb-12 px-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+                            Capabilities
+                        </div>
+<h1 class="text-4xl md:text-6xl font-bold leading-[1.1] mb-6 tracking-tighter max-w-2xl">
+                            Technical <span class="text-primary italic">Arsenal</span>
+</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg md:text-xl max-w-xl font-light leading-relaxed">
+                            Architecting scalable, type-safe digital ecosystems with an obsession for performance and clean abstraction.
+                        </p>
+</section>
+<!-- Primary Stack (Bento Grid) -->
+<section class="px-6 py-8">
+<div class="flex items-center gap-4 mb-8">
+<div class="h-[1px] flex-1 bg-slate-200 dark:bg-slate-800"></div>
+<h3 class="text-xs font-black uppercase tracking-[0.3em] text-slate-400">Core Engine</h3>
+<div class="h-[1px] flex-1 bg-slate-200 dark:bg-slate-800"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Large Featured Card -->
+<div class="md:col-span-2 md:row-span-2 bg-slate-100 dark:bg-card-dark rounded-xl p-8 relative overflow-hidden group border border-slate-200 dark:border-slate-700/50">
+<div class="absolute inset-0 noise-bg"></div>
+<div class="relative z-10 h-full flex flex-col justify-between">
+<div class="size-16 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-xl mb-6 group-hover:scale-110 transition-transform duration-500">
+<div class="w-10 h-10 bg-center bg-contain bg-no-repeat" data-alt="React brand logo icon" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDJlkRCGrD6qg-abClLa9RvhnENmYSBPhYLN767zgRikd-DEwb6eVGUDPHhy6VT_5Hbm0ZAHUcZ98d_IFwjFL7R5lk2kP-HJQlUdPau2P1dsxbcF6KkCxsg5XPh45UuVSFM37QEBqf-yvhBr6JrEyZAmJGWIruPzPVjfpCARuKQdi1YahlH328pn2gp2a2vEv9sIoSgorr9hTcyVpgu8Bf37hKqSBoZS7D3Z7oOEypZOtHSzhyYK1oOo_Jol74QrB_54qnCkPblYRE');"></div>
+</div>
+<div>
+<h4 class="text-2xl font-bold mb-2">React Ecosystem</h4>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                                            Building complex SPAs with Next.js, Redux, and Framer Motion. 5+ years of production experience.
+                                        </p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full">NEXT.JS</span>
+<span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full">VITE</span>
+<span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full">REDUX</span>
+</div>
+</div>
+</div>
+<div class="absolute -bottom-10 -right-10 size-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
+</div>
+<!-- Medium Card 1 -->
+<div class="md:col-span-2 bg-slate-100 dark:bg-card-dark rounded-xl p-6 border border-slate-200 dark:border-slate-700/50 group">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-4">
+<div class="size-12 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center shadow-lg">
+<div class="w-8 h-8 bg-center bg-contain bg-no-repeat" data-alt="TypeScript brand logo icon" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6T8fHWPkVh39Dn2AK_lkBvdfV8gFdT4Jaz3BASwgQFJ3zOYRH8lNQYqIlZXX8AeGbJ8nx_OtN8lUihfFg3c6RDKa-4WKTw1FmHgfIvNv30qYUKRJ7i8FoLCQyk4QsJFg_-71VPje71bMEeWYYDzZd5J3j54-dPjmfW1Q1yVTQEw0yW29a5pLiV-Ub8uJzownJO3iGRGKHn37LUtaTDac8OaXuYWgdWTjRqIfwkk3HJBGM2XGgOPrO7hh9dW_cDzoaE0izhttgaYY');"></div>
+</div>
+<div>
+<h4 class="font-bold">TypeScript</h4>
+<p class="text-xs text-slate-500">Type-Safe Architecture</p>
+</div>
+</div>
+<span class="text-primary font-bold text-sm">95%</span>
+</div>
+<div class="mt-6 w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[95%] rounded-full"></div>
+</div>
+</div>
+<!-- Medium Card 2 -->
+<div class="md:col-span-2 bg-slate-100 dark:bg-card-dark rounded-xl p-6 border border-slate-200 dark:border-slate-700/50 group">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-4">
+<div class="size-12 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center shadow-lg">
+<div class="w-8 h-8 bg-center bg-contain bg-no-repeat" data-alt="Node.js brand logo icon" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCuNZzX4hT4wC0oOgMFJr9x_B9iNDLlstPceETOKC-Gq8MmEZ5VFh58MDCSopwfwkDBkszfhxjJwRQa4nxU_dMkdVjB8iGKHk1Zo4eIwMYEdVb_ocEbAwSy5gkX41X3ksjxGEAGiFDD1GjYJqFL1dzzouOURJHDju5W16gISPX89s9BRjpo0YLKx97hmuIraHSVOiEgOGEi2iv7Y1TmNyJmhVDHV3GgOS9DaeSKhBwnkg_1sm597F1UGc8Rq0ifYyor_eyZGLe75CU');"></div>
+</div>
+<div>
+<h4 class="font-bold">Node.js</h4>
+<p class="text-xs text-slate-500">Scalable Microservices</p>
+</div>
+</div>
+<span class="text-primary font-bold text-sm">88%</span>
+</div>
+<div class="mt-6 w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[88%] rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Complementary Stack (Grid) -->
+<section class="px-6 py-12">
+<div class="flex items-center gap-4 mb-8">
+<div class="h-[1px] flex-1 bg-slate-200 dark:bg-slate-800"></div>
+<h3 class="text-xs font-black uppercase tracking-[0.3em] text-slate-400">Auxiliary Stack</h3>
+<div class="h-[1px] flex-1 bg-slate-200 dark:bg-slate-800"></div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+<!-- Icon Grid Item -->
+<div class="skill-card flex flex-col items-center gap-3 p-6 rounded-xl border border-transparent hover:border-primary/20 hover:bg-primary/5 transition-all cursor-default">
+<div class="skill-icon size-10 bg-center bg-contain bg-no-repeat" data-alt="Docker technology logo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCR5xTIQo7eiCQxFcawG7KdyMtIv8GjCiUcjmC_v-xX2KJcruYBWLw4M9aHVwkYnoj0Hn41BmDU-O748uCKAo6HbNvf1w5lkTN3auAxuEjvrWoEZ4jzuu4CDn5gvdsTbxi_NwqzpnZsHnTYLbFQT5FiXmwPk-nrGJESILD9HyhCWn4ZXiid1_mxJEllFlxtdz2qG3U3GXRP9H6X9qr3ZK1qOa6wbWtPV4epVMT_fGR7jKaJrzyxV7_tzMJj33E627rBCNQU1dhBHfI');"></div>
+<span class="text-xs font-medium uppercase tracking-widest text-slate-400">Docker</span>
+</div>
+<div class="skill-card flex flex-col items-center gap-3 p-6 rounded-xl border border-transparent hover:border-primary/20 hover:bg-primary/5 transition-all cursor-default">
+<div class="skill-icon size-10 bg-center bg-contain bg-no-repeat" data-alt="GraphQL technology logo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA7WuDHj7GqD3Hbb_neFImp_YuQ6O63PwNVCaZR_NxRClokQlkDdDXnsipANOf7lJPAaa0diEMnm2bTIPoZ7tXNM670mfDUbBy3rd-tsvrlqgg5oHd9GroLv95PohLa5oeAV7KzCbv0yNndwgHZ6VzZovVuCAblIZv1ww-Z0sVpMn6GPKxFyL5EpGMipBDfVsMv67weptMLyHK_8YltDI7XPWUQlVT3Gmz54OeiMF_E9pGhAN3NTJphVdtBAUemCCmId01DynSqt3E');"></div>
+<span class="text-xs font-medium uppercase tracking-widest text-slate-400">GraphQL</span>
+</div>
+<div class="skill-card flex flex-col items-center gap-3 p-6 rounded-xl border border-transparent hover:border-primary/20 hover:bg-primary/5 transition-all cursor-default">
+<div class="skill-icon size-10 bg-center bg-contain bg-no-repeat" data-alt="PostgreSQL technology logo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA8saFnjrnAvIq8Fz6Dbr6_3htJKQGOyA_ybfrFMcGpfDYRTxYeaazBpDHoFxwjDID-kQnS6DHQBduhSxoVxGzaIiJn6vJtyLmLS5oYF7YZHivHVvCfkpCYEZMzI1ssEKDUf50U4x01tysVMkzawnyv0XA4MuVrgKGfzjaX3YkDUQgTzwk4hP326APDyPpy-ystfOME-AufYOjYmBEAg6TshmbJJLSQnx2WPZSQKMQaP0peurLp4_MTQmPYRNYSswq9hc3slln0dOs');"></div>
+<span class="text-xs font-medium uppercase tracking-widest text-slate-400">PostgreSQL</span>
+</div>
+<div class="skill-card flex flex-col items-center gap-3 p-6 rounded-xl border border-transparent hover:border-primary/20 hover:bg-primary/5 transition-all cursor-default">
+<div class="skill-icon size-10 bg-center bg-contain bg-no-repeat" data-alt="AWS technology logo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA7-ma7LZmxi6i2h9TdvkAiwhZsuYrfzh8GXOLmng_2254taCrsEFl9tbbo-jO0n-afu9tnwMsJ23xIV6GplD38dWb2RaefBIakcswV_4Yt-e-wfB4_12h8VqHm3ITwwqt1zgYJMHMp1tJaQUV8ngOsF_MvhVFhylrjCQF4zUa9ge_PpAMMK3pvrXxOB9L1oGa0i8PTvmep-nEmjVwSBu-Ufu08O4UfdlKAJ_vAhlf6sJ-i-u17g1YglNAmqRpETV78xfuTOHH258E');"></div>
+<span class="text-xs font-medium uppercase tracking-widest text-slate-400">AWS</span>
+</div>
+<div class="skill-card flex flex-col items-center gap-3 p-6 rounded-xl border border-transparent hover:border-primary/20 hover:bg-primary/5 transition-all cursor-default">
+<div class="skill-icon size-10 bg-center bg-contain bg-no-repeat" data-alt="Redis technology logo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD-nlEqkEceJplcdGiQsb7LJKZlwxVVFgoitjRPYsmJUqxzPZp84ya0w5z4kmENM4yFg--QcAxFC_PmIgNI0AtUoJ-A8LAIo4_HyIsgp6lsGNnqCFksa5mG9jExWMOaMMnFAiQsfwaC3GgblZqU5_KF6c_lnhcCg7rg-lZjIT29WZMt9JUBG_-h4QmDblZNtrRL0u2-klbG4xadZinneduiSdIH8jMNSOo4ueuUBaO_XpZXEOChHdapCPeSwOeu7VmW-fyDMdsbDSw');"></div>
+<span class="text-xs font-medium uppercase tracking-widest text-slate-400">Redis</span>
+</div>
+<div class="skill-card flex flex-col items-center gap-3 p-6 rounded-xl border border-transparent hover:border-primary/20 hover:bg-primary/5 transition-all cursor-default">
+<div class="skill-icon size-10 bg-center bg-contain bg-no-repeat" data-alt="Figma technology logo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA5YNpHhq68C5ZJ9hfVFbLZqBllF6TatVfkcj9vszOUNI_Zwpecs_aqNbiq3TN17IDht5oJHp6D0ZHdaiqRceNp6IOfmh2P0tyOM7RIcUiCnQABJaww0VBEA69LjbPf010bY4V5VDi-q_GkxggXKi3Rim44-HydKikqyqjii1ENRNB4PX4Rp-jWNY2jCSSKaVHTKyz_qSw4K0TF88mv-7W9zkxZ0kTEhKlJ_obs1jXaEv-u-3kNYYza1KPG3kQ33lZXSGXo02Br2Rg');"></div>
+<span class="text-xs font-medium uppercase tracking-widest text-slate-400">Figma</span>
+</div>
+</div>
+</section>
+<!-- Subtle Footer Note -->
+<footer class="mt-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-slate-200 dark:border-slate-800">
+<div class="text-xs text-slate-400 uppercase tracking-[0.2em] font-medium">
+                            Designed for high-performance interfaces
+                        </div>
+<div class="flex gap-6">
+<a class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors" href="#">code</a>
+<a class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors" href="#">hub</a>
+<a class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors" href="#">database</a>
+</div>
+</footer>
+</div>
+</div>
+</div>
+</div>
+</body></html>

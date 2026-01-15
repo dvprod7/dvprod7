@@ -8,23 +8,21 @@
   text-decoration: none;
   font-weight: 700;
   line-height: 1.5;
-  padding: 0 2rem;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &--large {
-    font-size: 2rem;
+    padding: 0 3.5rem;
+    font-size: 1.7rem;
   }
 
   &--medium {
+    padding: 0 3rem;
     font-size: 1.5rem;
   }
 
   &--small {
-    font-size: 1rem;
-  }
-
-  &--small {
+    padding: 0 2rem;
     font-size: 1rem;
   }
 
