@@ -1,32 +1,47 @@
 @use 'variables' as *;
+@use 'mixins' as *;
 
 .hero {
+  height: calc(100dvh - 120px);
+  display: flex;
+  align-items: center;
   &__title-container {
     h1 {
       color: $Icterine;
-      padding-top: 2%;
+      text-transform: uppercase;
       span {
         display: block;
         font-size: clamp(3rem, 12vw, 13.75rem);
       }
       span:last-child {
-        text-align: right;
+        text-align: left;
+        @include up(md) {
+          text-align: right;
+        }
       }
     }
   }
   &__cta-container {
+    display: flex;
+    flex-direction: column;
     margin-top: 3%;
-    .btn {
-      float: right;
+    align-items: flex-start;
+    @include up(md) {
+      align-items: flex-end;
     }
   }
   &__socials {
     display: flex;
-    align-items: center;
-    justify-content: right;
-    gap: 16px;
+    align-items: flex-start;
+    flex-direction: column;
     h2 > span {
       color: $Flame;
+    }
+    @include up(md) {
+      align-items: center;
+      justify-content: right;
+      gap: 16px;
+      flex-direction: row;
     }
   }
 }

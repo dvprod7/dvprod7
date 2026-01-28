@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { Socials } from '../socials/socials';
 
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  imports: [Socials],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
