@@ -1,0 +1,37 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.skills {
+  /* height: calc(100dvh - 120px);
+  display: flex;
+  align-items: center; */
+  &__intro-container {
+    display: flex;
+    flex-direction: column;
+    @include up(lg) {
+      flex-direction: row;
+    }
+    h3 {
+      width: 100%;
+      margin: 0 2rem 1rem 0;
+      @include up(lg) {
+        width: 20%;
+        margin: 0 2rem 0 0;
+      }
+    }
+  }
+  &__main-stack {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-auto-rows: 1fr;
+    gap: 1.5rem;
+    .skill--main {
+      grid-row: span 2;
+    }
+    .skill {
+      background-color: $bolt;
+      color: $Jet;
+      padding: 2rem;
+    }
+  }
+}

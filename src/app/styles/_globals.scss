@@ -57,17 +57,25 @@ h6 {
   font-style: italic;
   font-weight: 800;
   line-height: 1.1;
+  margin: 0;
+}
+
+h3 {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  color: $bolt;
+  text-transform: uppercase;
+}
+
+h2 > span,
+h3 > span,
+h4 > span,
+h5 > span,
+h6 > span {
+  color: $Flame;
 }
 
 p {
   font-family: $Manrope;
   font-weight: 400;
-}
-
-.img-fluid {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
+  margin: 0;
 }
