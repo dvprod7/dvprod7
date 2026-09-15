@@ -1,0 +1,59 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "rules": {
+    "selector-class-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$",
+      {
+        "resolveNestedSelectors": true,
+        "message": "Expected BEM: .block, .block__element, .block--modifier"
+      }
+    ],
+
+    "max-nesting-depth": [3, { "ignoreAtRules": ["media", "include", "supports", "if", "each"] }],
+
+    "color-no-hex": true,
+    "color-named": "never",
+    "function-disallowed-list": ["rgb", "rgba", "hsl", "hsla"],
+
+    "unit-disallowed-list": [
+      ["px"],
+      { "ignoreMediaFeatureNames": { "px": ["min-width", "max-width"] } }
+    ],
+
+    "media-feature-name-disallowed-list": ["max-width"],
+
+    "property-disallowed-list": ["/^(margin|padding)-(left|right|top|bottom)$/"]
+  },
+
+  "overrides": [
+    {
+      "files": ["src/app/styles/_tokens.scss"],
+      "rules": {
+        "color-no-hex": null,
+        "color-named": null,
+        "function-disallowed-list": null,
+        "unit-disallowed-list": null
+      }
+    },
+    {
+      "files": ["src/app/styles/_mixins.scss"],
+      "rules": {
+        "unit-disallowed-list": null
+      }
+    }
+  ],
+
+  "ignoreFiles": [
+    "dist/**",
+    ".angular/**",
+    "src/app/styles/_variables.scss",
+    "src/app/styles/_fonts.scss",
+    "src/app/styles/_grid.scss",
+    "src/app/styles/_helpers.scss",
+    "src/app/styles/_ui.scss",
+    "src/app/styles/_globals.scss",
+    "src/app/components/**/*.scss",
+    "src/app/app.scss",
+    "src/styles.scss"
+  ]
+}

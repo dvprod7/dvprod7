@@ -1,0 +1,15 @@
+dist/
+.angular/
+package-lock.json
+
+# Not ours to format
+.claude/
+docs/
+
+# Legacy V1/V2 presentation layer. Remove each entry in the phase that
+# rewrites the files, same as the eslint.config.js ignores block.
+src/app/components/
+src/app/styles/
+src/app/app.html
+src/app/app.scss
+src/styles.scss
