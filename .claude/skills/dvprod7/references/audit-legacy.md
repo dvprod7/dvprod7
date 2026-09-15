@@ -26,7 +26,8 @@ un diseño abandonado. Reescribir sale más barato y más limpio que adaptar.
 - Todos los componentes de sección: `hero`, `about`, `skills`, `projects`, `contact`, `socials`.
 - El layout de scroll-snap en `app.scss` + `styles.scss`.
 - Las fuentes Manrope y Roboto Condensed (ambas copias).
-- Los `.spec.ts` — son stubs generados por el CLI, no prueban nada.
+- Los `.spec.ts` de los componentes — stubs generados por el CLI, no prueban nada.
+  (`app.spec.ts` **no** era un stub inocuo: ver Higiene.)
 - `src/assets/` completa (migra a `public/`).
 
 ---
@@ -51,18 +52,24 @@ Además el listener nunca se remueve. En V3 la sección Skills es texto plano, a
 componente entero desaparece — pero el patrón (`viewChild()` signal query + `afterNextRender`)
 sí debe corregirse donde haga falta.
 
-**3. `angular.json` referencia un asset inexistente.**
-`assets: ["src/favicon.ico", "src/assets"]` — `src/favicon.ico` no existe; el favicon está en
+**3. ~~`angular.json` referencia un asset inexistente.~~** ✅ **Resuelto en la Fase 0a.**
+~~`assets: ["src/favicon.ico", "src/assets"]` — `src/favicon.ico` no existe; el favicon está en
 `public/favicon.ico`, que **no** está en la lista. Hoy el build pasa, pero la config está mal
-y el favicon no se sirve desde donde se cree.
+y el favicon no se sirve desde donde se cree.~~
+El target `build` ahora usa `{ "glob": "**/*", "input": "public" }`, igual que el target `test`.
 
-**4. Fuentes duplicadas en disco.**
+**4. Fuentes duplicadas en disco.** 🟡 Parcial — se resuelve en la Fase 1.
 Los mismos 4 `.woff2` están en `public/fonts/` y en `src/assets/fonts/`. `_fonts.scss` apunta a
-`/assets/fonts/`, así que la copia de `public/` es peso muerto.
+`/assets/fonts/`. ~~Así que la copia de `public/` es peso muerto.~~ Desde la Fase 0a **las dos
+copias se sirven** (`src/assets` sigue en la lista de assets porque `_fonts.scss` y la foto de
+perfil aún dependen de ella), así que la duplicación ahora es visible en `dist/`. Desaparece
+cuando la Fase 1 migre a Inter y borre `src/assets/`.
 
-**5. Node incompatible.**
-El `node` por defecto es v22.11.0 y el CLI de Angular exige ≥ v22.12 — `ng build` falla en seco.
-Hay que usar `~/.nvm/versions/node/v22.23.2`. Sin `.nvmrc` ni `engines`, esto vuelve a morder.
+**5. ~~Node incompatible.~~** ✅ **Resuelto en la Fase 0a.**
+~~El `node` por defecto es v22.11.0 y el CLI de Angular exige ≥ v22.12 — `ng build` falla en seco.
+Hay que usar `~/.nvm/versions/node/v22.23.2`. Sin `.nvmrc` ni `engines`, esto vuelve a morder.~~
+Hay `.nvmrc` con `22.23.2` y `engines.node` en `package.json`. **Ojo:** `.nvmrc` no se aplica
+solo — sigue haciendo falta `nvm use` (o el `export PATH` de la skill) en cada shell nuevo.
 
 ### 🟠 Deuda de diseño
 
@@ -123,14 +130,29 @@ Para una pieza cuyo objetivo es comercial, esto es lo primero a arreglar.
 
 ### 🟡 Higiene
 
-- `.DS_Store` commiteados en `src/`, `src/assets/`, `src/assets/fonts/`, `src/assets/images/`.
-  `.gitignore` los lista, pero ya estaban trackeados antes.
-- `FIGMA_NAMING_CONVENTION.md` se publica en `dist/.../assets/` — es documentación interna
-  quedando expuesta.
+- **Corrección (2026-09-15):** hay `.DS_Store` sueltos en `src/`, `src/assets/`,
+  `src/assets/fonts/` y `src/assets/images/`, pero **no están trackeados** —
+  `git ls-files -- '*.DS_Store'` no devuelve nada, y `.gitignore` ya los cubre. No hay nada
+  que borrar del índice. (La versión original de esta entrada decía que estaban commiteados;
+  era falso.)
+- ~~`FIGMA_NAMING_CONVENTION.md` se publica en `dist/.../assets/` — es documentación interna
+  quedando expuesta.~~ ✅ **Resuelto en la Fase 0b:** movido a `docs/`, verificado ausente de `dist/`.
 - Cero linters: sin ESLint, sin Stylelint. Prettier está configurado pero no forzado.
 - Sin CI.
 - `README.md` es el perfil de GitHub de Dany pegado, no documentación del proyecto.
-- `package-lock.json` aparece modificado sin commit desde el inicio de la sesión.
+- **Corrección (2026-09-15):** `package-lock.json` **no** está modificado; el working tree está
+  limpio. (La entrada original decía lo contrario.)
+- ~~**Corrección (2026-09-15) — `app.spec.ts` no es un stub inocuo: la suite está en rojo.**~~
+  ✅ **Resuelto en la Fase 0b.** Eran dos bugs encadenados: (1) `app.spec.ts` afirmaba
+  `toContain('Hello, dvprod7-app')` sobre un `<h1>` inexistente, y (2) el target `test` de
+  `angular.json` no tenía `stylePreprocessorOptions.includePaths`, que el `build` sí tenía, así
+  que los 6 SCSS con `@use 'variables'` fallaban con *Can't find stylesheet to import* y la
+  suite **ni compilaba**. Ambos arreglados: `ng test --watch=false --browsers=ChromeHeadless`
+  → **8 de 8 SUCCESS, exit 0**.
+  **Patrón a vigilar:** los targets `build` y `test` de `angular.json` se han desincronizado ya
+  dos veces (assets en la 0a, `stylePreprocessorOptions` en la 0b). Al tocar uno, revisa el otro.
+  Queda un resto menor: el servidor de Karma devuelve `404 /assets/images/profile-img-dv.jpg`
+  porque el target `test` solo sirve `public/`. No rompe ningún test y muere con el legado.
 
 ## Comandos de verificación
 

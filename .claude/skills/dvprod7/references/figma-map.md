@@ -9,7 +9,7 @@
 | Node ID | Nombre | Tamaño |
 |---|---|---|
 | `702:10` | dvprod7 — Single Page (V3 build) | 1440 × 3803 |
-| `726:10` | dvprod7 — Mobile (V3 build) | 440 × 3852 |
+| `726:10` | dvprod7 — Mobile (V3 build) | 440 × 3956 |
 | `730:10` | dvprod7 — Mobile — menu open | 440 × 900 |
 
 ⚠️ Existe un frame `753:796` llamado **"OLD"** (13409 × 7783, `hidden="true"`) que contiene
@@ -61,7 +61,7 @@ Orden en la página. Alturas del frame desktop.
 - Socials: 3 pills circulares de 44px amarillas con texto (`@`, `GH`, `in`), gap 12px.
   → En código deben ser **iconos SVG del sprite**, no letras; en Figma son placeholders.
 
-### 3. About — `702:13` (1440×820) · `728:10` (440×946)
+### 3. About — `702:13` (1440×820) · `728:10` (440×1050)
 
 - Columna izquierda `705:10` (700px): eyebrow `/ ABOUT`, título "I like to code 💻",
   párrafo largo, `pillars`, botón `Download CV`.
@@ -73,8 +73,11 @@ Orden en la página. Alturas del frame desktop.
   `753:797` (`profile-img-dv 1`). El bitmap es 382×487 con offset `-11, -23.5`: **sobresale y lo
   recorta el frame**, así que en código es `object-fit: cover` sobre una caja de 360×440, no una
   imagen a tamaño exacto.
-  En mobile (`728:29`) la misma foto va debajo, 392×357 — **otro aspect ratio**, así que el
-  encuadre cambia: verifica que el recorte no corte la cara.
+  En mobile (`728:29`) la misma foto va debajo, **392×461** (bitmap `753:798`, 413×528, offset
+  `-10.5, -33.5` — mismo patrón de `cover`). Desde el 2026-09-15 su aspect ratio (0.85) es
+  **casi el mismo que el de desktop** (360×440 → 0.82), así que el encuadre ya no cambia de
+  forma apreciable entre breakpoints y **una sola imagen sirve para los dos**. Antes era
+  392×357 (1.10, apaisada) y obligaba a revisar el recorte por separado.
   - El frame conserva el nombre `photo-placeholder` aunque ya no lo sea. Ignora el nombre.
   - **El borde y el radio van en CSS, no horneados en el archivo de imagen.**
   - Export sugerido: WebP (o AVIF) a 2x → 720×880 desktop, con `<img>` responsive
@@ -136,15 +139,16 @@ de estado y el contenido.
 - Iconos reales para las social pills (en Figma son las letras `@`, `GH`, `in`).
 - ~~El PDF del CV~~ ✅ En el repo desde 2026-08-20:
   `public/DanielValenzuela_FrontEndDeveloper_CV_EN_2025.pdf` (96 KB).
-  ⚠️ **Todavía no se sirve**: `angular.json` no incluye `public/` en `assets`. El enlace
-  `Download CV` dará 404 hasta que la Fase 0 arregle esa config.
+  ~~⚠️ **Todavía no se sirve**: `angular.json` no incluye `public/` en `assets`. El enlace
+  `Download CV` dará 404 hasta que la Fase 0 arregle esa config.~~
+  ✅ **Resuelto en la Fase 0a:** el target `build` sirve `public/` y el PDF llega a `dist/`.
 - URLs reales para `View Projects`, `View Project` / repos de cada tarjeta.
 - Traducción ES del copy (el switch `ESP / ENG` está diseñado pero sin contenido).
 
 ## Nomenclatura
 
-Existe `src/assets/FIGMA_NAMING_CONVENTION.md` (patrón `tipo-contexto-función-estado`, escrito
-en feb-2026). **El archivo V3 NO lo sigue** — usa nombres cortos y semánticos (`card`, `chip`,
+Existe `docs/FIGMA_NAMING_CONVENTION.md` (patrón `tipo-contexto-función-estado`, escrito en
+feb-2026; movido ahí desde `src/assets/` en la Fase 0b, porque se estaba publicando con el
+sitio). **El archivo V3 NO lo sigue** — usa nombres cortos y semánticos (`card`, `chip`,
 `skill-col`, `pillar`, `btn-Say hello`). No intentes reconciliarlos: para código manda la
-convención de Angular + BEM de `architecture.md`. Ese `.md` además **no debe seguir viviendo en
-`src/assets/`**, porque se publica con el sitio.
+convención de Angular + BEM de `architecture.md`.

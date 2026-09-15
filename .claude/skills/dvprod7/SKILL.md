@@ -44,7 +44,7 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 
 ## Estado actual
 
-> **Última revisión: 2026-08-20 · Fase actual: 0 (Higiene) — no iniciada.**
+> **Última revisión: 2026-09-15 · Fase actual: 0 (Higiene) — en curso: 0a y 0b hechos, falta 0c (linters).**
 > Las fases están descritas en `references/architecture.md`.
 
 **Esta tabla puede estar desactualizada. Verifícala contra el repo antes de confiar en ella**
@@ -53,7 +53,7 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 | Área | Estado | Cómo verificar |
 |---|---|---|
 | Diseño V3 en Figma | ✅ Completo (desktop + mobile + menú abierto) | `get_screenshot` de `702:10` |
-| Fase 0 — Higiene | ⬜ No iniciada | ¿existe `.nvmrc`? ¿hay ESLint en `package.json`? |
+| Fase 0 — Higiene | 🟡 En curso (0a+0b; falta 0c) | ¿existe `.nvmrc`? ¿hay ESLint en `package.json`? |
 | Fase 1 — Tokens y fundación | ⬜ No iniciada | ¿existe `src/app/styles/_tokens.scss`? |
 | Fase 2 — Shell | ⬜ No iniciada | ¿sigue el `overflow: hidden` en `styles.scss`? |
 | Fase 3 — Primitivas UI | ⬜ No iniciada | ¿existe `src/app/ui/`? |
@@ -62,7 +62,7 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 | Código legado | 🔴 Intacto, ~90% pendiente de borrar | `ls src/app/components/` |
 | Contenido real (copy) | ✅ Escrito en Figma, sin lorem ipsum | — |
 | Foto de perfil V3 | 🟡 Lista en Figma (`753:797`), falta exportar al repo | `ls public/images/` |
-| PDF del CV | 🟡 En `public/`, pero `public/` aún no se sirve (lo arregla la Fase 0) | `ls public/*.pdf` |
+| PDF del CV | ✅ En `public/` y servido desde la Fase 0a | `ls dist/dvprod7-app/browser/*.pdf` |
 
 Leyenda: ⬜ no iniciada · 🟡 en curso · ✅ terminada · 🔴 problema conocido
 
@@ -81,14 +81,13 @@ bloqueado— vive en la **Bitácora** al final.
 
 ## Requisito de entorno
 
-El `node` por defecto es **v22.11.0 y el CLI de Angular lo rechaza** (pide ≥ v22.12). Antes de
-cualquier `ng` / `npm run` — en el mismo comando, el shell no persiste entre llamadas:
+Ya hay `.nvmrc` (22.23.2) y `engines.node`, pero **no se aplican solos**: el `node` por defecto
+sigue siendo v22.11.0 y el CLI lo rechaza. Antes de cualquier `ng` / `npm run`, en el mismo
+comando (el shell no persiste entre llamadas):
 
 ```bash
 export PATH="/Users/danval2/.nvm/versions/node/v22.23.2/bin:$PATH"
 ```
-
-Arreglo de raíz (Fase 0): `.nvmrc` con `22.23.2` + `engines.node` en `package.json`.
 
 ## Referencias (léelas cuando apliquen)
 
@@ -166,11 +165,10 @@ aplazadas a propósito, callejones sin salida ya explorados. Si se deduce con un
 **Máximo 5 entradas.** Al añadir la sexta, borra la más vieja — si algo de ahí sigue importando,
 ya debería ser una regla o una decisión cerrada, no una nota histórica.
 
-- **2026-08-20** — Auditoría inicial y creación de esta skill. Sin cambios en código de la app.
-  Decisiones cerradas: reset del layer de presentación en el mismo repo (no repo nuevo);
-  SCSS + custom properties, **Tailwind descartado**; prerender estático confirmado; i18n con
-  estructura desde el día uno pero solo `en` en v1; hosting pendiente.
-  Pendientes de Dany: foto de perfil V3 y PDF del CV.
+- **2026-09-15** — `src/assets` se mantiene en el build hasta la Fase 1 (fuentes legadas e
+  imagen de perfil); fuentes duplicadas en `dist/` de forma temporal.
+- **2026-08-20** — Auditoría inicial y creación de esta skill. Decisiones cerradas (el detalle
+  está en `architecture.md`). Pendiente de Dany: foto de perfil V3.
 
 ## Contexto de negocio (por qué el rediseño)
 
