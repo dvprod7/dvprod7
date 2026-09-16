@@ -1,0 +1,58 @@
+// Minimal modern reset. Loaded from styles.scss inside @layer reset.
+// Emits CSS: never @use it from a component.
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// dialog keeps its UA margin: auto, which centers it natively.
+*:not(dialog) {
+  margin: 0;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-inline-size: 100%;
+}
+
+// Keeps the aspect ratio when width/height attributes are set.
+img,
+video {
+  block-size: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+// !important on purpose: inside a layer it beats unlayered CSS (legacy included),
+// so reduced motion wins everywhere.
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

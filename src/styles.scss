@@ -17,9 +17,17 @@
   src: url('/fonts/inter-latin-wght.woff2') format('woff2');
 }
 
-// @use can't live inside @layer, so the tokens partial is loaded as a module.
+// @use can't live inside @layer, so these partials are loaded as modules.
+@layer reset {
+  @include meta.load-css('app/styles/reset');
+}
+
 @layer tokens {
   @include meta.load-css('app/styles/tokens');
+}
+
+@layer base {
+  @include meta.load-css('app/styles/base');
 }
 
 html,

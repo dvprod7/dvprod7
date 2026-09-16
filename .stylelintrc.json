@@ -47,7 +47,6 @@
     "dist/**",
     ".angular/**",
     "src/app/styles/_variables.scss",
-    "src/app/styles/_fonts.scss",
     "src/app/styles/_grid.scss",
     "src/app/styles/_helpers.scss",
     "src/app/styles/_ui.scss",

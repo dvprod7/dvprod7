@@ -22,10 +22,11 @@ un diseño abandonado. Reescribir sale más barato y más limpio que adaptar.
 
 ## Qué se borra
 
-- Todo `src/app/styles/` (`_variables`, `_fonts`, `_globals`, `_grid`, `_helpers`, `_ui`).
+- Todo el `src/app/styles/` legado (`_variables`, ~~`_fonts`~~, `_globals`, `_grid`,
+  `_helpers`, `_ui`). `_fonts` ✅ borrado en la Fase 1f.
 - Todos los componentes de sección: `hero`, `about`, `skills`, `projects`, `contact`, `socials`.
 - El layout de scroll-snap en `app.scss` + `styles.scss`.
-- Las fuentes Manrope y Roboto Condensed (ambas copias).
+- ~~Las fuentes Manrope y Roboto Condensed (ambas copias).~~ ✅ Borradas en la Fase 1f.
 - Los `.spec.ts` de los componentes — stubs generados por el CLI, no prueban nada.
   (`app.spec.ts` **no** era un stub inocuo: ver Higiene.)
 - `src/assets/` completa (migra a `public/`).
@@ -36,13 +37,21 @@ sitios: `ignores` de `eslint.config.js`, `ignoreFiles` de `.stylelintrc.json` y
 y vuelve a correr `lint`, `lint:styles` y `format:check`. Cuando las tres estén vacías de
 legado, el legado ya no existe. Nunca se añade código nuevo a esas listas.
 
+**Estado visual mixto aceptado (Dany, 2026-09-16).** Desde la Fase 1f el legado convive con
+el reset y la base V3: el texto heredado sale en Inter, los `h1`–`h6` y `p` legados piden
+Manrope / Roboto Condensed (ya borradas) y caen a `sans-serif`, y el reset quita márgenes que
+`_globals` no fija. **No se corrige**: el sitio Angular no está en uso público (GitHub Pages
+activo pero sin uso; el dominio sirve la v1 en Vue desde otro repo) y el legado se reescribe
+entero en las fases 2–4. No abras tareas para "arreglar" su aspecto.
+
 ---
 
 ## Hallazgos concretos
 
 ### 🔴 Bloqueantes / bugs reales
 
-**1. `@font-face` duplicado 12 veces en el bundle.**
+**1. ~~`@font-face` duplicado 12 veces en el bundle.~~** ✅ **Resuelto en la Fase 1f**
+(`_fonts.scss` borrado; 0 en `main.js` en desarrollo y en producción).
 `_variables.scss` hace `@use 'fonts' as *`, y cada SCSS de componente hace `@use 'variables'
 as *`. Como `_fonts.scss` contiene reglas `@font-face` (no solo declaraciones), Sass las emite
 en **cada** hoja de estilo de componente.
@@ -64,7 +73,9 @@ sí debe corregirse donde haga falta.
 y el favicon no se sirve desde donde se cree.~~
 El target `build` ahora usa `{ "glob": "**/*", "input": "public" }`, igual que el target `test`.
 
-**4. Fuentes duplicadas en disco.** 🟡 Parcial — se resuelve en la Fase 1.
+**4. ~~Fuentes duplicadas en disco.~~** ✅ **Resuelto en la Fase 1f**: las 8 `.woff2` legadas
+borradas; en `public/fonts/` solo queda Inter y su licencia. `src/assets` sigue en el build
+solo por la foto de perfil (sale en la 1g). Historia:
 Los mismos 4 `.woff2` están en `public/fonts/` y en `src/assets/fonts/`. `_fonts.scss` apunta a
 `/assets/fonts/`. ~~Así que la copia de `public/` es peso muerto.~~ Desde la Fase 0a **las dos
 copias se sirven** (`src/assets` sigue en la lista de assets porque `_fonts.scss` y la foto de
@@ -166,7 +177,7 @@ Para una pieza cuyo objetivo es comercial, esto es lo primero a arreglar.
 ```bash
 export PATH="/Users/danval2/.nvm/versions/node/v22.23.2/bin:$PATH"
 npx ng build --configuration development
-grep -o '@font-face' dist/dvprod7-app/browser/main.js | wc -l   # 48 hoy, debe ser 0 en V3
-# Ojo: 48 es el build de desarrollo (12 hojas × 4 reglas). En producción (`ng build`,
-# main-*.js) son 24 (6 × 4). `grep -c` cuenta líneas, no ocurrencias: da 12.
+grep -o '@font-face' dist/dvprod7-app/browser/main.js | wc -l   # 0 desde la Fase 1f
+# Antes de la 1f: 48 en desarrollo (12 hojas × 4 reglas) y 24 en producción (main-*.js).
+# `grep -c` cuenta líneas, no ocurrencias: no sirve para esto.
 ```

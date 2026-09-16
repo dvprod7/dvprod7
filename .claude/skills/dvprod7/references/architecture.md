@@ -73,8 +73,8 @@ Notas:
 - `sections/` vs `ui/` es la distinción clave: una *section* es única y ligada al contenido;
   un *ui* es reutilizable y tonto. La tarjeta de proyecto y la de "building now" son el
   **mismo** `ui/card`.
-- **`src/assets/` desaparece.** En Angular 18+ lo estático va en `public/`. Hoy conviven las dos
-  carpetas con las fuentes duplicadas — ver `audit-legacy.md`.
+- **`src/assets/` desaparece.** En Angular 18+ lo estático va en `public/`. Desde la Fase 1f
+  `src/assets/` solo conserva la foto de perfil, que migra en la 1g — ver `audit-legacy.md`.
 
 ## Convenciones
 
@@ -145,6 +145,8 @@ y `_globals.scss`.
 **Fase 3 — Primitivas UI**
 `button` (variantes fill-cta / outline-accent / fill-accent), `chip`, `card`, `icon` (con el
 sprite SVG), `social-links`. Se construyen una vez y las secciones las consumen.
+Ojo: `_reset` pone `svg { display: block }`, así que `<app-icon>` declara su propio `display`
+(p. ej. `inline-block` o `inline-flex`) en vez de heredar el del reset.
 
 **Fase 4 — Secciones**, en este orden (de menor a mayor incertidumbre):
 Hero → Skills → About → Projects → Contact.
@@ -184,6 +186,9 @@ servidor Node. Consecuencias que hay que respetar desde la Fase 2, no al final:
 **3. Hosting — pendiente.**
 Sin definir. No bloquea nada hasta la Fase 5. Cuando se decida, revisar `<base href>`
 (hoy `/` en `index.html`) — si el sitio no va en la raíz de un dominio, hay que ajustarlo.
+**Pendiente de la Fase 5:** las URLs absolutas (`/fonts/inter-latin-wght.woff2` en el
+`@font-face` y en el preload) dan 404 si el deploy usa una subruta (p. ej. GitHub Pages de
+proyecto, `/<repo>/`). Al elegir hosting, revisar `base href` y esas rutas juntas.
 Firebase aparece en el stack histórico de Dany y encaja bien con salida estática.
 
 ## Cambios de orden (2026-09-16)
@@ -191,7 +196,8 @@ Firebase aparece en el stack histórico de Dany y encaja bien con salida estáti
 - **Borrado de `_grid`, `_helpers`, `_ui` y `_globals`: Fase 1 → Fase 2.** Los templates
   legados usan sus clases; borrarlos en la Fase 1 descuadra la maqueta vieja durante tres
   fases sin ganar nada. En la Fase 1 conviven `_globals` (sin capa) con `_reset` y `_base`
-  (dentro de `@layer`). Los estilos sin capa ganan a cualquier capa, así que el legado se ve
-  prácticamente igual; solo le afecta lo que `_reset` toque y `_globals` no.
+  (dentro de `@layer`). Los estilos sin capa ganan a cualquier capa, pero el reset, la base y
+  el borrado de las fuentes legadas sí cambian el aspecto del legado: estado mixto aceptado
+  (ver `audit-legacy.md`).
 - **`_variables.scss` sobrevive hasta que muera el último componente legado** (Fase 4).
 - **Sprite de iconos: Fase 1 → Fase 3**, junto con `<app-icon>`, que es su único consumidor.

@@ -1,0 +1,12 @@
+// Element defaults. Loaded from styles.scss inside @layer base.
+// Emits CSS: never @use it from a component.
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--dv-font-sans);
+  color: var(--dv-color-text);
+  background-color: var(--dv-color-bg);
+}

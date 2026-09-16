@@ -54,7 +54,7 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 |---|---|---|
 | Diseño V3 en Figma | ✅ Completo (desktop + mobile + menú abierto) | `get_screenshot` de `702:10` |
 | Fase 0 — Higiene | ✅ Terminada (0a+0b+0c) | ¿existe `.nvmrc`? ¿hay ESLint en `package.json`? |
-| Fase 1 — Tokens y fundación | 🟡 En curso (1a: referencias reconciliadas) | ¿existe `src/app/styles/_tokens.scss`? |
+| Fase 1 — Tokens y fundación | 🟡 En curso (1a–1f hechas; falta 1g: foto y `src/assets`) | ¿existe `src/app/styles/_tokens.scss`? |
 | Fase 2 — Shell | ⬜ No iniciada | ¿sigue el `overflow: hidden` en `styles.scss`? |
 | Fase 3 — Primitivas UI | ⬜ No iniciada | ¿existe `src/app/ui/`? |
 | Fase 4 — Secciones | ⬜ No iniciada | `ls src/app/sections/` |
