@@ -30,6 +30,12 @@ un diseño abandonado. Reescribir sale más barato y más limpio que adaptar.
   (`app.spec.ts` **no** era un stub inocuo: ver Higiene.)
 - `src/assets/` completa (migra a `public/`).
 
+**Regla de borrado: tres listas de ignores.** El legado está excluido de los linters en tres
+sitios: `ignores` de `eslint.config.js`, `ignoreFiles` de `.stylelintrc.json` y
+`.prettierignore`. Cada fase que reescriba una parte del legado quita su entrada **de las tres**
+y vuelve a correr `lint`, `lint:styles` y `format:check`. Cuando las tres estén vacías de
+legado, el legado ya no existe. Nunca se añade código nuevo a esas listas.
+
 ---
 
 ## Hallazgos concretos
@@ -137,7 +143,8 @@ Para una pieza cuyo objetivo es comercial, esto es lo primero a arreglar.
   era falso.)
 - ~~`FIGMA_NAMING_CONVENTION.md` se publica en `dist/.../assets/` — es documentación interna
   quedando expuesta.~~ ✅ **Resuelto en la Fase 0b:** movido a `docs/`, verificado ausente de `dist/`.
-- Cero linters: sin ESLint, sin Stylelint. Prettier está configurado pero no forzado.
+- ~~Cero linters: sin ESLint, sin Stylelint. Prettier está configurado pero no forzado.~~
+  ✅ **Resuelto en la Fase 0c:** ESLint (angular-eslint), Stylelint, Prettier y `lint:track`.
 - Sin CI.
 - `README.md` es el perfil de GitHub de Dany pegado, no documentación del proyecto.
 - **Corrección (2026-09-15):** `package-lock.json` **no** está modificado; el working tree está

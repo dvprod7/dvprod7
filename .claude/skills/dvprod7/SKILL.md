@@ -44,7 +44,7 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 
 ## Estado actual
 
-> **Última revisión: 2026-09-15 · Fase actual: 0 (Higiene) — en curso: 0a y 0b hechos, falta 0c (linters).**
+> **Última revisión: 2026-09-16 · Fase actual: 1 (Tokens y fundación) — Fase 0 cerrada (0a, 0b, 0c).**
 > Las fases están descritas en `references/architecture.md`.
 
 **Esta tabla puede estar desactualizada. Verifícala contra el repo antes de confiar en ella**
@@ -53,7 +53,7 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 | Área | Estado | Cómo verificar |
 |---|---|---|
 | Diseño V3 en Figma | ✅ Completo (desktop + mobile + menú abierto) | `get_screenshot` de `702:10` |
-| Fase 0 — Higiene | 🟡 En curso (0a+0b; falta 0c) | ¿existe `.nvmrc`? ¿hay ESLint en `package.json`? |
+| Fase 0 — Higiene | ✅ Terminada (0a+0b+0c) | ¿existe `.nvmrc`? ¿hay ESLint en `package.json`? |
 | Fase 1 — Tokens y fundación | ⬜ No iniciada | ¿existe `src/app/styles/_tokens.scss`? |
 | Fase 2 — Shell | ⬜ No iniciada | ¿sigue el `overflow: hidden` en `styles.scss`? |
 | Fase 3 — Primitivas UI | ⬜ No iniciada | ¿existe `src/app/ui/`? |
@@ -150,9 +150,8 @@ desfasada. Es parte de terminar, como compilar.
 quién lo usa. Mezclarlos obliga a releer archivos largos para saber algo que responde un `ls`.
 
 **Higiene.** El `SKILL.md` se paga en contexto cada vez que la skill se activa: **techo de 180
-líneas** (hoy está justo ahí). Si algo tiene que entrar, algo tiene que salir — muda a
-`references/` o borra. Si una regla no aplicó en varias fases, bórrala.
-Si explicas lo mismo en chat dos veces, esa explicación va a la skill.
+líneas**. Si algo tiene que entrar, algo tiene que salir — muda a `references/` o borra. Si una
+regla no aplicó en varias fases, bórrala. Si explicas lo mismo en chat dos veces, eso va a la skill.
 
 ---
 
@@ -165,6 +164,8 @@ aplazadas a propósito, callejones sin salida ya explorados. Si se deduce con un
 **Máximo 5 entradas.** Al añadir la sexta, borra la más vieja — si algo de ahí sigue importando,
 ya debería ser una regla o una decisión cerrada, no una nota histórica.
 
+- **2026-09-16** — Fase 0 cerrada (0a, 0b, 0c). Activos: ESLint, Stylelint, Prettier, `lint:track`.
+  Aplazado: warning de presupuesto de `skills.scss` → Fase 4; ignores de legado → `audit-legacy.md`.
 - **2026-09-15** — `src/assets` se mantiene en el build hasta la Fase 1 (fuentes legadas e
   imagen de perfil); fuentes duplicadas en `dist/` de forma temporal.
 - **2026-08-20** — Auditoría inicial y creación de esta skill. Decisiones cerradas (el detalle
