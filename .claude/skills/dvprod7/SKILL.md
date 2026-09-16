@@ -54,14 +54,14 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 |---|---|---|
 | Diseño V3 en Figma | ✅ Completo (desktop + mobile + menú abierto) | `get_screenshot` de `702:10` |
 | Fase 0 — Higiene | ✅ Terminada (0a+0b+0c) | ¿existe `.nvmrc`? ¿hay ESLint en `package.json`? |
-| Fase 1 — Tokens y fundación | 🟡 En curso (1a–1f hechas; falta 1g: foto y `src/assets`) | ¿existe `src/app/styles/_tokens.scss`? |
+| Fase 1 — Tokens y fundación | 🟡 En curso (1a–1g hechas; falta el cierre de fase) | ¿existe `src/app/styles/_tokens.scss`? |
 | Fase 2 — Shell | ⬜ No iniciada | ¿sigue el `overflow: hidden` en `styles.scss`? |
 | Fase 3 — Primitivas UI | ⬜ No iniciada | ¿existe `src/app/ui/`? |
 | Fase 4 — Secciones | ⬜ No iniciada | `ls src/app/sections/` |
 | Fase 5 — Contenido y SEO | ⬜ No iniciada | ¿`index.html` tiene `meta description`? |
 | Código legado | 🔴 Intacto, ~90% pendiente de borrar | `ls src/app/components/` |
 | Contenido real (copy) | ✅ Escrito en Figma, sin lorem ipsum | — |
-| Foto de perfil V3 | 🟡 Misma imagen que la del legado (524×669), falta exportar a `public/` | `ls public/images/` |
+| Foto de perfil V3 | ✅ AVIF + WebP (524w, 400w) en `public/images/`; original de 524px, sin 2x real | `ls public/images/` |
 | PDF del CV | ✅ En `public/` y servido desde la Fase 0a | `ls dist/dvprod7-app/browser/*.pdf` |
 
 Leyenda: ⬜ no iniciada · 🟡 en curso · ✅ terminada · 🔴 problema conocido
@@ -166,8 +166,6 @@ ya debería ser una regla o una decisión cerrada, no una nota histórica.
 
 - **2026-09-16** — Fase 0 cerrada (0a, 0b, 0c). Activos: ESLint, Stylelint, Prettier, `lint:track`.
   Aplazado: warning de presupuesto de `skills.scss` → Fase 4; ignores de legado → `audit-legacy.md`.
-- **2026-09-15** — `src/assets` se mantiene en el build hasta la Fase 1 (fuentes legadas e
-  imagen de perfil); fuentes duplicadas en `dist/` de forma temporal.
 - **2026-08-20** — Auditoría inicial y creación de esta skill. Decisiones cerradas (el detalle
   está en `architecture.md`). Pendiente de Dany: foto de perfil V3.
 

@@ -29,7 +29,7 @@ un diseño abandonado. Reescribir sale más barato y más limpio que adaptar.
 - ~~Las fuentes Manrope y Roboto Condensed (ambas copias).~~ ✅ Borradas en la Fase 1f.
 - Los `.spec.ts` de los componentes — stubs generados por el CLI, no prueban nada.
   (`app.spec.ts` **no** era un stub inocuo: ver Higiene.)
-- `src/assets/` completa (migra a `public/`).
+- ~~`src/assets/` completa (migra a `public/`).~~ ✅ Borrada en la Fase 1g; fuera del build.
 
 **Regla de borrado: tres listas de ignores.** El legado está excluido de los linters en tres
 sitios: `ignores` de `eslint.config.js`, `ignoreFiles` de `.stylelintrc.json` y
@@ -74,8 +74,8 @@ y el favicon no se sirve desde donde se cree.~~
 El target `build` ahora usa `{ "glob": "**/*", "input": "public" }`, igual que el target `test`.
 
 **4. ~~Fuentes duplicadas en disco.~~** ✅ **Resuelto en la Fase 1f**: las 8 `.woff2` legadas
-borradas; en `public/fonts/` solo queda Inter y su licencia. `src/assets` sigue en el build
-solo por la foto de perfil (sale en la 1g). Historia:
+borradas; en `public/fonts/` solo queda Inter y su licencia. `src/assets` salió del build y del
+disco en la 1g. Historia:
 Los mismos 4 `.woff2` están en `public/fonts/` y en `src/assets/fonts/`. `_fonts.scss` apunta a
 `/assets/fonts/`. ~~Así que la copia de `public/` es peso muerto.~~ Desde la Fase 0a **las dos
 copias se sirven** (`src/assets` sigue en la lista de assets porque `_fonts.scss` y la foto de
@@ -169,8 +169,11 @@ Para una pieza cuyo objetivo es comercial, esto es lo primero a arreglar.
   → **8 de 8 SUCCESS, exit 0**.
   **Patrón a vigilar:** los targets `build` y `test` de `angular.json` se han desincronizado ya
   dos veces (assets en la 0a, `stylePreprocessorOptions` en la 0b). Al tocar uno, revisa el otro.
-  Queda un resto menor: el servidor de Karma devuelve `404 /assets/images/profile-img-dv.jpg`
-  porque el target `test` solo sirve `public/`. No rompe ningún test y muere con el legado.
+  ~~Queda un resto menor: el servidor de Karma devuelve `404 /assets/images/profile-img-dv.jpg`
+  porque el target `test` solo sirve `public/`. No rompe ningún test y muere con el legado.~~
+  ✅ **Resuelto en la Fase 1g:** la foto sale de `public/images/` y no queda ninguna
+  referencia a `/assets/`. (Con la config actual, `ng test` no imprime los 404 del servidor de
+  Karma, así que esto se verifica por ausencia de referencias, no por el log.)
 
 ## Comandos de verificación
 

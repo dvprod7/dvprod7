@@ -98,11 +98,12 @@ Orden en la página. Alturas del frame desktop.
     idéntico a `src/assets/images/profile-img-dv.jpg`, JPEG 524×669, 221 KB). Lo que cambia
     entre V1 y V3 es el recorte, que en código es `object-fit: cover`.
   - Resolución fuente: 524px de ancho → ≈1.45x para la caja de 360 y ≈1.34x para la de 392.
-    **Un 2x real (720×880) no es posible** sin un original mayor. Export: AVIF + WebP a ancho
-    nativo y a ~400w, con `<img>` responsive (`srcset` + `sizes`) en `public/images/`.
-  - **Fuente para la Fase 1g (decidido 2026-09-16):** `src/assets/images/profile-img-dv.jpg`
-    (SHA-256 `96644518…c8e4234e`, el mismo que el bitmap de Figma). Se exporta desde ahí antes
-    de borrar `src/assets/`; no hace falta descargar nada de Figma.
+    **Un 2x real (720×880) no es posible** sin un original mayor.
+  - ✅ **Exportada en la Fase 1g** desde el JPG legado (SHA-256 `96644518…c8e4234e`, ya
+    borrado con `src/assets/`), con `sharp` 0.34 fuera del repo, a `public/images/`:
+    `profile-dany-{524w,400w}.{avif,webp}` (AVIF q55, WebP q80; 10–28 kB cada uno frente a
+    los 221 kB del JPG). Sin JPG de respaldo: el `<img>` cae a WebP.
+  - Si algún día hay un original mayor, se regenera con los mismos nombres más un `720w`.
 
 ### 4. Skills — `702:14` (1440×511) · `728:31` (440×876)
 
@@ -157,8 +158,8 @@ de estado y el contenido.
 
 ## Cosas que el diseño pide y todavía no existen en ningún lado
 
-- ~~Foto real de perfil~~ ✅ resuelta en Figma el 2026-08-20 (`753:797`). Falta **exportarla**
-  al repo (`public/images/`, Fase 1g). ~~La del legado es otro encuadre y no se reutiliza.~~
+- ~~Foto real de perfil~~ ✅ resuelta en Figma el 2026-08-20 (`753:797`) y ✅ **exportada** a
+  `public/images/` en la Fase 1g. ~~La del legado es otro encuadre y no se reutiliza.~~
   **Corrección (2026-09-16):** es el mismo archivo; solo cambia el recorte (ver About).
 - **Hashes de `bg-hex` por comprobar.** Figma exporta un SVG con nombre distinto por sección
   (`89b87` hero desktop y mobile, `72571` skills, `0fd86` contact desktop, `0dfba` contact

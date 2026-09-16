@@ -24,7 +24,25 @@
       </div>
       <div class="col-12 col-lg-4">
         <div class="about__img-container">
-          <img src="assets/images/profile-img-dv.jpg" alt="Daniel Valenzuela" class="img-fluid" />
+          <picture style="display: contents">
+            <source
+              type="image/avif"
+              srcset="images/profile-dany-400w.avif 400w, images/profile-dany-524w.avif 524w"
+              sizes="(min-width: 1024px) 30vw, 42vw"
+            />
+            <source
+              type="image/webp"
+              srcset="images/profile-dany-400w.webp 400w, images/profile-dany-524w.webp 524w"
+              sizes="(min-width: 1024px) 30vw, 42vw"
+            />
+            <img
+              src="images/profile-dany-524w.webp"
+              width="524"
+              height="669"
+              alt="Daniel Valenzuela"
+              class="img-fluid"
+            />
+          </picture>
         </div>
       </div>
     </div>

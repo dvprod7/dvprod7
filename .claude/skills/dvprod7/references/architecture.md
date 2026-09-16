@@ -73,8 +73,8 @@ Notas:
 - `sections/` vs `ui/` es la distinción clave: una *section* es única y ligada al contenido;
   un *ui* es reutilizable y tonto. La tarjeta de proyecto y la de "building now" son el
   **mismo** `ui/card`.
-- **`src/assets/` desaparece.** En Angular 18+ lo estático va en `public/`. Desde la Fase 1f
-  `src/assets/` solo conserva la foto de perfil, que migra en la 1g — ver `audit-legacy.md`.
+- ~~**`src/assets/` desaparece.**~~ ✅ Borrada en la Fase 1g. En Angular 18+ lo estático va en
+  `public/`, que se sirve desde la raíz (`public/images/x` → `/images/x`).
 
 ## Convenciones
 
@@ -188,7 +188,8 @@ Sin definir. No bloquea nada hasta la Fase 5. Cuando se decida, revisar `<base h
 (hoy `/` en `index.html`) — si el sitio no va en la raíz de un dominio, hay que ajustarlo.
 **Pendiente de la Fase 5:** las URLs absolutas (`/fonts/inter-latin-wght.woff2` en el
 `@font-face` y en el preload) dan 404 si el deploy usa una subruta (p. ej. GitHub Pages de
-proyecto, `/<repo>/`). Al elegir hosting, revisar `base href` y esas rutas juntas.
+proyecto, `/<repo>/`). Al elegir hosting, revisar `base href` y esas rutas juntas. Las
+imágenes (`images/…` en el `<picture>`) son relativas y se resuelven contra `base href`.
 Firebase aparece en el stack histórico de Dany y encaja bien con salida estática.
 
 ## Cambios de orden (2026-09-16)
