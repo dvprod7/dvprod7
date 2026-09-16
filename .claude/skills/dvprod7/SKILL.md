@@ -54,14 +54,14 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 |---|---|---|
 | Diseño V3 en Figma | ✅ Completo (desktop + mobile + menú abierto) | `get_screenshot` de `702:10` |
 | Fase 0 — Higiene | ✅ Terminada (0a+0b+0c) | ¿existe `.nvmrc`? ¿hay ESLint en `package.json`? |
-| Fase 1 — Tokens y fundación | ⬜ No iniciada | ¿existe `src/app/styles/_tokens.scss`? |
+| Fase 1 — Tokens y fundación | 🟡 En curso (1a: referencias reconciliadas) | ¿existe `src/app/styles/_tokens.scss`? |
 | Fase 2 — Shell | ⬜ No iniciada | ¿sigue el `overflow: hidden` en `styles.scss`? |
 | Fase 3 — Primitivas UI | ⬜ No iniciada | ¿existe `src/app/ui/`? |
 | Fase 4 — Secciones | ⬜ No iniciada | `ls src/app/sections/` |
 | Fase 5 — Contenido y SEO | ⬜ No iniciada | ¿`index.html` tiene `meta description`? |
 | Código legado | 🔴 Intacto, ~90% pendiente de borrar | `ls src/app/components/` |
 | Contenido real (copy) | ✅ Escrito en Figma, sin lorem ipsum | — |
-| Foto de perfil V3 | 🟡 Lista en Figma (`753:797`), falta exportar al repo | `ls public/images/` |
+| Foto de perfil V3 | 🟡 Misma imagen que la del legado (524×669), falta exportar a `public/` | `ls public/images/` |
 | PDF del CV | ✅ En `public/` y servido desde la Fase 0a | `ls dist/dvprod7-app/browser/*.pdf` |
 
 Leyenda: ⬜ no iniciada · 🟡 en curso · ✅ terminada · 🔴 problema conocido

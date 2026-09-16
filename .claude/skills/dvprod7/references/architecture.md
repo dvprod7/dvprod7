@@ -64,7 +64,7 @@ src/
       _layers.scss                         @layer reset, tokens, base, layout, components, utils
   styles.scss                              orquesta lo anterior + @font-face (UNA sola vez)
 public/
-  fonts/Inter-Variable.woff2
+  fonts/inter-latin-wght.woff2             subset propio (ver design-tokens.md)
   icons/sprite.svg
   images/
 ```
@@ -125,18 +125,21 @@ añadirlo a `.gitignore`, sacar `FIGMA_NAMING_CONVENTION.md` de `src/assets/`, a
 `angular.json` (`src/favicon.ico` apunta a un archivo que no existe; el favicon vive en `public/`).
 
 **Fase 1 — Fundación de diseño**
-`_tokens.scss` completo desde `design-tokens.md`, `@layer`, reset, base, mixin `up()`,
-Inter variable auto-hospedada, sprite de iconos. Borrar `_grid.scss`, `_helpers.scss`,
-`_ui.scss`, `_variables.scss`, `_fonts.scss` y las fuentes duplicadas.
+`_tokens.scss` completo desde `design-tokens.md`, `@layer`, `_reset` y `_base` (añadidos
+dentro de `@layer`, **sin** reemplazar todavía a `_globals`), mixin `up()` autónomo, Inter
+variable auto-hospedada (subset propio). Borrar `_fonts.scss` y las fuentes legadas (las dos
+copias) y sacar `src/assets` del build. `_variables.scss` se queda (sin `@use 'fonts'`)
+porque los componentes legados lo consumen.
 
 **Fase 2 — Shell**
 Quitar el scroll-snap y el `overflow: hidden` de `html, body`. `app.html` con `<header>` +
 `<main>` + las 5 secciones reales. Nav V3 con signals y a11y, portando el *comportamiento*
-del menú mobile del legado (no su código).
+del menú mobile del legado (no su código). Borrar `_grid.scss`, `_helpers.scss`, `_ui.scss`
+y `_globals.scss`.
 
 **Fase 3 — Primitivas UI**
-`button` (variantes fill-cta / outline-accent / fill-accent), `chip`, `card`, `icon`,
-`social-links`. Se construyen una vez y las secciones las consumen.
+`button` (variantes fill-cta / outline-accent / fill-accent), `chip`, `card`, `icon` (con el
+sprite SVG), `social-links`. Se construyen una vez y las secciones las consumen.
 
 **Fase 4 — Secciones**, en este orden (de menor a mayor incertidumbre):
 Hero → Skills → About → Projects → Contact.
@@ -177,3 +180,13 @@ servidor Node. Consecuencias que hay que respetar desde la Fase 2, no al final:
 Sin definir. No bloquea nada hasta la Fase 5. Cuando se decida, revisar `<base href>`
 (hoy `/` en `index.html`) — si el sitio no va en la raíz de un dominio, hay que ajustarlo.
 Firebase aparece en el stack histórico de Dany y encaja bien con salida estática.
+
+## Cambios de orden (2026-09-16)
+
+- **Borrado de `_grid`, `_helpers`, `_ui` y `_globals`: Fase 1 → Fase 2.** Los templates
+  legados usan sus clases; borrarlos en la Fase 1 descuadra la maqueta vieja durante tres
+  fases sin ganar nada. En la Fase 1 conviven `_globals` (sin capa) con `_reset` y `_base`
+  (dentro de `@layer`). Los estilos sin capa ganan a cualquier capa, así que el legado se ve
+  prácticamente igual; solo le afecta lo que `_reset` toque y `_globals` no.
+- **`_variables.scss` sobrevive hasta que muera el último componente legado** (Fase 4).
+- **Sprite de iconos: Fase 1 → Fase 3**, junto con `<app-icon>`, que es su único consumidor.
