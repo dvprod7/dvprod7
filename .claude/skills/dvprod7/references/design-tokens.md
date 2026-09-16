@@ -120,13 +120,30 @@ en los tokens, no en los componentes:
 **Inter** reemplaza por completo a Manrope + Roboto Condensed. **No hay itálicas en V3** —
 el legado usaba `font-style: italic` en todos los headings; eso desaparece.
 
-Pesos usados: `400` Regular · `600` SemiBold · `700` Bold · `800` ExtraBold.
+### Familia y pesos
+
+| Token | Valor | Nota |
+|---|---|---|
+| `--dv-font-sans` | `'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji'` | Los emojis (😎 💻) salen de las fuentes de emoji del final |
+| `--dv-weight-regular` | `400` | |
+| `--dv-weight-semibold` | `600` | |
+| `--dv-weight-bold` | `700` | |
+| `--dv-weight-extrabold` | `800` | |
+
+Los nombres de familia van entre comillas en el token: dentro de una custom property,
+Stylelint (`value-keyword-case`) los trata como palabras clave si no las llevan.
 
 ### Archivo de fuente
 
 Una sola variable font, **subset propio**, auto-hospedada en `public/fonts/`, con
 `font-display: swap` y `<link rel="preload">`. El `@font-face` va **una sola vez** en
-`styles.scss`. Licencia OFL junto al archivo.
+`styles.scss`, fuera de cualquier `@layer`, con `font-family: Inter`,
+`font-weight: 400 800` y la URL `/fonts/inter-latin-wght.woff2` — **idéntica** a la del
+preload de `index.html`, o el navegador la descarga dos veces. Licencia OFL junto al archivo
+(`public/fonts/Inter-OFL.txt`).
+
+Resultado verificado (2026-09-16): 50 992 bytes (**51.0 kB**), eje `wght 400–800` (sin
+`opsz`), 285 code points, `U+2192` presente, `✕` y emojis ausentes.
 
 - Fuente: release oficial **rsms/inter v4.1** (`Inter-4.1.zip`, 2024-11-16), archivo
   `InterVariable.ttf`. Ejes: `opsz 14–32`, `wght 100–900`.
@@ -137,12 +154,16 @@ Una sola variable font, **subset propio**, auto-hospedada en `public/fonts/`, co
 - `✕` y los iconos van en el sprite, no en la fuente. Los emojis (😎 💻) caen a la fuente de
   emoji del sistema: la pila de respaldo debe incluirla.
 
-Comando exacto (desde la raíz del repo, `fonttools` y `brotli` en un venv fuera del repo):
+Comando exacto (desde la raíz del repo; venv, zip e intermedios fuera del repo):
 
 ```bash
 python3 -m venv /tmp/fontvenv && /tmp/fontvenv/bin/pip install fonttools brotli
-curl -sLO https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip
-unzip -o Inter-4.1.zip InterVariable.ttf LICENSE.txt -d /tmp/inter
+mkdir -p /tmp/inter
+curl -sL -o /tmp/inter/Inter-4.1.zip \
+  https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip
+# sha256 verificado 2026-09-16:
+# 9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e
+unzip -o /tmp/inter/Inter-4.1.zip InterVariable.ttf LICENSE.txt -d /tmp/inter
 
 /tmp/fontvenv/bin/fonttools varLib.instancer /tmp/inter/InterVariable.ttf \
   wght=400:800 opsz=14 -o /tmp/inter/Inter-wght.ttf
@@ -157,6 +178,8 @@ cp /tmp/inter/LICENSE.txt public/fonts/Inter-OFL.txt
 ```
 
 Si se actualiza la versión de Inter, se cambia aquí primero y se regenera.
+Con fonttools 4.60.2 el instancer avisa `Attempting to fix OTLOffsetOverflowError` en `GPOS`
+y lo resuelve solo; es esperado.
 
 ### Escala (desktop 1440 → mobile 440, fluida con `clamp()`)
 
@@ -182,6 +205,11 @@ Si se actualiza la versión de Inter, se cambia aquí primero y se regenera.
 Interpolación: `clamp(mobile, calc(b + m·100vw), desktop)` con
 `m = (desktop − mobile) / 1000` y `b = mobile − m·440px`. Se calcula en `_tokens.scss`
 (función SCSS en build), no a mano en cada componente.
+
+> **Límite de zoom (WCAG 1.4.4):** el máximo de cada `clamp()` de texto no debe superar
+> **2.5×** su mínimo; si no, con zoom al 200% el texto puede no llegar a duplicarse. El
+> display está justo en el límite (150 / 60 = 2.5). Cualquier token de texto nuevo o
+> reajustado respeta esa proporción.
 
 ### Tracking y line-height
 

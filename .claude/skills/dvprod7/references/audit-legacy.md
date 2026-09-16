@@ -166,5 +166,7 @@ Para una pieza cuyo objetivo es comercial, esto es lo primero a arreglar.
 ```bash
 export PATH="/Users/danval2/.nvm/versions/node/v22.23.2/bin:$PATH"
 npx ng build --configuration development
-grep -c '@font-face' dist/dvprod7-app/browser/main.js   # 48 hoy, debe ser 0 en V3
+grep -o '@font-face' dist/dvprod7-app/browser/main.js | wc -l   # 48 hoy, debe ser 0 en V3
+# Ojo: 48 es el build de desarrollo (12 hojas × 4 reglas). En producción (`ng build`,
+# main-*.js) son 24 (6 × 4). `grep -c` cuenta líneas, no ocurrencias: da 12.
 ```

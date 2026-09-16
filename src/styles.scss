@@ -7,6 +7,16 @@
 @use 'app/styles/ui' as *;
 @use 'app/styles/globals' as *;
 
+// Inter variable, self-hosted subset (see design-tokens.md). Declared once, here only.
+// Keep the URL identical to the preload in index.html.
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/inter-latin-wght.woff2') format('woff2');
+}
+
 // @use can't live inside @layer, so the tokens partial is loaded as a module.
 @layer tokens {
   @include meta.load-css('app/styles/tokens');
