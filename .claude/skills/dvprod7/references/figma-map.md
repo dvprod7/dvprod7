@@ -46,7 +46,8 @@ Orden en la página. Alturas del frame desktop.
 
 - Desktop: logo a la izquierda (`</dvprod7>` en caja con borde amarillo 2px, radio 8),
   4 links centrados con gap 30px (`/ ABOUT`, `/ SKILLS`, `/ PROJECTS`, `/ CONTACT`),
-  y switch `ESP / ENG` en naranja a la derecha.
+  y switch `ESP / ENG` en naranja a la derecha (`#DD6031` en Figma → `--dv-color-cta-text`,
+  `#E58561`, por contraste).
 - Mobile: logo + botón hamburguesa (26×19) en `726:14`. **No hay switch de idioma en mobile.**
 - Menú abierto (`730:10`): overlay `frosted` (`backdrop-blur` 11px) a pantalla completa, logo
   arriba-izquierda, `✕` arriba-derecha, 4 links en columna (30px/800, gap 22px → paso de
@@ -65,7 +66,8 @@ Orden en la página. Alturas del frame desktop.
   `letter-spacing: -2px`) y **una sola caja de texto que envuelve en mobile** (`726:21`).
 - Lead: "I build reliable websites and web apps — from front-end interfaces to CMS-driven
   backends." — 22px desktop, ancho fijo 700px.
-- CTA: `btn-View Projects` (relleno naranja) + `btn-Hire me 😎` (outline amarillo sobre
+- CTA: `btn-View Projects` (relleno naranja; texto blanco en Figma → `--dv-color-cta-contrast`,
+  `#0D160B`, por contraste) + `btn-Hire me 😎` (outline amarillo sobre
   `#0D160B`). Gap 16px.
 - Socials: 3 pills circulares de 44px amarillas con texto (`@`, `GH`, `in`), gap 12px.
   → En código deben ser **iconos SVG del sprite**, no letras; en Figma son placeholders.
@@ -73,7 +75,8 @@ Orden en la página. Alturas del frame desktop.
 ### 3. About — `702:13` (1440×820) · `728:10` (440×1050)
 
 - Columna izquierda `705:10` (700px): eyebrow `/ ABOUT`, título "I like to code 💻",
-  párrafo largo, `pillars`, botón `Download CV`.
+  párrafo largo, `pillars`, botón `Download CV` (relleno naranja; texto blanco en Figma →
+  `--dv-color-cta-contrast`, `#0D160B`).
 - **`pillars` (`705:16`)**: 3 columnas iguales, gap 24px, cada una con **borde superior
   amarillo de 2px** y padding-top 16px. Título 16px/600 amarillo + descripción 14px/1.5.
   Los tres: "Production experience", "Front-end + CMS", "Judgment with AI".
@@ -120,7 +123,8 @@ Dos sub-bloques con la misma tarjeta:
 - **Selected work** — `716:13`, grid de 2 columnas de 556px, gap 28px.
   Tarjetas: `716:14` ("Enterprise SaaS website — performance") y `716:24`
   ("dvprod7 — this portfolio").
-- **/ BUILDING NOW** — `717:13`, mismo grid. Tarjetas `717:14`
+- **/ BUILDING NOW** — `717:13`, mismo grid. El eyebrow `717:11` está en `#DD6031` en Figma →
+  `--dv-color-cta-text` (`#E58561`), por contraste. Tarjetas `717:14`
   ("Meta Conversions API — WP plugin") y `717:24` ("Custom ecommerce — React").
   Estas llevan un chip extra "Building now" y borde naranja: tarjeta `.22` en Figma →
   `--dv-border-card-cta` (`.35`); chip `.55` → `--dv-border-chip-cta` (`.55`, sin cambio).

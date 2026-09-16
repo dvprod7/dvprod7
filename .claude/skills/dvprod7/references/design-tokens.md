@@ -59,8 +59,9 @@ no pueden ser custom properties dentro de `@media`).
 | `--dv-color-surface-inverse` | `var(--dv-black-950)` | Botón outline, chip sobre amarillo |
 | `--dv-color-accent` | `var(--dv-yellow-400)` | Títulos, eyebrows, bordes de chip, social pills |
 | `--dv-color-accent-contrast` | `var(--dv-black-950)` | Texto sobre `--dv-color-accent` (también en mobile; el `#333` de Figma es deriva) |
-| `--dv-color-cta` | `var(--dv-orange-500)` | Botón primario, switch de idioma, eyebrow "BUILDING NOW" |
-| `--dv-color-cta-contrast` | `#FFFFFF` | Texto sobre `--dv-color-cta` |
+| `--dv-color-cta` | `var(--dv-orange-500)` | **Solo rellenos y bordes**: fondo del botón primario, bordes "Building now" |
+| `--dv-color-cta-contrast` | `var(--dv-black-950)` | Texto sobre `--dv-color-cta` (antes `#FFFFFF`, ver Contraste) |
+| `--dv-color-cta-text` | `#E58561` | **Solo texto naranja** sobre el fondo: switch ESP/ENG, "/ BUILDING NOW" |
 | `--dv-color-text` | `var(--dv-white-50)` | Títulos, lead, párrafo de About, títulos de tarjeta |
 | `--dv-color-text-strong` | `rgb(236 235 243 / 0.85)` | Ítems de Skills, texto de pills de Contact |
 | `--dv-color-text-muted` | `rgb(236 235 243 / 0.75)` | Subtítulos de sección, descripción de tarjeta |
@@ -91,20 +92,21 @@ Texto `#ECEBF3` compuesto con su alfa sobre cada fondo:
 
 Todas ≥ 4.5:1.
 
-### ⚠️ Decisión pendiente — contraste del naranja (resolver ANTES de la Fase 3)
+### Contraste del naranja — resuelto (Dany, 2026-09-16)
 
-El naranja no llega a AA para texto normal. **Ningún token cambia hasta que Dany decida.**
-Se resuelve en el token, nunca en el componente.
+`#DD6031` no llega a AA para texto normal (14–17px/600 no cuenta como "large"). Se resolvió
+en los tokens, no en los componentes:
 
-| Caso | Hoy | Ratio | Estado |
-|---|---|---|---|
-| Texto de botón sobre `--dv-color-cta` | `#FFFFFF` sobre `#DD6031` | **3.63** | Falla AA (17px/600 no es "large") |
-| Candidato para el botón | `#0D160B` sobre `#DD6031` | **5.10** | Pasa AA → reemplazaría a `--dv-color-cta-contrast` |
-| Texto naranja sobre el fondo (switch ESP/ENG, "/ BUILDING NOW") | `#DD6031` sobre `#333333` | **3.48** | Falla AA a esos tamaños (14–17px) |
+| Caso | Antes | Ratio | Ahora | Ratio |
+|---|---|---|---|---|
+| Texto sobre el botón primario (`--dv-color-cta-contrast`) | `#FFFFFF` sobre `#DD6031` | 3.63 ❌ | `#0D160B` sobre `#DD6031` | **5.10** ✅ |
+| Texto naranja sobre `#333333` (`--dv-color-cta-text`) | `#DD6031` | 3.48 ❌ | `#E58561` | **4.73** ✅ |
+| Texto naranja sobre `#1F1F1F` (`--dv-color-cta-text`) | `#DD6031` | 4.55 ✅ | `#E58561` | **6.17** ✅ |
 
-Opciones para el texto naranja: (a) un naranja más claro **solo para texto**
-(`--dv-color-cta-text`), dejando `#DD6031` para rellenos y bordes; o (b) cambiar el color de
-esos textos a otro token que ya pase.
+- `#E58561` conserva el tono y la saturación de `#DD6031` (HSL 16.4° / 71.7%) y solo sube la
+  luminosidad (52.9% → 63.9%). Sigue leyéndose como el mismo naranja.
+- `--dv-color-cta` (`#DD6031`) queda **solo para rellenos y bordes**. Texto naranja → siempre
+  `--dv-color-cta-text`.
 
 ---
 
