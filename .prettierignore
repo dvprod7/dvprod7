@@ -10,7 +10,11 @@ docs/
 # Legacy V1/V2 presentation layer. Remove each entry in the phase that
 # rewrites the files, same as the eslint.config.js ignores block.
 src/app/components/
-src/app/styles/
+src/app/styles/_variables.scss
+src/app/styles/_fonts.scss
+src/app/styles/_grid.scss
+src/app/styles/_helpers.scss
+src/app/styles/_ui.scss
+src/app/styles/_globals.scss
 src/app/app.html
 src/app/app.scss
-src/styles.scss
