@@ -53,7 +53,6 @@
     "src/app/styles/_ui.scss",
     "src/app/styles/_globals.scss",
     "src/app/components/**/*.scss",
-    "src/app/app.scss",
-    "src/styles.scss"
+    "src/app/app.scss"
   ]
 }

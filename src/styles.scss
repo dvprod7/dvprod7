@@ -1,9 +1,16 @@
+@use 'sass:meta';
+@use 'app/styles/layers';
 @use 'app/styles/variables' as *;
 @use 'app/styles/grid' as *;
 @use 'app/styles/mixins' as *;
 @use 'app/styles/helpers' as *;
 @use 'app/styles/ui' as *;
 @use 'app/styles/globals' as *;
+
+// @use can't live inside @layer, so the tokens partial is loaded as a module.
+@layer tokens {
+  @include meta.load-css('app/styles/tokens');
+}
 
 html,
 body {

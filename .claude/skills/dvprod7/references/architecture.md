@@ -99,6 +99,11 @@ Notas:
 - Propiedades lógicas (`padding-inline`, `margin-block`) en vez de left/right/top/bottom.
 - Nada de `@use 'variables' as *` encadenando `@font-face` — es la causa del bug de fuentes
   duplicadas del legado.
+- **Parciales que emiten CSS (`_layers`, `_tokens`, `_reset`, `_base`) solo se cargan desde
+  `src/styles.scss`, una vez.** Ningún componente hace `@use` de ellos, ni ahora ni después:
+  los componentes leen los tokens como `var(--dv-*)`. Desde componentes solo se hace `@use`
+  de `_mixins` (sin salida CSS). `@use` no puede ir dentro de `@layer`, así que en
+  `styles.scss` se cargan con `@include meta.load-css(...)` dentro de su capa.
 
 ### Accesibilidad (mínimo de salida, no opcional)
 - `<a href="#about">` reales, no `href="#"`.

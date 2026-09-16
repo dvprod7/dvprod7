@@ -1,0 +1,3 @@
+// Cascade layer order for the whole site.
+// Emits CSS: load it only from src/styles.scss, first. Never @use it from a component.
+@layer reset, tokens, base, layout, components, utils;

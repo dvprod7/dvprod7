@@ -1,0 +1,144 @@
+// Design tokens — source of truth: .claude/skills/dvprod7/references/design-tokens.md
+// Emits CSS: load it only from src/styles.scss (inside @layer tokens).
+// Never @use it from a component; components read the custom properties.
+@use 'sass:math';
+
+// The two designed frames. Everything in between is interpolated.
+$-viewport-mobile: 440px;
+$-viewport-desktop: 1440px;
+$-root-font-size: 16px;
+
+@function -round($value) {
+  @return math.div(math.round($value * 10000), 10000);
+}
+
+@function -rem($px) {
+  @return -round(math.div($px, $-root-font-size)) * 1rem;
+}
+
+// clamp(mobile, b + m·100vw, desktop), with m = (desktop − mobile) / 1000
+// and b = mobile − m·440px. Type sizes come out in rem so they follow the
+// user's font size; layout sizes stay in px.
+@function -fluid($mobile, $desktop, $unit: rem) {
+  $slope: math.div($desktop - $mobile, $-viewport-desktop - $-viewport-mobile);
+  $intercept: $mobile - $slope * $-viewport-mobile;
+  $vw: -round($slope * 100) * 1vw;
+
+  @if $unit == rem {
+    @return clamp(-rem($mobile), -rem($intercept) + $vw, -rem($desktop));
+  }
+
+  @return clamp($mobile, -round($intercept) + $vw, $desktop);
+}
+
+:root {
+  // ---------------------------------------------------------------------------
+  // Color — primitives (raw values live only here)
+  // ---------------------------------------------------------------------------
+  --dv-yellow-400: #faff70;
+  --dv-orange-300: #e58561;
+  --dv-orange-500: #dd6031;
+  --dv-grey-800: #333;
+  --dv-grey-900: #1f1f1f;
+  --dv-black-950: #0d160b;
+  --dv-white-50: #ecebf3;
+
+  // ---------------------------------------------------------------------------
+  // Color — semantic
+  // ---------------------------------------------------------------------------
+  --dv-color-bg: var(--dv-grey-800);
+  --dv-color-surface-sunken: var(--dv-grey-900);
+  --dv-color-surface-inverse: var(--dv-black-950);
+  --dv-color-accent: var(--dv-yellow-400);
+  --dv-color-accent-contrast: var(--dv-black-950);
+  --dv-color-cta: var(--dv-orange-500);
+  --dv-color-cta-contrast: var(--dv-black-950);
+  --dv-color-cta-text: var(--dv-orange-300);
+  --dv-color-text: var(--dv-white-50);
+  --dv-color-text-strong: color-mix(in srgb, var(--dv-white-50) 85%, transparent);
+  --dv-color-text-muted: color-mix(in srgb, var(--dv-white-50) 75%, transparent);
+  --dv-color-text-subtle: color-mix(in srgb, var(--dv-white-50) 60%, transparent);
+  --dv-color-border-strong: color-mix(in srgb, var(--dv-white-50) 30%, transparent);
+  --dv-color-rule: color-mix(in srgb, var(--dv-white-50) 16%, transparent);
+  --dv-color-border: color-mix(in srgb, var(--dv-white-50) 14%, transparent);
+  --dv-color-border-accent: color-mix(in srgb, var(--dv-yellow-400) 55%, transparent);
+  --dv-color-border-cta: color-mix(in srgb, var(--dv-orange-500) 55%, transparent);
+  --dv-color-border-cta-subtle: color-mix(in srgb, var(--dv-orange-500) 35%, transparent);
+
+  // ---------------------------------------------------------------------------
+  // Typography — sizes (desktop 1440 → mobile 440)
+  // ---------------------------------------------------------------------------
+  --dv-text-display: #{-fluid(60px, 150px)};
+  --dv-text-h2-lg: #{-fluid(40px, 56px)};
+  --dv-text-h2: #{-fluid(34px, 46px)};
+  --dv-text-menu: #{-rem(30px)};
+  --dv-text-h3: #{-fluid(19px, 22px)};
+  --dv-text-lead: #{-fluid(16px, 22px)};
+  --dv-text-logo: #{-fluid(18px, 20px)};
+  --dv-text-body-lg: #{-fluid(16px, 18px)};
+  --dv-text-eyebrow: #{-fluid(16px, 18px)};
+  --dv-text-label: #{-fluid(16px, 17px)};
+  --dv-text-btn: #{-fluid(15px, 17px)};
+  --dv-text-btn-sm: #{-fluid(15px, 16px)};
+  --dv-text-body: #{-fluid(14px, 15px)};
+  --dv-text-nav: #{-rem(15px)};
+  --dv-text-small: #{-fluid(13px, 14px)};
+  --dv-text-chip: #{-rem(12px)};
+
+  // Typography — tracking and line-height
+  --dv-tracking-display: -0.0133em;
+  --dv-tracking-eyebrow: 1px;
+  --dv-tracking-nav: 0.5px;
+  --dv-leading-display: 0.95;
+  --dv-leading-normal: normal;
+  --dv-leading-body: 1.5;
+  --dv-leading-prose: 1.6;
+
+  // ---------------------------------------------------------------------------
+  // Spacing — named by px value
+  // ---------------------------------------------------------------------------
+  --dv-space-4: 4px;
+  --dv-space-8: 8px;
+  --dv-space-12: 12px;
+  --dv-space-14: 14px;
+  --dv-space-16: 16px;
+  --dv-space-20: 20px;
+  --dv-space-24: 24px;
+  --dv-space-28: 28px;
+  --dv-space-30: 30px;
+  --dv-space-44: 44px;
+
+  // Layout
+  --dv-gutter: #{-fluid(24px, 150px, px)};
+  --dv-content-max: #{-fluid(392px, 1140px, px)};
+  --dv-nav-height: #{-fluid(80px, 90px, px)};
+  --dv-section-padding-block: #{-fluid(52px, 96px, px)};
+  --dv-about-columns-gap: 80px;
+
+  // ---------------------------------------------------------------------------
+  // Radius
+  // ---------------------------------------------------------------------------
+  --dv-radius-sm: 8px;
+  --dv-radius-md: 14px;
+  --dv-radius-lg: 16px;
+  --dv-radius-full: 999px;
+
+  // ---------------------------------------------------------------------------
+  // Borders and rules
+  // ---------------------------------------------------------------------------
+  --dv-border-hairline: 1px solid var(--dv-color-border);
+  --dv-border-chip: 1px solid var(--dv-color-border-accent);
+  --dv-border-chip-cta: 1px solid var(--dv-color-border-cta);
+  --dv-border-card-cta: 1px solid var(--dv-color-border-cta-subtle);
+  --dv-border-pill: 1px solid var(--dv-color-border-strong);
+  --dv-border-photo: 1px solid var(--dv-color-accent);
+  --dv-border-btn: 1.5px solid var(--dv-color-accent);
+  --dv-border-logo: 2px solid var(--dv-color-accent);
+  --dv-rule-top: 2px solid var(--dv-color-accent);
+  --dv-rule: 2px solid var(--dv-color-rule);
+
+  // ---------------------------------------------------------------------------
+  // Effects
+  // ---------------------------------------------------------------------------
+  --dv-blur-overlay: 11px;
+}

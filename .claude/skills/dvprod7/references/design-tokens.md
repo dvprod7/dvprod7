@@ -44,6 +44,7 @@ no pueden ser custom properties dentro de `@media`).
 | Token | Valor | Nota |
 |---|---|---|
 | `--dv-yellow-400` | `#FAFF70` | Acento principal. **Ojo: NO es el `$bolt: #f5f749` del legado.** |
+| `--dv-orange-300` | `#E58561` | Naranja claro, solo para texto (mismo tono y saturación que el 500). |
 | `--dv-orange-500` | `#DD6031` | CTA primario. Único color que sobrevive intacto del legado (`$Flame`). |
 | `--dv-grey-800` | `#333333` | Fondo de página. Es la variable `Jet` de Figma. |
 | `--dv-grey-900` | `#1F1F1F` | Superficie de tarjeta (**más oscura que el fondo**). |
@@ -61,7 +62,7 @@ no pueden ser custom properties dentro de `@media`).
 | `--dv-color-accent-contrast` | `var(--dv-black-950)` | Texto sobre `--dv-color-accent` (también en mobile; el `#333` de Figma es deriva) |
 | `--dv-color-cta` | `var(--dv-orange-500)` | **Solo rellenos y bordes**: fondo del botón primario, bordes "Building now" |
 | `--dv-color-cta-contrast` | `var(--dv-black-950)` | Texto sobre `--dv-color-cta` (antes `#FFFFFF`, ver Contraste) |
-| `--dv-color-cta-text` | `#E58561` | **Solo texto naranja** sobre el fondo: switch ESP/ENG, "/ BUILDING NOW" |
+| `--dv-color-cta-text` | `var(--dv-orange-300)` | **Solo texto naranja** sobre el fondo: switch ESP/ENG, "/ BUILDING NOW" |
 | `--dv-color-text` | `var(--dv-white-50)` | Títulos, lead, párrafo de About, títulos de tarjeta |
 | `--dv-color-text-strong` | `rgb(236 235 243 / 0.85)` | Ítems de Skills, texto de pills de Contact |
 | `--dv-color-text-muted` | `rgb(236 235 243 / 0.75)` | Subtítulos de sección, descripción de tarjeta |
@@ -73,6 +74,10 @@ no pueden ser custom properties dentro de `@media`).
 | `--dv-color-border-cta` | `rgb(221 96 49 / 0.55)` | Borde de chip "Building now" (misma alfa que `border-accent`) |
 | `--dv-color-border-cta-subtle` | `rgb(221 96 49 / 0.35)` | Borde de tarjeta "Building now" |
 
+> **Implementación:** los semánticos solo referencian primitivos. Las alfas se escriben en
+> `_tokens.scss` como `color-mix(in srgb, var(--dv-white-50) 85%, transparent)`, que equivale
+> exactamente al `rgb(236 235 243 / 0.85)` de esta tabla.
+>
 > **Rampa de alfa (cerrada):** texto `1 · .85 · .75 · .6`; líneas `.3 · .16 · .14`;
 > bordes de chip `.55` (amarillo y naranja); borde de tarjeta naranja `.35`. Cualquier
 > opacidad nueva cae en esa rampa, no se inventa.
