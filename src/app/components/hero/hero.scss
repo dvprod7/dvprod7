@@ -2,7 +2,7 @@
 @use 'mixins' as *;
 
 .hero {
-  height: calc(100dvh - 120px);
+  min-height: calc(100dvh - 120px);
   display: flex;
   align-items: center;
   &__title-container {

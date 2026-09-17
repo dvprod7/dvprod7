@@ -22,10 +22,11 @@ un diseño abandonado. Reescribir sale más barato y más limpio que adaptar.
 
 ## Qué se borra
 
-- Todo el `src/app/styles/` legado (`_variables`, ~~`_fonts`~~, `_globals`, `_grid`,
-  `_helpers`, `_ui`). `_fonts` ✅ borrado en la Fase 1f.
+- Todo el `src/app/styles/` legado (`_variables`, ~~`_fonts`~~, ~~`_globals`~~, ~~`_grid`~~,
+  ~~`_helpers`~~, ~~`_ui`~~). `_fonts` ✅ borrado en la Fase 1f; los otros cuatro ✅ en la 2c.
+  Solo queda `_variables` (Fase 4).
 - Todos los componentes de sección: `hero`, `about`, `skills`, `projects`, `contact`, `socials`.
-- El layout de scroll-snap en `app.scss` + `styles.scss`.
+- ~~El layout de scroll-snap en `app.scss` + `styles.scss`.~~ ✅ Borrado en la Fase 2b.
 - ~~Las fuentes Manrope y Roboto Condensed (ambas copias).~~ ✅ Borradas en la Fase 1f.
 - Los `.spec.ts` de los componentes — stubs generados por el CLI, no prueban nada.
   (`app.spec.ts` **no** era un stub inocuo: ver Higiene.)
@@ -90,9 +91,12 @@ solo — sigue haciendo falta `nvm use` (o el `export PATH` de la skill) en cada
 
 ### 🟠 Deuda de diseño
 
-**6. Grid clonado de Bootstrap.** `_grid.scss` genera 12 columnas × 5 breakpoints + clases de
+**6. ~~Grid clonado de Bootstrap.~~** ✅ **Resuelto en la Fase 2c** (`_grid` y `_helpers`
+borrados; las clases `container`, `row`, `col-*`, `img-fluid`, `text-center` y `btn` siguen en
+las plantillas legadas, sin estilos, hasta que mueran sus componentes).
+~~`_grid.scss` genera 12 columnas × 5 breakpoints + clases de
 orden a mano. `_helpers.scss` reimplementa utilidades de flex. Juntos son ~114 líneas que CSS
-Grid nativo resuelve en un puñado. Además `.img-fluid` está declarada **dos veces**.
+Grid nativo resuelve en un puñado. Además `.img-fluid` está declarada **dos veces**.~~
 
 **7. ~~`map-get` global está deprecado.~~** ✅ **Resuelto en la Fase 1c:** `_mixins.scss` es
 autónomo, usa `@use 'sass:map'` + `map.get` y no queda ningún `map-get` en `src/`.
@@ -101,14 +105,22 @@ autónomo, usa `@use 'sass:map'` + `map.get` y no queda ningún `map-get` en `sr
 
 **8. Números mágicos.** Existe `$navbar-height: 120px`, pero `hero.scss` y `about.scss`
 hardcodean `calc(100dvh - 120px)`. La variable y el uso ya divergieron.
+Desde la 2b, `$navbar-height` no lo usa nadie; los dos `calc` mueren con hero y about (Fase 4).
+**Parche temporal (2c):** al borrar `_grid`, la foto de About perdió `.col-lg-4` y ocupaba todo
+el ancho; con `height` fijo y `align-items: center`, el contenido se desbordaba sobre el hero y
+sobre Skills (texto ilegible a 1440). En `about.scss` y `hero.scss`, `height` pasó a
+`min-height`. No se limitó la foto a propósito. **El parche desaparece al reescribir hero y
+about en la Fase 4**; no lo repliques en código nuevo.
 
 **9. La paleta ya divergió del diseño.** `$bolt: #f5f749` en SCSS, pero el SVG del logo en
 `navbar.html` trae `stroke="#FAFF70"` hardcodeado — el valor V3. Dos amarillos conviviendo.
 
-**10. `app.html` renderiza `<app-hero>` dos veces** como relleno de la cuarta sección.
+**10. ~~`app.html` renderiza `<app-hero>` dos veces~~** como relleno de la cuarta sección.
+✅ **Resuelto en la Fase 2b.**
 
-**11. `overflow: hidden` en `html, body`** + scroll-snap mandatorio. Es una decisión de la V1
-(fullscreen sections) incompatible con la página larga de V3.
+**11. ~~`overflow: hidden` en `html, body`~~** + scroll-snap mandatorio. ✅ **Resuelto en la
+Fase 2b**: el documento hace scroll. ~~Es una decisión de la V1 (fullscreen sections)
+incompatible con la página larga de V3.~~
 
 ### 🟡 Calidad / mantenibilidad
 
@@ -129,8 +141,10 @@ change detection por defecto, sin `OnPush`.
 **16. `@for (i of [0,1,2,3,4]; track i)`** en `skills.html`: literal de array en la plantilla,
 se recrea en cada CD, y el conteo está hardcodeado en vez de derivarse de `mainSkills`.
 
-**17. Router muerto.** `app.routes.ts` vacío, `RouterOutlet` comentado, pero `provideRouter([])`
-sigue en los providers.
+**17. ~~Router muerto.~~** ✅ **Resuelto en la Fase 2a** (`app.routes.ts` y `provideRouter`
+borrados). Quedan dos comentarios `RouterOutlet` en `app.ts`, que se reescribe en la 2e.
+~~`app.routes.ts` vacío, `RouterOutlet` comentado, pero `provideRouter([])`
+sigue en los providers.~~
 
 ### 🟡 Accesibilidad — no hay nada
 

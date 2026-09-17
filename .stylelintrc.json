@@ -47,10 +47,6 @@
     "dist/**",
     ".angular/**",
     "src/app/styles/_variables.scss",
-    "src/app/styles/_grid.scss",
-    "src/app/styles/_helpers.scss",
-    "src/app/styles/_ui.scss",
-    "src/app/styles/_globals.scss",
     "src/app/components/**/*.scss",
     "src/app/app.scss"
   ]

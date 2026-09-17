@@ -2,7 +2,7 @@
 @use 'mixins' as *;
 
 .about {
-  height: calc(100dvh - 120px);
+  min-height: calc(100dvh - 120px);
   display: flex;
   align-items: center;
   &__content {

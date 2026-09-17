@@ -1,8 +1,8 @@
 @use 'sass:map';
 
 // Structural reflow points only. Everything in between is fluid (clamp/minmax).
-// Private on purpose: legacy _variables.scss still exposes its own $breakpoints
-// (with 2xl) for _grid.scss until phase 2.
+// Private on purpose: legacy _variables.scss still exposes its own, now unused,
+// $breakpoints (with 2xl) until it is deleted in phase 4.
 $-breakpoints: (
   'sm': 480px,
   'md': 768px,

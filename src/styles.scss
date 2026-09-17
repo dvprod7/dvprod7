@@ -1,11 +1,7 @@
 @use 'sass:meta';
 @use 'app/styles/layers';
 @use 'app/styles/variables' as *;
-@use 'app/styles/grid' as *;
 @use 'app/styles/mixins' as *;
-@use 'app/styles/helpers' as *;
-@use 'app/styles/ui' as *;
-@use 'app/styles/globals' as *;
 
 // Inter variable, self-hosted subset (see design-tokens.md). Declared once, here only.
 // Keep the URL identical to the preload in index.html.

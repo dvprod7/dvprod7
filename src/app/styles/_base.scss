@@ -4,6 +4,13 @@
 html {
   color-scheme: dark;
 
+  // The Inter subset ships no italic: never fake one (or a bold).
+  font-synthesis: none;
+
+  // macOS-only text smoothing; there is no standard property.
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
   // Anchor jumps and focused elements land below the sticky nav.
   scroll-padding-block-start: var(--dv-nav-height);
 
