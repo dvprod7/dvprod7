@@ -1,0 +1,34 @@
+:host {
+  display: block;
+}
+
+// Rule with --dv-footer-gap on both sides; the rule spans the content width,
+// not the viewport. Brand and location wrap onto two lines when they don't fit
+// (mobile), so no media query is needed.
+.footer {
+  padding-block: var(--dv-footer-gap) var(--dv-section-padding-block);
+  padding-inline: var(--dv-gutter);
+
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--dv-space-4) var(--dv-space-16);
+    align-items: center;
+    justify-content: space-between;
+    max-inline-size: var(--dv-content-max);
+    padding-block-start: var(--dv-footer-gap);
+    margin-inline: auto;
+    border-block-start: var(--dv-border-hairline);
+  }
+
+  &__brand {
+    font-size: var(--dv-text-body);
+    font-weight: var(--dv-weight-semibold);
+    color: var(--dv-color-text);
+  }
+
+  &__location {
+    font-size: var(--dv-text-small);
+    color: var(--dv-color-text-subtle);
+  }
+}

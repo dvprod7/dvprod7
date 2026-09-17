@@ -11,5 +11,3 @@ docs/
 # rewrites the files, same as the eslint.config.js ignores block.
 src/app/components/
 src/app/styles/_variables.scss
-src/app/app.html
-src/app/app.scss

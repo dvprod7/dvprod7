@@ -1,7 +1,13 @@
-<app-navbar></app-navbar>
+<a class="skip-link" href="#main">{{ content.skipLink }}</a>
 
-<main>
-  <app-hero></app-hero>
-  <app-about></app-about>
-  <app-skills></app-skills>
+<app-navbar />
+
+<main id="main" tabindex="-1">
+  <app-hero />
+  <app-about id="about" />
+  <app-skills id="skills" />
+  <app-projects id="projects" />
+  <app-contact id="contact" />
 </main>
+
+<app-footer />

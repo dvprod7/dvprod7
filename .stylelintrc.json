@@ -47,7 +47,6 @@
     "dist/**",
     ".angular/**",
     "src/app/styles/_variables.scss",
-    "src/app/components/**/*.scss",
-    "src/app/app.scss"
+    "src/app/components/**/*.scss"
   ]
 }

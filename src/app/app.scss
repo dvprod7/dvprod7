@@ -1,1 +1,35 @@
-// Shell styles. Intentionally empty until the V3 shell lands (phase 2e).
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+// Section hosts are inline by default; anchors need a real box to scroll to.
+app-hero,
+app-about,
+app-skills,
+app-projects,
+app-contact {
+  display: block;
+}
+
+// Hidden until focused, then shown in flow at the top of the page.
+.skip-link {
+  @include visually-hidden;
+
+  &:focus {
+    position: static;
+    display: block;
+    inline-size: fit-content;
+    block-size: auto;
+    padding: var(--dv-space-8) var(--dv-space-16);
+    margin: var(--dv-space-8);
+    overflow: visible;
+    clip-path: none;
+    font-weight: var(--dv-weight-semibold);
+    color: var(--dv-color-accent-contrast);
+    white-space: normal;
+    background-color: var(--dv-color-accent);
+    border-radius: var(--dv-radius-sm);
+  }
+}

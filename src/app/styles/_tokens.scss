@@ -124,6 +124,7 @@ $-root-font-size: 16px;
   --dv-content-max: #{-fluid(392px, 1140px, px)};
   --dv-nav-height: #{-fluid(80px, 90px, px)};
   --dv-section-padding-block: #{-fluid(52px, 96px, px)};
+  --dv-footer-gap: #{-fluid(18px, 64px, px)};
   --dv-about-columns-gap: 80px;
 
   // ---------------------------------------------------------------------------
@@ -147,6 +148,13 @@ $-root-font-size: 16px;
   --dv-border-logo: 2px solid var(--dv-color-accent);
   --dv-rule-top: 2px solid var(--dv-color-accent);
   --dv-rule: 2px solid var(--dv-color-rule);
+
+  // ---------------------------------------------------------------------------
+  // Focus
+  // ---------------------------------------------------------------------------
+  --dv-focus-ring-color: var(--dv-color-accent);
+  --dv-focus-ring-width: 2px;
+  --dv-focus-ring-offset: 3px;
 
   // ---------------------------------------------------------------------------
   // Effects

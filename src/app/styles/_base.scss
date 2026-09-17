@@ -24,3 +24,15 @@ body {
   color: var(--dv-color-text);
   background-color: var(--dv-color-bg);
 }
+
+// Keyboard focus ring. The offset keeps it on the page background, not on the
+// element's own fill (a yellow ring on a yellow button would disappear).
+:focus-visible {
+  outline: var(--dv-focus-ring-width) solid var(--dv-focus-ring-color);
+  outline-offset: var(--dv-focus-ring-offset);
+}
+
+// Programmatic focus targets (e.g. <main> after the skip link) get no ring.
+[tabindex='-1']:focus {
+  outline: none;
+}

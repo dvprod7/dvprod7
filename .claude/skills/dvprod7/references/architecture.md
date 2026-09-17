@@ -43,7 +43,7 @@ Figma variables más adelante. SCSS se queda solo por anidamiento, mixins y bucl
 ```
 src/
   app/
-    app.ts / app.html / app.scss          shell: <app-nav> + <main> con las 5 secciones
+    app.ts / app.html / app.scss          shell: skip link + <app-nav> + <main> con las 5 secciones + <app-footer>
     app.config.ts                          providers (zoneless, router opcional)
     core/
       content/                             copy tipado (fuente de verdad del texto)
@@ -53,6 +53,7 @@ src/
     sections/                              una carpeta por sección de la página
       nav/        hero/        about/
       skills/     projects/    contact/
+      footer/                              <footer> del shell (fuera de <main>)
     ui/                                    primitivas reutilizables, sin lógica de negocio
       button/     chip/        card/
       icon/       social-links/
@@ -237,3 +238,11 @@ Firebase aparece en el stack histórico de Dany y encaja bien con salida estáti
   `core/content/site-content.ts`. Los links guardan el texto sin `/` ni mayúsculas
   (presentación). El logo va partido (`open` / `name` / `close`) para que el nombre accesible
   sea "dvprod7". Año del copyright y nombre accesible del `<dialog>`: se deciden en la 2g.
+- **Shell y footer (2e).** El footer es un componente propio, `sections/footer/` (decidido por
+  Dany): en Figma vive dentro de Contact, pero el landmark `contentinfo` tiene que quedar fuera
+  de `<main>`. La regla y el espacio a ambos lados (`--dv-footer-gap`) son del footer.
+  **Pendiente para la Fase 4:** decidir cómo se suma el padding inferior de Contact a ese hueco
+  (en Figma hay 72 px entre la fila de CTA y la regla). El skip link aparece en
+  flujo al recibir foco (sin `position: fixed` ni `z-index`) y `<main tabindex="-1">` recibe el
+  foco sin anillo. Los hosts de sección llevan `display: block` desde `app.scss` para que las
+  anclas midan bien.

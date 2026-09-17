@@ -14,8 +14,6 @@ module.exports = tseslint.config(
       // noted and run the linter again; when the list is empty, the legacy
       // layer is gone. Never add new code here.
       'src/app/components/**', // phases 2-4: nav, hero, about, skills, projects, contact, socials
-      'src/app/app.ts', // phase 2: shell rewrite
-      'src/app/app.html', // phase 2
       // -------------------------------------------------------------------
     ],
   },

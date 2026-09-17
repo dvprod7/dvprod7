@@ -255,6 +255,7 @@ Mapeo de valores sueltos de Figma (paso más cercano, empate → menor):
 | `--dv-content-max` | `1140px` | `392px` | |
 | `--dv-nav-height` | `90px` | `80px` | |
 | `--dv-section-padding-block` | `96px` | `52px` | Todas las secciones (Contact 110/80 y hero mobile 44/60 se normalizan a este) |
+| `--dv-footer-gap` | `64px` | `18px` | Espacio a cada lado de la regla del footer (Figma: 72/64 desktop, 18/18 mobile). Abajo, el footer usa `--dv-section-padding-block` (Figma 80/48) |
 | `--dv-about-columns-gap` | `80px` | — | Solo desktop; en mobile las columnas se apilan |
 
 > Desktop: frame de 1440 con 150px a cada lado → contenido de **1140px**.
@@ -288,7 +289,21 @@ Mapeo de valores sueltos de Figma (paso más cercano, empate → menor):
 | `--dv-rule-top` | `2px solid var(--dv-color-accent)` | Regla superior del pillar (también en mobile) |
 | `--dv-rule` | `2px` de `--dv-color-rule` | Regla superior de columna (Skills) |
 
-## 6. Efectos
+## 6. Foco
+
+| Token | Valor | Uso |
+|---|---|---|
+| `--dv-focus-ring-color` | `var(--dv-color-accent)` | Anillo de `:focus-visible` (en `_base`) |
+| `--dv-focus-ring-width` | `2px` | |
+| `--dv-focus-ring-offset` | `3px` | Separa el anillo del relleno del elemento |
+
+Contraste del anillo `#FAFF70` (WCAG 1.4.11, mínimo 3:1), verificado 2026-09-17:
+`--dv-color-bg` **11.79** · `--dv-color-surface-sunken` **15.39** ·
+`--dv-color-surface-inverse` **17.25**. Contra rellenos amarillos (1.00) o naranjas (3.38)
+no se mide: con el offset, lo que queda junto al anillo es el fondo de la página.
+Los destinos de foco programático (`[tabindex='-1']`, p. ej. `<main>`) no muestran anillo.
+
+## 7. Efectos
 
 | Token | Valor | Uso |
 |---|---|---|
@@ -297,7 +312,7 @@ Mapeo de valores sueltos de Figma (paso más cercano, empate → menor):
 No hay sombras en V3. La opacidad del fondo `frosted` no sale en `get_design_context`
 (devuelve `Jet` sólido): verificarla con screenshot en la Fase 2.
 
-## 7. Breakpoints
+## 8. Breakpoints
 
 El diseño solo define **dos** anchos: `440` (mobile) y `1440` (desktop). Todo lo intermedio
 se resuelve con `clamp()` y layouts fluidos, no con más breakpoints.
@@ -315,7 +330,7 @@ Regla: si un cambio se puede resolver con `clamp()` o `minmax()`, **no** se le p
 
 ---
 
-## 8. Decoración: `bg-hex`
+## 9. Decoración: `bg-hex`
 
 Las secciones Hero, Skills y Contact llevan un SVG decorativo grande (`bg-hex`, ~1942×2022)
 rotado y posicionado fuera del flujo, muy tenue, sangrando por los bordes.
