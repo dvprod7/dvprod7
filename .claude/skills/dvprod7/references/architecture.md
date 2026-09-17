@@ -226,7 +226,14 @@ Firebase aparece en el stack histórico de Dany y encaja bien con salida estáti
   `_base` pone `scroll-padding-block-start: var(--dv-nav-height)` en `html` (anclas y foco
   quedan bajo la nav fija) y `scroll-behavior: smooth` solo con
   `prefers-reduced-motion: no-preference`.
-- **Pendiente para la 2d: setup global del provider zoneless en tests.** Cuando entre el primer
-  spec nuevo, evaluar un único punto de configuración (p. ej. un archivo de setup del target
-  `test`) en lugar de repetir `provideZonelessChangeDetection()` en cada spec. Solo evaluar y
-  decidir con Dany; no está aplicado.
+- **Provider zoneless por spec, no global (2d, decidido por Dany).** Cada spec que use
+  `TestBed` declara `providers: [provideZonelessChangeDetection()]`; si falta, falla en seco con
+  `NG0908`. Los specs de solo datos (p. ej. `site-content.spec.ts`) no lo necesitan.
+  Evaluado y descartado: la opción `main` del builder `@angular/build:karma` (un `src/test.ts`
+  propio) obliga a replicar a mano el `initTestEnvironment` que hoy genera el builder.
+  **Solución limpia a futuro:** `providersFile` del builder `@angular/build:unit-test`
+  (experimental en la 20.3); retomarlo cuando deje de serlo.
+- **Content layer del shell (2d).** `core/models/section-id.ts` y
+  `core/content/site-content.ts`. Los links guardan el texto sin `/` ni mayúsculas
+  (presentación). El logo va partido (`open` / `name` / `close`) para que el nombre accesible
+  sea "dvprod7". Año del copyright y nombre accesible del `<dialog>`: se deciden en la 2g.
