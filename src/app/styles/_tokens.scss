@@ -150,6 +150,13 @@ $-root-font-size: 16px;
   --dv-rule: 2px solid var(--dv-color-rule);
 
   // ---------------------------------------------------------------------------
+  // Stacking
+  // ---------------------------------------------------------------------------
+  // Minimal scale: only the sticky nav needs to stack. The mobile menu is a
+  // <dialog>, which lives in the top layer and needs no z-index.
+  --dv-z-nav: 100;
+
+  // ---------------------------------------------------------------------------
   // Focus
   // ---------------------------------------------------------------------------
   --dv-focus-ring-color: var(--dv-color-accent);

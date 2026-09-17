@@ -112,6 +112,13 @@ sobre Skills (texto ilegible a 1440). En `about.scss` y `hero.scss`, `height` pa
 `min-height`. No se limitó la foto a propósito. **El parche desaparece al reescribir hero y
 about en la Fase 4**; no lo repliques en código nuevo.
 
+**Parche temporal (2f):** `skills.scss` tenía `flex-wrap: nowrap` en el stack auxiliar desde
+`md`; sus 5 iconos de 100 px no caben en la columna hasta ~1280, así que la página ganaba scroll
+horizontal entre ~768 y ~1200 px. **El desbordamiento ya existía**: lo tapaba el
+`overflow: hidden` que se quitó en la 2b. Se quitó el `nowrap` (los iconos envuelven, como en
+mobile). **Muere al reescribir Skills en la Fase 4**; en V3 esa sección es texto plano sin
+iconos.
+
 **9. La paleta ya divergió del diseño.** `$bolt: #f5f749` en SCSS, pero el SVG del logo en
 `navbar.html` trae `stroke="#FAFF70"` hardcodeado — el valor V3. Dos amarillos conviviendo.
 

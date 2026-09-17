@@ -246,3 +246,13 @@ Firebase aparece en el stack histórico de Dany y encaja bien con salida estáti
   flujo al recibir foco (sin `position: fixed` ni `z-index`) y `<main tabindex="-1">` recibe el
   foco sin anillo. Los hosts de sección llevan `display: block` desde `app.scss` para que las
   anclas midan bien.
+- **`ui/` se adelanta con `ui/logo` (2f).** La primitiva nace antes de la Fase 3 porque la nav
+  y el footer pintan el mismo `</dvprod7>` y el nombre accesible ("dvprod7", con los símbolos en
+  `aria-hidden`) tiene que salir de un solo sitio. Es tonta: recibe el `LogoContent` por
+  `input.required` y no trae estilos; quien la usa la estiliza desde su propio bloque BEM.
+  El resto de `ui/` (button, chip, card, icon, social-links) sigue en la Fase 3.
+- **Nav V3 (2f).** `sections/nav/`, sticky desde el `:host` (un `<header>` sticky dentro de un
+  host inline no pega). Grid `1fr auto 1fr`: con el switch ESP/ENG oculto, la tercera columna
+  vacía mantiene los links centrados. Por debajo de `lg` el `<nav>` entero se oculta
+  (`display: none`), así que no hay landmark de navegación vacío ni links enfocables; el menú
+  mobile llega en la 2g. El navbar legado se borró aquí.

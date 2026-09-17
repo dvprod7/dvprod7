@@ -289,7 +289,17 @@ Mapeo de valores sueltos de Figma (paso más cercano, empate → menor):
 | `--dv-rule-top` | `2px solid var(--dv-color-accent)` | Regla superior del pillar (también en mobile) |
 | `--dv-rule` | `2px` de `--dv-color-rule` | Regla superior de columna (Skills) |
 
-## 6. Foco
+## 6. Apilamiento
+
+| Token | Valor | Uso |
+|---|---|---|
+| `--dv-z-nav` | `100` | `:host` de la nav fija |
+
+Escala mínima a propósito: la nav es lo único que necesita apilarse. El menú mobile es un
+`<dialog>` modal, que vive en el *top layer* y no lleva `z-index`; el skip link aparece en
+flujo. Si algo más necesita apilarse, se añade aquí y no se escriben números sueltos.
+
+## 7. Foco
 
 | Token | Valor | Uso |
 |---|---|---|
@@ -303,7 +313,13 @@ Contraste del anillo `#FAFF70` (WCAG 1.4.11, mínimo 3:1), verificado 2026-09-17
 no se mide: con el offset, lo que queda junto al anillo es el fondo de la página.
 Los destinos de foco programático (`[tabindex='-1']`, p. ej. `<main>`) no muestran anillo.
 
-## 7. Efectos
+### Estados de la nav (decisión, 2026-09-17)
+
+Figma no dibuja `hover` ni `focus` de los links. Decisión: `:hover` y `:focus-visible` pasan el
+link a `--dv-color-accent`, con `transition: color 0.2s ease` **solo** dentro de
+`@media (prefers-reduced-motion: no-preference)`. El anillo de foco es el global de `_base`.
+
+## 8. Efectos
 
 | Token | Valor | Uso |
 |---|---|---|
@@ -312,7 +328,7 @@ Los destinos de foco programático (`[tabindex='-1']`, p. ej. `<main>`) no muest
 No hay sombras en V3. La opacidad del fondo `frosted` no sale en `get_design_context`
 (devuelve `Jet` sólido): verificarla con screenshot en la Fase 2.
 
-## 8. Breakpoints
+## 9. Breakpoints
 
 El diseño solo define **dos** anchos: `440` (mobile) y `1440` (desktop). Todo lo intermedio
 se resuelve con `clamp()` y layouts fluidos, no con más breakpoints.
@@ -330,7 +346,7 @@ Regla: si un cambio se puede resolver con `clamp()` o `minmax()`, **no** se le p
 
 ---
 
-## 9. Decoración: `bg-hex`
+## 10. Decoración: `bg-hex`
 
 Las secciones Hero, Skills y Contact llevan un SVG decorativo grande (`bg-hex`, ~1942×2022)
 rotado y posicionado fuera del flujo, muy tenue, sangrando por los bordes.

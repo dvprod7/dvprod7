@@ -1,0 +1,19 @@
+<header class="nav">
+  <a class="nav__logo" href="#main"><app-logo [logo]="content.logo" /></a>
+
+  <nav class="nav__menu" [attr.aria-label]="content.nav.ariaLabel">
+    <ul class="nav__links">
+      @for (link of content.nav.links; track link.sectionId) {
+        <li>
+          <a class="nav__link" [href]="'#' + link.sectionId"
+            ><span class="nav__slash" aria-hidden="true">/</span> {{ link.label }}</a
+          >
+        </li>
+      }
+    </ul>
+  </nav>
+
+  @if (languageSwitch.enabled) {
+    <p class="nav__lang">{{ languageSwitch.labels.es }} / {{ languageSwitch.labels.en }}</p>
+  }
+</header>

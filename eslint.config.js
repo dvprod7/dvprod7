@@ -13,7 +13,7 @@ module.exports = tseslint.config(
       // This list is the deletion checklist. Remove each entry in the phase
       // noted and run the linter again; when the list is empty, the legacy
       // layer is gone. Never add new code here.
-      'src/app/components/**', // phases 2-4: nav, hero, about, skills, projects, contact, socials
+      'src/app/components/**', // phase 4: hero, about, skills, projects, contact, socials
       // -------------------------------------------------------------------
     ],
   },
