@@ -256,3 +256,12 @@ Firebase aparece en el stack histórico de Dany y encaja bien con salida estáti
   vacía mantiene los links centrados. Por debajo de `lg` el `<nav>` entero se oculta
   (`display: none`), así que no hay landmark de navegación vacío ni links enfocables; el menú
   mobile llega en la 2g. El navbar legado se borró aquí.
+- **Menú mobile (2g).** `<dialog>` + `showModal()`: el foco atrapado, el cierre con Escape y la
+  devolución del foco al toggle son del navegador, no código nuestro (verificado con teclado y
+  con ratón real; un `.click()` sintético no enfoca el botón, así que en tests el foco vuelve al
+  `<body>` — no es un fallo del componente). El bloqueo de scroll es CSS en `_base`
+  (`html:has(dialog[open])`), con `scrollbar-gutter: stable` siempre para que no salte el ancho.
+  El `<dialog>` **no** se oculta con `display: none` en desktop: eso dejaría el fondo inerte con
+  el panel invisible; lo cierra el listener de `matchMedia` (`afterNextRender` + `DestroyRef`).
+  El año del copyright se calcula al renderizar (`new Date().getFullYear()`), así que con
+  prerender queda horneado en el HTML y el content layer solo guarda el texto fijo.

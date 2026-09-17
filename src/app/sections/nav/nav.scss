@@ -34,7 +34,7 @@
     }
   }
 
-  // The links only exist on desktop; the mobile menu lands in 2g.
+  // The links only exist on desktop; below lg they live in the dialog.
   &__menu {
     display: none;
 
@@ -75,9 +75,162 @@
   }
 
   &__lang {
+    grid-column: 3;
     justify-self: end;
     font-size: var(--dv-text-small);
     font-weight: var(--dv-weight-semibold);
     color: var(--dv-color-cta-text);
+  }
+
+  // Explicit column: below lg the hidden <nav> is not a grid item, so auto
+  // placement would drop the toggle in the middle.
+  &__toggle {
+    display: flex;
+    flex-direction: column;
+    grid-column: 3;
+    gap: var(--dv-space-4);
+    justify-self: end;
+    padding: var(--dv-space-8);
+    cursor: pointer;
+    background: none;
+    border: 0;
+
+    @include up(lg) {
+      display: none;
+    }
+  }
+
+  &__bar {
+    inline-size: var(--dv-space-24);
+    block-size: var(--dv-stroke-bold);
+    background-color: var(--dv-color-accent);
+    border-radius: var(--dv-radius-full);
+  }
+}
+
+// Full-screen opaque panel. No blur: in Figma the frosted layer renders solid.
+.menu {
+  inline-size: 100%;
+  max-inline-size: none;
+  block-size: 100%;
+  max-block-size: none;
+  padding: 0;
+  margin: 0;
+  color: var(--dv-color-text);
+  background-color: var(--dv-color-bg);
+  border: 0;
+  opacity: 0;
+  transition:
+    opacity 0.2s ease,
+    display 0.2s allow-discrete,
+    overlay 0.2s allow-discrete;
+
+  &[open] {
+    opacity: 1;
+  }
+
+  &::backdrop {
+    background-color: var(--dv-color-bg);
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    min-block-size: 100%;
+    padding-inline: var(--dv-gutter);
+  }
+
+  // Same height as the nav, so logo and close button stay where they were.
+  &__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    block-size: var(--dv-nav-height);
+  }
+
+  &__logo {
+    padding: var(--dv-space-8) var(--dv-space-12);
+    font-size: var(--dv-text-logo);
+    font-weight: var(--dv-weight-bold);
+    color: var(--dv-color-accent);
+    text-decoration: none;
+    border: var(--dv-border-logo);
+    border-radius: var(--dv-radius-sm);
+  }
+
+  &__close {
+    position: relative;
+    inline-size: calc(var(--dv-space-24) + 2 * var(--dv-space-8));
+    block-size: calc(var(--dv-space-24) + 2 * var(--dv-space-8));
+    cursor: pointer;
+    background: none;
+    border: 0;
+  }
+
+  // Two bars crossed: same tokens as the hamburger, no icon asset needed.
+  &__cross {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    inline-size: var(--dv-space-24);
+    block-size: var(--dv-stroke-bold);
+    background-color: var(--dv-color-accent);
+    border-radius: var(--dv-radius-full);
+    translate: -50% -50%;
+
+    &:first-child {
+      rotate: 45deg;
+    }
+
+    &:last-child {
+      rotate: -45deg;
+    }
+  }
+
+  &__links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dv-space-20);
+    padding: 0;
+    padding-block-start: var(--dv-section-padding-block);
+    margin: 0;
+    list-style: none;
+  }
+
+  &__link {
+    display: inline-flex;
+    gap: var(--dv-space-8);
+    font-size: var(--dv-text-menu);
+    font-weight: var(--dv-weight-extrabold);
+    color: var(--dv-color-text);
+    text-transform: uppercase;
+    text-decoration: none;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: color 0.2s ease;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--dv-color-accent);
+    }
+  }
+
+  &__slash {
+    color: var(--dv-color-cta-text);
+  }
+
+  &__copyright {
+    margin-block-start: auto;
+    padding-block: var(--dv-section-padding-block);
+    font-size: var(--dv-text-small);
+    color: var(--dv-color-text-subtle);
+    text-align: center;
+  }
+}
+
+@starting-style {
+  .menu[open] {
+    opacity: 0;
   }
 }

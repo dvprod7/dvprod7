@@ -16,4 +16,57 @@
   @if (languageSwitch.enabled) {
     <p class="nav__lang">{{ languageSwitch.labels.es }} / {{ languageSwitch.labels.en }}</p>
   }
+
+  <button
+    class="nav__toggle"
+    type="button"
+    aria-controls="nav-menu"
+    [attr.aria-label]="content.nav.openMenu"
+    [attr.aria-expanded]="isMenuOpen()"
+    (click)="openMenu()"
+  >
+    <span class="nav__bar" aria-hidden="true"></span>
+    <span class="nav__bar" aria-hidden="true"></span>
+    <span class="nav__bar" aria-hidden="true"></span>
+  </button>
 </header>
+
+<dialog
+  #menu
+  id="nav-menu"
+  class="menu"
+  [attr.aria-label]="content.menu.ariaLabel"
+  (close)="onMenuClose()"
+>
+  <div class="menu__inner">
+    <div class="menu__bar">
+      <a class="menu__logo" href="#main" (click)="closeMenu()"
+        ><app-logo [logo]="content.logo"
+      /></a>
+
+      <button
+        class="menu__close"
+        type="button"
+        [attr.aria-label]="content.nav.closeMenu"
+        (click)="closeMenu()"
+      >
+        <span class="menu__cross" aria-hidden="true"></span>
+        <span class="menu__cross" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <ul class="menu__links">
+      @for (link of content.nav.links; track link.sectionId) {
+        <li>
+          <a class="menu__link" [href]="'#' + link.sectionId" (click)="closeMenu()"
+            ><span class="menu__slash" aria-hidden="true">/</span> {{ link.label }}</a
+          >
+        </li>
+      }
+    </ul>
+
+    <!-- Social links land here in phase 3, once ui/social-links and the sprite exist. -->
+
+    <p class="menu__copyright">{{ content.menu.copyright }} {{ year }}</p>
+  </div>
+</dialog>

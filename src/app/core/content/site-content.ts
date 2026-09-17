@@ -32,6 +32,8 @@ export interface ShellContent {
     readonly closeMenu: string;
   };
   readonly menu: {
+    readonly ariaLabel: string;
+    // The year is appended at render time, so this text never goes stale.
     readonly copyright: string;
   };
   readonly footer: {
@@ -72,7 +74,8 @@ export const SITE_CONTENT: SiteContentByLocale = {
         closeMenu: 'Close menu',
       },
       menu: {
-        copyright: 'dvprod7 © 2026',
+        ariaLabel: 'Menu',
+        copyright: 'dvprod7 ©',
       },
       footer: {
         brand: { logo: LOGO, suffix: ' — Daniel Valenzuela' },

@@ -288,6 +288,7 @@ Mapeo de valores sueltos de Figma (paso más cercano, empate → menor):
 | `--dv-border-logo` | `2px solid var(--dv-color-accent)` | Logo |
 | `--dv-rule-top` | `2px solid var(--dv-color-accent)` | Regla superior del pillar (también en mobile) |
 | `--dv-rule` | `2px` de `--dv-color-rule` | Regla superior de columna (Skills) |
+| `--dv-stroke-bold` | `3px` | Grosor de una barra dibujada: hamburguesa y ✕ del menú |
 
 ## 6. Apilamiento
 
@@ -313,6 +314,13 @@ Contraste del anillo `#FAFF70` (WCAG 1.4.11, mínimo 3:1), verificado 2026-09-17
 no se mide: con el offset, lo que queda junto al anillo es el fondo de la página.
 Los destinos de foco programático (`[tabindex='-1']`, p. ej. `<main>`) no muestran anillo.
 
+### Posición de los links del menú (decisión, 2026-09-17)
+
+En Figma (`730:32`) el bloque de links empieza en **y=210**. En código se construye con el
+layout, sin token nuevo: barra de `--dv-nav-height` (80 en mobile) + `--dv-section-padding-block`
+(52) → **y=132**, 78px más arriba. Se acepta: el diseño no ancla ese bloque a nada y la
+alternativa era inventar un token de posición. El copyright sí cae donde Figma (≈835).
+
 ### Estados de la nav (decisión, 2026-09-17)
 
 Figma no dibuja `hover` ni `focus` de los links. Decisión: `:hover` y `:focus-visible` pasan el
@@ -321,12 +329,10 @@ link a `--dv-color-accent`, con `transition: color 0.2s ease` **solo** dentro de
 
 ## 8. Efectos
 
-| Token | Valor | Uso |
-|---|---|---|
-| `--dv-blur-overlay` | `11px` | `backdrop-filter` del menú mobile abierto |
-
-No hay sombras en V3. La opacidad del fondo `frosted` no sale en `get_design_context`
-(devuelve `Jet` sólido): verificarla con screenshot en la Fase 2.
+**No hay efectos.** No hay sombras en V3 y tampoco blur: el `frosted` del menú se verificó con
+screenshot en la Fase 2 y **es opaco** (el hero no se ve detrás). El menú usa
+`--dv-color-bg` sólido. Por eso `--dv-blur-overlay` (11px) **se borró en la 2g**: nadie lo usaba
+y documentarlo invitaba a implementar un efecto que el diseño no tiene.
 
 ## 9. Breakpoints
 
@@ -343,6 +349,10 @@ sm  480px   md  768px   lg  1024px   xl  1366px
 El `2xl: 1620px` del legado no entra en V3.
 
 Regla: si un cambio se puede resolver con `clamp()` o `minmax()`, **no** se le pone media query.
+
+`lg` (1024) está duplicado en TypeScript, en `core/models/breakpoints.ts` (`BREAKPOINT_LG`),
+porque el menú mobile lo necesita para su `matchMedia`. Es la única copia; si cambia el mapa de
+`_mixins.scss`, hay que cambiarla también.
 
 ---
 

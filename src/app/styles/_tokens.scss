@@ -146,6 +146,9 @@ $-root-font-size: 16px;
   --dv-border-photo: 1px solid var(--dv-color-accent);
   --dv-border-btn: 1.5px solid var(--dv-color-accent);
   --dv-border-logo: 2px solid var(--dv-color-accent);
+
+  // Bar of a drawn control (hamburger, close cross).
+  --dv-stroke-bold: 3px;
   --dv-rule-top: 2px solid var(--dv-color-accent);
   --dv-rule: 2px solid var(--dv-color-rule);
 
@@ -162,9 +165,4 @@ $-root-font-size: 16px;
   --dv-focus-ring-color: var(--dv-color-accent);
   --dv-focus-ring-width: 2px;
   --dv-focus-ring-offset: 3px;
-
-  // ---------------------------------------------------------------------------
-  // Effects
-  // ---------------------------------------------------------------------------
-  --dv-blur-overlay: 11px;
 }

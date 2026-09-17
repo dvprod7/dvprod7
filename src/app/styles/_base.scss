@@ -11,6 +11,10 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  // Always on, so locking the scroll behind the modal menu does not shift the
+  // page sideways.
+  scrollbar-gutter: stable;
+
   // Anchor jumps and focused elements land below the sticky nav.
   scroll-padding-block-start: var(--dv-nav-height);
 
@@ -30,6 +34,11 @@ body {
 :focus-visible {
   outline: var(--dv-focus-ring-width) solid var(--dv-focus-ring-color);
   outline-offset: var(--dv-focus-ring-offset);
+}
+
+// Scroll lock behind a modal dialog (the mobile menu).
+html:has(dialog[open]) {
+  overflow: hidden;
 }
 
 // Programmatic focus targets (e.g. <main> after the skip link) get no ring.

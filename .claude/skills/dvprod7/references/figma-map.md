@@ -54,6 +54,11 @@ Orden en la página. Alturas del frame desktop.
   ~58px) con la `/` en naranja, alineados a la izquierda a partir de y=210, social pills abajo
   (y=740, gap 14px) y `dvprod7 © 2026` centrado al pie.
 - El overlay cubre el hero, que sigue visible detrás desenfocado.
+- **Posición de los links en código (2g):** el bloque empieza en **y=132**, no en el y=210 del
+  diseño. Sale del layout (barra de `--dv-nav-height` + `--dv-section-padding-block`), sin token
+  de posición. **Se revisa en la Fase 3**, cuando las social pills ocupen su hueco (hoy vacío) y
+  se vea el reparto vertical completo. El logo del menú es un enlace a `#main` que cierra el
+  menú, como los demás.
 
 ### 2. Hero — `702:12` (1440×780) · `726:18` (440×428)
 
