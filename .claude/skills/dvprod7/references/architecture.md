@@ -11,7 +11,7 @@ lo que está podrido es el design system y los componentes, y eso se borra sin c
 | Decisión | Elección | Por qué |
 |---|---|---|
 | Framework | Angular 20 standalone (ya está) | Es el stack, y el portafolio *demuestra* Angular |
-| Change detection | **Zoneless** (`provideZonelessChangeDetection()`) + signals | Quitar `zone.js` baja ~40kB del bundle y es el default moderno; el sitio no tiene async complejo |
+| Change detection | **Zoneless** (`provideZonelessChangeDetection()`, aplicado en la 2a.1) + signals | Quitar `zone.js` baja ~40kB del bundle y es el default moderno; el sitio no tiene async complejo |
 | Estilos | **SCSS + CSS custom properties** | Ver abajo. **No Tailwind** |
 | Layout | CSS Grid + `clamp()` + container queries | El grid de 12 columnas clonado de Bootstrap se borra |
 | Cascada | `@layer` | Mata las guerras de especificidad sin `!important` |
@@ -207,3 +207,14 @@ Firebase aparece en el stack histórico de Dany y encaja bien con salida estáti
   (ver `audit-legacy.md`).
 - **`_variables.scss` sobrevive hasta que muera el último componente legado** (Fase 4).
 - **Sprite de iconos: Fase 1 → Fase 3**, junto con `<app-icon>`, que es su único consumidor.
+
+## Fase 2 (2026-09-17)
+
+- **Router muerto borrado (2a).** `app.routes.ts` y `provideRouter` fuera; `@angular/router`
+  sigue en `package.json` por si la Fase 6 añade la ruta `/es`.
+- **Zoneless aplicado (2a.1).** `provideZonelessChangeDetection()` en `app.config.ts`, sin
+  polyfills en `angular.json` (build y test) y `zone.js` desinstalado (queda en el lockfile
+  como peer opcional de `@angular/core`, sin importarse). En Angular 20 el `TestBed` todavía
+  asume zone.js: **todo spec nuevo** lleva `providers: [provideZonelessChangeDetection()]`
+  o falla con `NG0908`. Estado que se ve en la vista → signals o eventos de template;
+  cualquier `addEventListener`, `setTimeout` o promesa que mute un campo plano no repinta.
