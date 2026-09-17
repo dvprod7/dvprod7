@@ -164,6 +164,10 @@ contraste y Lighthouse.
 
 **Fase 6 — Opcional / posterior**
 Switch ESP/ENG, animaciones de entrada, analytics.
+Animaciones de entrada: si entran (Fase 4 o pulido), **CSS nativo** con
+`animation-timeline: view()` por sección, sin librerías, solo dentro de
+`@media (prefers-reduced-motion: no-preference)` y con `@supports` para que el contenido se
+vea igual sin soporte. Nada de JS ni de `IntersectionObserver` para esto.
 
 ## Decisiones cerradas (confirmadas por Dany, 2026-08-20)
 
@@ -218,3 +222,11 @@ Firebase aparece en el stack histórico de Dany y encaja bien con salida estáti
   asume zone.js: **todo spec nuevo** lleva `providers: [provideZonelessChangeDetection()]`
   o falla con `NG0908`. Estado que se ve en la vista → signals o eventos de template;
   cualquier `addEventListener`, `setTimeout` o promesa que mute un campo plano no repinta.
+- **Scroll de documento (2b).** Fuera el scroll-snap y el `overflow: hidden` de `html, body`.
+  `_base` pone `scroll-padding-block-start: var(--dv-nav-height)` en `html` (anclas y foco
+  quedan bajo la nav fija) y `scroll-behavior: smooth` solo con
+  `prefers-reduced-motion: no-preference`.
+- **Pendiente para la 2d: setup global del provider zoneless en tests.** Cuando entre el primer
+  spec nuevo, evaluar un único punto de configuración (p. ej. un archivo de setup del target
+  `test`) en lugar de repetir `provideZonelessChangeDetection()` en cada spec. Solo evaluar y
+  decidir con Dany; no está aplicado.

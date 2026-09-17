@@ -29,10 +29,3 @@
 @layer base {
   @include meta.load-css('app/styles/base');
 }
-
-html,
-body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-}

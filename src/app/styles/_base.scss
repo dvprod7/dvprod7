@@ -3,6 +3,13 @@
 
 html {
   color-scheme: dark;
+
+  // Anchor jumps and focused elements land below the sticky nav.
+  scroll-padding-block-start: var(--dv-nav-height);
+
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
