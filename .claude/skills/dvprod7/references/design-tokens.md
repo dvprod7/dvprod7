@@ -66,7 +66,7 @@ no pueden ser custom properties dentro de `@media`).
 | `--dv-color-text` | `var(--dv-white-50)` | Títulos, lead, párrafo de About, títulos de tarjeta |
 | `--dv-color-text-strong` | `rgb(236 235 243 / 0.85)` | Ítems de Skills, texto de pills de Contact |
 | `--dv-color-text-muted` | `rgb(236 235 243 / 0.75)` | Subtítulos de sección, descripción de tarjeta |
-| `--dv-color-text-subtle` | `rgb(236 235 243 / 0.6)` | Footer (ubicación), pie del menú |
+| `--dv-color-text-subtle` | `rgb(236 235 243 / 0.6)` | Footer (ubicación), pie del menú (el `.7` de Figma baja a `.6`, no sube a `.75`: es el mismo rol que la ubicación del footer) |
 | `--dv-color-border-strong` | `rgb(236 235 243 / 0.3)` | Borde de pill de Contact |
 | `--dv-color-rule` | `rgb(236 235 243 / 0.16)` | Regla superior de columna de Skills |
 | `--dv-color-border` | `rgb(236 235 243 / 0.14)` | Borde de tarjeta, divisor del footer |
@@ -81,7 +81,8 @@ no pueden ser custom properties dentro de `@media`).
 > **Rampa de alfa (cerrada):** texto `1 · .85 · .75 · .6`; líneas `.3 · .16 · .14`;
 > bordes de chip `.55` (amarillo y naranja); borde de tarjeta naranja `.35`. Cualquier
 > opacidad nueva cae en esa rampa, no se inventa.
-> Mapeo aplicado: `.9 → .85`, `.8 / .78 / .72 / .7 → .75`, `.35 → .3` (líneas),
+> Mapeo aplicado: `.9 → .85`, `.8 / .78 / .72 / .7 → .75` (excepto el pie del menú, que va a
+> `.6` por rol), `.35 → .3` (líneas),
 > tarjeta naranja `.22 → .35`. El `#2A2A2A` del fondo de la foto mobile es deriva y no existe.
 
 ### Contraste (verificado 2026-09-16, WCAG 2.x)

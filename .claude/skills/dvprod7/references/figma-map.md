@@ -49,11 +49,14 @@ Orden en la página. Alturas del frame desktop.
   y switch `ESP / ENG` en naranja a la derecha (`#DD6031` en Figma → `--dv-color-cta-text`,
   `#E58561`, por contraste).
 - Mobile: logo + botón hamburguesa (26×19) en `726:14`. **No hay switch de idioma en mobile.**
-- Menú abierto (`730:10`): overlay `frosted` (`backdrop-blur` 11px) a pantalla completa, logo
-  arriba-izquierda, `✕` arriba-derecha, 4 links en columna (30px/800, gap 22px → paso de
-  ~58px) con la `/` en naranja, alineados a la izquierda a partir de y=210, social pills abajo
-  (y=740, gap 14px) y `dvprod7 © 2026` centrado al pie.
-- El overlay cubre el hero, que sigue visible detrás desenfocado.
+- Menú abierto (`730:10`): overlay a pantalla completa, logo arriba-izquierda, `✕`
+  arriba-derecha, 4 links en columna (30px/800, gap 22px → paso de ~58px) con la `/` en naranja,
+  alineados a la izquierda a partir de y=210, social pills abajo (y=740, gap 14px) y
+  `dvprod7 © 2026` centrado al pie.
+- ⚠️ **Corrección (2026-09-17): el overlay es OPACO.** La capa se llama `frosted` y lleva
+  `backdrop-blur` 11px, pero el screenshot de `730:10` no deja ver el hero detrás. En código va
+  `--dv-color-bg` sólido, sin blur, y el token `--dv-blur-overlay` se borró en la 2g.
+  ~~El overlay cubre el hero, que sigue visible detrás desenfocado.~~
 - **Posición de los links en código (2g):** el bloque empieza en **y=132**, no en el y=210 del
   diseño. Sale del layout (barra de `--dv-nav-height` + `--dv-section-padding-block`), sin token
   de posición. **Se revisa en la Fase 3**, cuando las social pills ocupen su hueco (hoy vacío) y

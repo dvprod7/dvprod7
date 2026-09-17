@@ -151,8 +151,19 @@ modo claro.
 **Fase 3 — Primitivas UI**
 `button` (variantes fill-cta / outline-accent / fill-accent), `chip`, `card`, `icon` (con el
 sprite SVG), `social-links`. Se construyen una vez y las secciones las consumen.
-Ojo: `_reset` pone `svg { display: block }`, así que `<app-icon>` declara su propio `display`
-(p. ej. `inline-block` o `inline-flex`) en vez de heredar el del reset.
+`ui/` ya existe: la 2f adelantó `ui/logo`, que marca el patrón (tonta, con `input.required`, sin
+estilos propios).
+Pendientes concretos que entran aquí:
+- **Sprite de iconos y de dónde salen.** Hacen falta iconos reales para las social pills (en
+  Figma son las letras `@`, `GH`, `in`) y para `bg-hex`. Antes de meter `bg-hex` al sprite hay
+  que comparar los cuatro SVG que exporta Figma (ver `figma-map.md`): si solo cambian rotación
+  u offset, basta un asset.
+- **`<app-icon>` declara su propio `display`** (p. ej. `inline-block` o `inline-flex`): `_reset`
+  pone `svg { display: block }` y heredarlo rompe la alineación dentro de texto y botones.
+- **Social pills del menú mobile.** El `<dialog>` de la 2g dejó su hueco vacío (hay un
+  comentario en `nav.html`). Al llenarlo, **revisar la posición vertical de los links del menú**:
+  hoy empiezan en y=132 y Figma los pone en y=210; con las pills colocadas se ve el reparto
+  completo y se decide si hace falta ajustar (ver `figma-map.md`).
 
 **Fase 4 — Secciones**, en este orden (de menor a mayor incertidumbre):
 Hero → Skills → About → Projects → Contact.

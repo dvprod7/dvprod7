@@ -44,7 +44,7 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 
 ## Estado actual
 
-> **Última revisión: 2026-09-17 · Fase actual: 2 (Shell) — Fase 1 cerrada (1a–1g).**
+> **Última revisión: 2026-09-17 · Fase actual: 3 (Primitivas UI) — Fase 2 cerrada (2a–2h).**
 > Las fases están descritas en `references/architecture.md`.
 
 **Esta tabla puede estar desactualizada. Verifícala contra el repo antes de confiar en ella**
@@ -55,14 +55,12 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 | Diseño V3 en Figma | ✅ Completo (desktop + mobile + menú abierto) | `get_screenshot` de `702:10` |
 | Fase 0 — Higiene | ✅ Terminada (0a+0b+0c) | ¿existe `.nvmrc`? ¿hay ESLint en `package.json`? |
 | Fase 1 — Tokens y fundación | ✅ Terminada (1a–1g) | ¿existe `src/app/styles/_tokens.scss`? |
-| Fase 2 — Shell | ⬜ No iniciada | ¿sigue el `overflow: hidden` en `styles.scss`? |
-| Fase 3 — Primitivas UI | ⬜ No iniciada | ¿existe `src/app/ui/`? |
-| Fase 4 — Secciones | ⬜ No iniciada | `ls src/app/sections/` |
+| Fase 2 — Shell | ✅ Terminada (2a–2h) | `ls src/app/sections/nav/` |
+| Fase 3 — Primitivas UI | 🟡 Solo `ui/logo` (adelantado en la 2f) | `ls src/app/ui/` |
+| Fase 4 — Secciones | ⬜ No iniciada | ¿existe `src/app/sections/hero/`? |
 | Fase 5 — Contenido y SEO | ⬜ No iniciada | ¿`index.html` tiene `meta description`? |
-| Código legado | 🔴 Intacto, ~90% pendiente de borrar | `ls src/app/components/` |
-| Contenido real (copy) | ✅ Escrito en Figma, sin lorem ipsum | — |
-| Foto de perfil V3 | ✅ AVIF + WebP (524w, 400w) en `public/images/`; original de 524px, sin 2x real | `ls public/images/` |
-| PDF del CV | ✅ En `public/` y servido desde la Fase 0a | `ls dist/dvprod7-app/browser/*.pdf` |
+| Código legado | 🟡 Quedan 6 componentes y `_variables` (mueren en la F4) | `ls src/app/components/` |
+| Assets | ✅ Foto (AVIF+WebP, 524w/400w, sin 2x real) y PDF del CV, servidos desde `public/` | `ls public/images/` |
 
 Leyenda: ⬜ no iniciada · 🟡 en curso · ✅ terminada · 🔴 problema conocido
 
@@ -72,18 +70,16 @@ Leyenda: ⬜ no iniciada · 🟡 en curso · ✅ terminada · 🔴 problema cono
 ls src/app/styles/ src/app/ui/ src/app/sections/ src/app/components/ 2>&1 | head -40
 ```
 
-**El código es la fuente de verdad del progreso, no esta tabla.** Si existe
-`src/app/sections/hero/`, el Hero está hecho, diga lo que diga aquí — y si hay discrepancia,
-corrígela en este archivo antes de seguir, no la reportes y sigas de largo.
+**El código es la fuente de verdad del progreso, no esta tabla.** Si hay discrepancia,
+corrígela aquí antes de seguir; no la reportes y sigas de largo.
 
-Lo que el repo **no** puede contarte —por qué algo quedó a medias, qué se revirtió, qué está
-bloqueado— vive en la **Bitácora** al final.
+Lo que el repo **no** puede contarte —qué quedó a medias, qué se revirtió— vive en la
+**Bitácora** al final.
 
 ## Requisito de entorno
 
-Ya hay `.nvmrc` (22.23.2) y `engines.node`, pero **no se aplican solos**: el `node` por defecto
-sigue siendo v22.11.0 y el CLI lo rechaza. Antes de cualquier `ng` / `npm run`, en el mismo
-comando (el shell no persiste entre llamadas):
+`.nvmrc` (22.23.2) y `engines.node` **no se aplican solos** y el CLI rechaza el node por
+defecto. Antes de cualquier `ng` / `npm run`, en el mismo comando (el shell no persiste):
 
 ```bash
 export PATH="/Users/danval2/.nvm/versions/node/v22.23.2/bin:$PATH"
@@ -164,10 +160,14 @@ aplazadas a propósito, callejones sin salida ya explorados. Si se deduce con un
 **Máximo 5 entradas.** Al añadir la sexta, borra la más vieja — si algo de ahí sigue importando,
 ya debería ser una regla o una decisión cerrada, no una nota histórica.
 
-- **2026-09-17** — Fase 1 cerrada (1a–1g). Aplazado: `_grid`/`_helpers`/`_ui`/`_globals` → F2;
-  sprite → F3; `_variables` → F4; `base href` + URLs absolutas de la fuente → F5. Legado mixto: aceptado.
-- **2026-09-16** — Fase 0 cerrada (0a, 0b, 0c). Aplazado: warning de presupuesto de
-  `skills.scss` → Fase 4.
+- **2026-09-17** — Fase 2 cerrada (2a–2h). Zoneless y scroll de documento; nav V3 con menú en
+  `<dialog>`; fuera `_grid`/`_helpers`/`_ui`/`_globals`, navbar y router. Aplazado: redes del
+  menú y revisar con ellas la posición de sus links (y=132 frente al y=210 de Figma) → F3;
+  parches temporales del legado (`min-height` en hero/about, `flex-wrap` en skills) y
+  `_variables` → F4; `providersFile` del builder `unit-test`, cuando deje de ser experimental.
+- **2026-09-17** — Fase 1 cerrada (1a–1g). Aplazado: `base href` + URLs absolutas de la fuente
+  → F5. Legado mixto: aceptado.
+- **2026-09-16** — Fase 0 cerrada (0a–0c). Aplazado: presupuesto de `skills.scss` → F4.
 - **2026-08-20** — Auditoría inicial y creación de esta skill. Decisiones cerradas (el detalle
   está en `architecture.md`). Pendiente de Dany: foto de perfil V3.
 

@@ -3,6 +3,16 @@
 Estado del repo en `main` @ `73f301c`. Este documento existe para que nadie —humano o agente—
 tome el código actual como referencia, y para saber exactamente qué se borra.
 
+## Parches temporales vivos (a fecha de 2026-09-17)
+
+Código legado tocado a propósito para no dejar la página rota mientras se reescribe. **No son
+patrones**: ninguno se replica en código nuevo y todos mueren con su componente.
+
+| Parche | Archivo | Por qué | Muere en |
+|---|---|---|---|
+| `height` → `min-height` | `hero.scss`, `about.scss` | Sin `_grid` (2c), el contenido de About se desbordaba sobre el hero y sobre Skills: texto ilegible a 1440 | Fase 4 |
+| Fuera `flex-wrap: nowrap` en `md` | `skills.scss` | Sus 5 iconos no caben hasta ~1280 y la página ganaba scroll horizontal, antes oculto por el `overflow: hidden` que se quitó en la 2b | Fase 4 |
+
 ## Veredicto
 
 **~90% se borra.** El andamiaje de Angular 20 está sano; la capa visual completa corresponde a
@@ -17,7 +27,7 @@ un diseño abandonado. Reescribir sale más barato y más limpio que adaptar.
 | Patrón standalone components | Correcto |
 | Config de Prettier en `package.json` | Sirve tal cual |
 | `$Flame: #dd6031` | Único color que sobrevive → pasa a ser `--dv-orange-500` |
-| **Comportamiento** del menú mobile (`navbar.ts`) | Solo la idea: toggle overlay fullscreen. El código se reescribe con signals + a11y |
+| ~~**Comportamiento** del menú mobile (`navbar.ts`)~~ | ✅ Portado en la 2g: la idea (toggle + overlay a pantalla completa) vive ahora en `sections/nav` con `<dialog>`, signals y a11y. El componente legado se borró en la 2f |
 | ~~`src/assets/FIGMA_NAMING_CONVENTION.md`~~ | ✅ Movido a `docs/` en la Fase 0b; fuera de `dist/` |
 
 ## Qué se borra
@@ -119,8 +129,9 @@ horizontal entre ~768 y ~1200 px. **El desbordamiento ya existía**: lo tapaba e
 mobile). **Muere al reescribir Skills en la Fase 4**; en V3 esa sección es texto plano sin
 iconos.
 
-**9. La paleta ya divergió del diseño.** `$bolt: #f5f749` en SCSS, pero el SVG del logo en
-`navbar.html` trae `stroke="#FAFF70"` hardcodeado — el valor V3. Dos amarillos conviviendo.
+**9. La paleta ya divergió del diseño.** `$bolt: #f5f749` en SCSS, contra el `#FAFF70` de V3.
+~~El SVG del logo en `navbar.html` trae `stroke="#FAFF70"` hardcodeado.~~ ✅ Ese SVG murió con el
+navbar en la 2f; el amarillo viejo sigue en hero, skills y socials hasta la Fase 4.
 
 **10. ~~`app.html` renderiza `<app-hero>` dos veces~~** como relleno de la cuarta sección.
 ✅ **Resuelto en la Fase 2b.**
@@ -140,8 +151,9 @@ son los logos reales (el de PHP es un `<circle>` con un `<text>PHP</text>`, el d
 los inyecta con `[innerHTML]`. Innecesario y mal patrón: un sprite lo resuelve sin tocar el
 sanitizador.
 
-**14. Sin signals.** `Navbar.isMenuOpen` es un booleano público mutable. Todo el proyecto usa
-change detection por defecto, sin `OnPush`.
+**14. Sin signals.** ~~`Navbar.isMenuOpen` es un booleano público mutable.~~ ✅ Resuelto en la
+2f/2g: ese componente ya no existe y el menú usa un signal. Desde la 2a.1 la app es **zoneless**
+y todo lo nuevo lleva `OnPush`; los componentes legados siguen sin `OnPush` hasta la Fase 4.
 
 **15. `Socials.trackByName()` es código muerto** — la plantilla ya usa `@for ... track link.name`.
 
@@ -155,11 +167,13 @@ sigue en los providers.~~
 
 ### 🟡 Accesibilidad — no hay nada
 
-- Todos los links de nav son `href="#"`.
-- El toggle del menú no tiene `aria-expanded` ni `aria-controls`.
-- El overlay no atrapa el foco, no cierra con `Escape`, no bloquea el scroll del body.
-- Ningún SVG decorativo tiene `aria-hidden`.
-- No hay skip-link, ni landmarks (`<header>`, `<footer>`), ni estilos de `:focus-visible`.
+- ~~Todos los links de nav son `href="#"`.~~ ✅ 2f: anclas reales a las cuatro secciones.
+- ~~El toggle del menú no tiene `aria-expanded` ni `aria-controls`.~~ ✅ 2g.
+- ~~El overlay no atrapa el foco, no cierra con `Escape`, no bloquea el scroll del body.~~
+  ✅ 2g, con `<dialog>` modal y bloqueo de scroll en `_base`.
+- Ningún SVG decorativo tiene `aria-hidden` (queda en el legado; lo nuevo sí lo marca).
+- ~~No hay skip-link, ni landmarks (`<header>`, `<footer>`), ni estilos de `:focus-visible`.~~
+  ✅ 2e/2f: skip link, `banner` / `main` / `contentinfo` / `navigation` y anillo de foco global.
 - `.social-links .icon:hover { transform: rotateY(360deg) }` ignora `prefers-reduced-motion`.
 - `<h4>dvprod7 © 2025</h4>` usa un heading como texto de pie — jerarquía rota.
 
