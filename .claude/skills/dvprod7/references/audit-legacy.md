@@ -18,7 +18,7 @@ un diseño abandonado. Reescribir sale más barato y más limpio que adaptar.
 | Config de Prettier en `package.json` | Sirve tal cual |
 | `$Flame: #dd6031` | Único color que sobrevive → pasa a ser `--dv-orange-500` |
 | **Comportamiento** del menú mobile (`navbar.ts`) | Solo la idea: toggle overlay fullscreen. El código se reescribe con signals + a11y |
-| `src/assets/FIGMA_NAMING_CONVENTION.md` | Se mueve a `docs/`. No debe publicarse con el sitio |
+| ~~`src/assets/FIGMA_NAMING_CONVENTION.md`~~ | ✅ Movido a `docs/` en la Fase 0b; fuera de `dist/` |
 
 ## Qué se borra
 
@@ -94,8 +94,10 @@ solo — sigue haciendo falta `nvm use` (o el `export PATH` de la skill) en cada
 orden a mano. `_helpers.scss` reimplementa utilidades de flex. Juntos son ~114 líneas que CSS
 Grid nativo resuelve en un puñado. Además `.img-fluid` está declarada **dos veces**.
 
-**7. `map-get` global está deprecado.** `_mixins.scss` usa `map-get($breakpoints, $breakpoint)`.
-Dart Sass pide `@use 'sass:map'` + `map.get`. Va a romper en Sass 3.
+**7. ~~`map-get` global está deprecado.~~** ✅ **Resuelto en la Fase 1c:** `_mixins.scss` es
+autónomo, usa `@use 'sass:map'` + `map.get` y no queda ningún `map-get` en `src/`.
+~~`_mixins.scss` usa `map-get($breakpoints, $breakpoint)`. Dart Sass pide `@use 'sass:map'` +
+`map.get`. Va a romper en Sass 3.~~
 
 **8. Números mágicos.** Existe `$navbar-height: 120px`, pero `hero.scss` y `about.scss`
 hardcodean `calc(100dvh - 120px)`. La variable y el uso ya divergieron.

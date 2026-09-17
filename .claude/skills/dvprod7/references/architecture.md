@@ -141,6 +141,11 @@ Quitar el scroll-snap y el `overflow: hidden` de `html, body`. `app.html` con `<
 `<main>` + las 5 secciones reales. Nav V3 con signals y a11y, portando el *comportamiento*
 del menú mobile del legado (no su código). Borrar `_grid.scss`, `_helpers.scss`, `_ui.scss`
 y `_globals.scss`.
+Al borrar `_globals`, verificar que `html { color-scheme: dark }` de `_base` empieza a
+aplicarse: hoy lo pisa el `:root { color-scheme: light dark }` de `_globals`, que va sin capa
+(y los estilos sin capa ganan a cualquier `@layer`). Comprobar en devtools el valor computado
+de `color-scheme` en `<html>` y que controles y scrollbars salen oscuros también con el SO en
+modo claro.
 
 **Fase 3 — Primitivas UI**
 `button` (variantes fill-cta / outline-accent / fill-accent), `chip`, `card`, `icon` (con el

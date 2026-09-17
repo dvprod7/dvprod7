@@ -44,7 +44,7 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 
 ## Estado actual
 
-> **Última revisión: 2026-09-16 · Fase actual: 1 (Tokens y fundación) — Fase 0 cerrada (0a, 0b, 0c).**
+> **Última revisión: 2026-09-17 · Fase actual: 2 (Shell) — Fase 1 cerrada (1a–1g).**
 > Las fases están descritas en `references/architecture.md`.
 
 **Esta tabla puede estar desactualizada. Verifícala contra el repo antes de confiar en ella**
@@ -54,7 +54,7 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 |---|---|---|
 | Diseño V3 en Figma | ✅ Completo (desktop + mobile + menú abierto) | `get_screenshot` de `702:10` |
 | Fase 0 — Higiene | ✅ Terminada (0a+0b+0c) | ¿existe `.nvmrc`? ¿hay ESLint en `package.json`? |
-| Fase 1 — Tokens y fundación | 🟡 En curso (1a–1g hechas; falta el cierre de fase) | ¿existe `src/app/styles/_tokens.scss`? |
+| Fase 1 — Tokens y fundación | ✅ Terminada (1a–1g) | ¿existe `src/app/styles/_tokens.scss`? |
 | Fase 2 — Shell | ⬜ No iniciada | ¿sigue el `overflow: hidden` en `styles.scss`? |
 | Fase 3 — Primitivas UI | ⬜ No iniciada | ¿existe `src/app/ui/`? |
 | Fase 4 — Secciones | ⬜ No iniciada | `ls src/app/sections/` |
@@ -164,8 +164,10 @@ aplazadas a propósito, callejones sin salida ya explorados. Si se deduce con un
 **Máximo 5 entradas.** Al añadir la sexta, borra la más vieja — si algo de ahí sigue importando,
 ya debería ser una regla o una decisión cerrada, no una nota histórica.
 
-- **2026-09-16** — Fase 0 cerrada (0a, 0b, 0c). Activos: ESLint, Stylelint, Prettier, `lint:track`.
-  Aplazado: warning de presupuesto de `skills.scss` → Fase 4; ignores de legado → `audit-legacy.md`.
+- **2026-09-17** — Fase 1 cerrada (1a–1g). Aplazado: `_grid`/`_helpers`/`_ui`/`_globals` → F2;
+  sprite → F3; `_variables` → F4; `base href` + URLs absolutas de la fuente → F5. Legado mixto: aceptado.
+- **2026-09-16** — Fase 0 cerrada (0a, 0b, 0c). Aplazado: warning de presupuesto de
+  `skills.scss` → Fase 4.
 - **2026-08-20** — Auditoría inicial y creación de esta skill. Decisiones cerradas (el detalle
   está en `architecture.md`). Pendiente de Dany: foto de perfil V3.
 
