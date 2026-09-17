@@ -16,7 +16,6 @@ module.exports = tseslint.config(
       'src/app/components/**', // phases 2-4: nav, hero, about, skills, projects, contact, socials
       'src/app/app.ts', // phase 2: shell rewrite
       'src/app/app.html', // phase 2
-      'src/app/app.routes.ts', // phase 2: dead router
       // -------------------------------------------------------------------
     ],
   },
