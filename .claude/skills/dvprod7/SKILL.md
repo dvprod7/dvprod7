@@ -39,13 +39,27 @@ rebase/tag`, crear ramas, PRs o releases, nada de `gh`, nada de CI, ningún depl
 Sí puedes: git en **lectura** (`status`, `diff`, `log`, `show`), y `ng build` / `ng serve` para
 verificar tu trabajo — compilar no es publicar.
 
-Al cerrar un bloque: **di qué archivos cambiaron y por qué, y para ahí.** Puedes ofrecer un
-mensaje de commit *como texto para copiar*, nunca ejecutarlo.
+Al cerrar una fase: **di qué archivos cambiaron y por qué, y para ahí.** Puedes ofrecer
+mensajes de commit *como texto para copiar*, nunca ejecutarlos.
+
+## Modo de trabajo: una sesión = una fase completa
+
+- Ejecuta todos los subpasos (3a, 3b…) seguidos, **sin pedir permiso entre ellos**. El working
+  tree puede quedar con cambios acumulados: Dany commitea por grupos al final.
+- **Verificación obligatoria por subpaso:** `ng build`, `npm run lint`, `npm run lint:styles`,
+  `npm run lint:track`, `npm test -- --watch=false` y comparación en navegador contra Figma,
+  desktop **y** mobile.
+- **Para y pregunta solo si:** el Figma es ambiguo de una forma que cambia la estructura; hay
+  que borrar algo que no está en `audit-legacy.md`; o una decisión contradice esta skill.
+  Cualquier otra decisión menor: tómala y anótala en la entrada de cierre de la fase en la
+  Bitácora (una entrada por fase, para respetar el máximo de 5).
+- **Reporte de cierre**, agrupado por subpaso: archivos tocados, qué y por qué, y un mensaje de
+  commit sugerido (texto) por subpaso. Más el checkpoint de cierre de fase (abajo).
 
 ## Estado actual
 
-> **Última revisión: 2026-09-17 · Fase actual: 3 (Primitivas UI) — Fase 2 cerrada (2a–2h).**
-> Las fases están descritas en `references/architecture.md`.
+> **Última revisión: 2026-11-12 · Fase actual: 3 (Primitivas UI) — Fase 2 cerrada (2a–2h).**
+> Alcance recortado a lanzamiento (F3–F5); la F6 es post-lanzamiento. Ver `references/architecture.md`.
 
 **Esta tabla puede estar desactualizada. Verifícala contra el repo antes de confiar en ella**
 (protocolo abajo). Cada fila trae cómo comprobarla en 5 segundos.
@@ -58,7 +72,7 @@ mensaje de commit *como texto para copiar*, nunca ejecutarlo.
 | Fase 2 — Shell | ✅ Terminada (2a–2h) | `ls src/app/sections/nav/` |
 | Fase 3 — Primitivas UI | 🟡 Solo `ui/logo` (adelantado en la 2f) | `ls src/app/ui/` |
 | Fase 4 — Secciones | ⬜ No iniciada | ¿existe `src/app/sections/hero/`? |
-| Fase 5 — Contenido y SEO | ⬜ No iniciada | ¿`index.html` tiene `meta description`? |
+| Fase 5 — Copy EN, SEO, prerender | ⬜ No iniciada | ¿`index.html` tiene `meta description`? |
 | Código legado | 🟡 Quedan 6 componentes y `_variables` (mueren en la F4) | `ls src/app/components/` |
 | Assets | ✅ Foto (AVIF+WebP, 524w/400w, sin 2x real) y PDF del CV, servidos desde `public/` | `ls public/images/` |
 
@@ -90,20 +104,9 @@ export PATH="/Users/danval2/.nvm/versions/node/v22.23.2/bin:$PATH"
 | Archivo | Cuándo leerlo |
 |---|---|
 | `references/design-tokens.md` | Siempre que escribas SCSS, elijas un color, tamaño, radio o espaciado |
-| `references/figma-map.md` | Antes de construir cualquier sección: node IDs, medidas, estructura desktop/mobile |
-| `references/architecture.md` | Antes de crear archivos, decidir estructura de carpetas o patrones de Angular |
+| `references/figma-map.md` | Antes de construir cualquier sección: **flujo paso a paso**, node IDs, medidas desktop/mobile |
+| `references/architecture.md` | Antes de crear archivos, decidir estructura de carpetas o patrones de Angular; fases y alcance |
 | `references/audit-legacy.md` | Antes de borrar o modificar algo del código existente |
-
-## Flujo para construir una sección
-
-1. Lee la sección en `references/figma-map.md` (node ID desktop + node ID mobile).
-2. Llama `get_design_context` con **ambos** node IDs (desktop y mobile) — el diseño solo tiene
-   dos breakpoints diseñados, todo lo intermedio se interpola con `clamp()`.
-3. Traduce el output React+Tailwind a **Angular + SCSS con tokens**. Nunca instales Tailwind.
-4. Mapea cada valor crudo (hex, px) a su token en `references/design-tokens.md`.
-   Si un valor no tiene token, **propón el token primero**, no lo hardcodees.
-5. Mobile-first: escribe el estilo mobile y sube con el mixin `up()`.
-6. Verifica en navegador (`ng serve` + browser tools) contra el screenshot de Figma.
 
 ## Reglas de código no negociables
 
@@ -124,8 +127,6 @@ export PATH="/Users/danval2/.nvm/versions/node/v22.23.2/bin:$PATH"
 
 ## Mantener esta skill viva
 
-Una skill que miente es peor que no tener skill. Estas son las reglas para que no se pudra.
-
 **Checkpoint de cierre de fase (obligatorio, sin pedir permiso).** Al terminar una fase, antes
 de darla por cerrada: marca la fase ✅ en la tabla, mueve "Fase actual", actualiza la fecha,
 añade entrada a la Bitácora si hubo algo no obvio, y arregla la referencia que haya quedado
@@ -133,17 +134,13 @@ desfasada. Es parte de terminar, como compilar.
 
 **Disparadores de actualización:**
 
-- **Dany tocó Figma** → relee los nodos afectados y actualiza `design-tokens.md` / `figma-map.md`
-  **antes** de tocar código. Si ajustas el código primero, el token queda documentado con el
-  valor viejo y la referencia empieza a mentir.
+- **Dany tocó Figma** → relee los nodos y actualiza `design-tokens.md` / `figma-map.md` **antes**
+  del código; si no, el token queda documentado con el valor viejo.
 - **Decisión de arquitectura tomada o revertida** → `architecture.md`, con fecha y el porqué.
-- **Se borró código legado** → tacha la entrada en `audit-legacy.md`. Ese archivo se encoge solo;
-  al terminar la Fase 2 será casi todo histórico y se puede archivar.
-- **Dany dio una instrucción nueva de cómo trabajar** → va al `SKILL.md`, no a un comentario en
-  el código.
+- **Se borró código legado** → tacha la entrada en `audit-legacy.md`.
+- **Instrucción nueva de Dany sobre cómo trabajar** → `SKILL.md`, no un comentario en el código.
 
-**Estado volátil nunca va en las referencias.** `design-tokens.md` dice cuál es el token, no
-quién lo usa. Mezclarlos obliga a releer archivos largos para saber algo que responde un `ls`.
+**Estado volátil nunca va en las referencias:** `design-tokens.md` dice cuál es el token, no quién lo usa.
 
 **Higiene.** El `SKILL.md` se paga en contexto cada vez que la skill se activa: **techo de 180
 líneas**. Si algo tiene que entrar, algo tiene que salir — muda a `references/` o borra. Si una
@@ -153,28 +150,31 @@ regla no aplicó en varias fases, bórrala. Si explicas lo mismo en chat dos vec
 
 ## Bitácora
 
-Solo lo que el código **no** puede contar por sí solo: decisiones tomadas sobre la marcha, cosas
-aplazadas a propósito, callejones sin salida ya explorados. Si se deduce con un `ls` o un
-`git log`, no va aquí. Entradas cortas, con fecha, más reciente arriba.
+Solo lo que el código **no** puede contar: decisiones sobre la marcha, cosas aplazadas a
+propósito, callejones sin salida. Si se deduce con un `ls` o un `git log`, no va aquí. Entradas
+cortas, con fecha, más reciente arriba. **Máximo 5 entradas**: al añadir la sexta, borra la más
+vieja — si algo de ahí sigue importando, ya debería ser una regla o una decisión cerrada.
 
-**Máximo 5 entradas.** Al añadir la sexta, borra la más vieja — si algo de ahí sigue importando,
-ya debería ser una regla o una decisión cerrada, no una nota histórica.
-
+- **2026-11-12** — Cambio de alcance y de modo de trabajo. El sitio es una pieza para
+  recruiters (bio, stack, proyectos, CV, contacto); servicios/venta van a otro proyecto. F3
+  solo con lo que consuma la F4; Projects con placeholders `TODO` en el content layer; F5 sin
+  copy ES; F6 post-lanzamiento. Hosting aplazado (dvprod7.com en la raíz → `base href="/"`
+  cerrado). Nuevo modo autónomo: una sesión = una fase.
 - **2026-09-17** — Fase 2 cerrada (2a–2h). Zoneless y scroll de documento; nav V3 con menú en
   `<dialog>`; fuera `_grid`/`_helpers`/`_ui`/`_globals`, navbar y router. Aplazado: redes del
   menú y revisar con ellas la posición de sus links (y=132 frente al y=210 de Figma) → F3;
   parches temporales del legado (`min-height` en hero/about, `flex-wrap` en skills) y
   `_variables` → F4; `providersFile` del builder `unit-test`, cuando deje de ser experimental.
-- **2026-09-17** — Fase 1 cerrada (1a–1g). Aplazado: `base href` + URLs absolutas de la fuente
-  → F5. Legado mixto: aceptado.
+- **2026-09-17** — Fase 1 cerrada (1a–1g). Legado mixto: aceptado.
 - **2026-09-16** — Fase 0 cerrada (0a–0c). Aplazado: presupuesto de `skills.scss` → F4.
 - **2026-08-20** — Auditoría inicial y creación de esta skill. Decisiones cerradas (el detalle
   está en `architecture.md`). Pendiente de Dany: foto de perfil V3.
 
 ## Contexto de negocio (por qué el rediseño)
 
-La V1 era un portafolio genérico "Creative Developer" con lorem ipsum. La V3 es una
-**pieza comercial**: narrativa de web developer full-stack-ish (front-end + CMS), prueba con
-evidencia en vez de adjetivos ("Evidence over adjectives"), experiencia real en un equipo SaaS
-de US, y una sección "BUILDING NOW" que muestra momentum. Al escribir o ajustar copy, mantén
-ese tono: concreto, verificable, sin marketing vacío.
+La V1 era un portafolio genérico "Creative Developer" con lorem ipsum. La V3 es una pieza
+**recruiter-friendly y sencilla**: bio, stack, proyectos, CV y contacto. Narrativa de web
+developer full-stack-ish (front-end + CMS), experiencia real en un equipo SaaS de US y una
+sección "BUILDING NOW" que muestra momentum. **Páginas de servicios o venta a clientes no van en
+este repo** (serán otro proyecto); no las propongas aquí. Al escribir o ajustar copy, mantén el
+tono "Evidence over adjectives": concreto, verificable, sin marketing vacío.

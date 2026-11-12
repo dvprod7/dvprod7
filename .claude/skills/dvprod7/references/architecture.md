@@ -17,7 +17,7 @@ lo que está podrido es el design system y los componentes, y eso se borra sin c
 | Cascada | `@layer` | Mata las guerras de especificidad sin `!important` |
 | Iconos | Sprite SVG + componente `<app-icon>` | Reemplaza el zoo de SVG inline y el `bypassSecurityTrustHtml` |
 | Contenido | Content layer tipado en TS | Habilita ESP/ENG barato y separa copy de markup |
-| Render | **Prerender estático** (`@angular/ssr`, `ng build --prerender`) | SEO + LCP. Un portafolio sin SEO no cumple su función comercial. **Confirmado** |
+| Render | **Prerender estático** (`@angular/ssr`, `ng build --prerender`) | SEO + LCP. Un portafolio que los recruiters no encuentran no cumple su función. **Confirmado** |
 | i18n | Content layer con forma `Record<Locale, …>`, solo `en` en v1 | ESP/ENG está diseñado pero sin copy. **Confirmado** |
 
 ### Por qué NO Tailwind
@@ -148,9 +148,17 @@ aplicarse: hoy lo pisa el `:root { color-scheme: light dark }` de `_globals`, qu
 de `color-scheme` en `<html>` y que controles y scrollbars salen oscuros también con el SO en
 modo claro.
 
+> **Alcance recortado (2026-11-12, decidido por Dany).** El objetivo es lanzar una pieza
+> recruiter-friendly y sencilla (bio, stack, proyectos, CV, contacto). Lo que no sirve a eso
+> sale del camino crítico: las fases que cuentan para el lanzamiento son F3–F5; la F6 es
+> post-lanzamiento. Las páginas de servicios/venta a clientes no van en este repo.
+
 **Fase 3 — Primitivas UI**
+**Solo las primitivas que consuman las secciones de la F4** — nada "por si acaso". Candidatas:
 `button` (variantes fill-cta / outline-accent / fill-accent), `chip`, `card`, `icon` (con el
-sprite SVG), `social-links`. Se construyen una vez y las secciones las consumen.
+sprite SVG), `social-links`; antes de construir una, confirma en `figma-map.md` qué sección de
+la F4 la usa, y si ninguna la usa, no se construye. Se construyen una vez y las secciones las
+consumen.
 `ui/` ya existe: la 2f adelantó `ui/logo`, que marca el patrón (tonta, con `input.required`, sin
 estilos propios).
 Pendientes concretos que entran aquí:
@@ -169,14 +177,25 @@ Pendientes concretos que entran aquí:
 Hero → Skills → About → Projects → Contact.
 Skills va temprano porque es la más simple en V3 y valida la escala tipográfica.
 About va después de Skills porque depende de la foto real, que todavía no existe.
+La F4 termina **borrando todo el legado** que quede (`src/app/components/` y `_variables.scss`,
+según `audit-legacy.md`).
+**Projects con datos placeholder:** los proyectos viven en el content layer tipado con datos de
+relleno marcados de forma inequívoca — cada proyecto lleva un comentario `// TODO(content):`
+encima (y un texto visible que no se pueda confundir con copy real) para que Dany llene el
+contenido después **sin tocar componentes**. El componente no sabe si el dato es placeholder.
 
-**Fase 5 — Contenido y remates**
-Content layer con el copy real, meta/SEO, prerender, `prefers-reduced-motion`, auditoría de
-contraste y Lighthouse.
+**Fase 5 — Lanzamiento (recortada)**
+Copy real **en inglés** en el content layer, meta/SEO (title, description, Open Graph, canonical,
+JSON-LD), prerender, `prefers-reduced-motion` y **una** pasada de Lighthouse (+ contraste)
+corrigiendo lo que salga, sin perseguir 100/100. **Fuera de la F5:** el copy en español; la
+estructura `Record<Locale, …>` se queda tal cual.
 
-**Fase 6 — Opcional / posterior**
-Switch ESP/ENG, animaciones de entrada, analytics.
-Animaciones de entrada: si entran (Fase 4 o pulido), **CSS nativo** con
+**Fase 6 — Post-lanzamiento (fuera de alcance hasta lanzar)**
+- Copy ES y switch ESP/ENG (ruta `/es`).
+- Animaciones de entrada.
+- Analytics.
+
+Animaciones de entrada: cuando entren, **CSS nativo** con
 `animation-timeline: view()` por sección, sin librerías, solo dentro de
 `@media (prefers-reduced-motion: no-preference)` y con `@supports` para que el contenido se
 vea igual sin soporte. Nada de JS ni de `IntersectionObserver` para esto.
@@ -204,14 +223,15 @@ servidor Node. Consecuencias que hay que respetar desde la Fase 2, no al final:
 - `provideClientHydration()` en `app.config.ts`.
 - Las metas por sección/SEO se resuelven en build, no en runtime.
 
-**3. Hosting — pendiente.**
-Sin definir. No bloquea nada hasta la Fase 5. Cuando se decida, revisar `<base href>`
-(hoy `/` en `index.html`) — si el sitio no va en la raíz de un dominio, hay que ajustarlo.
-**Pendiente de la Fase 5:** las URLs absolutas (`/fonts/inter-latin-wght.woff2` en el
-`@font-face` y en el preload) dan 404 si el deploy usa una subruta (p. ej. GitHub Pages de
-proyecto, `/<repo>/`). Al elegir hosting, revisar `base href` y esas rutas juntas. Las
-imágenes (`images/…` en el `<picture>`) son relativas y se resuelven contra `base href`.
-Firebase aparece en el stack histórico de Dany y encaja bien con salida estática.
+**3. Hosting — aplazado hasta tener el sitio funcionando en local (actualizado 2026-11-12).**
+Mientras tanto la revisión es local con `ng serve`. Hechos ya conocidos:
+- Dominio **dvprod7.com**, con el DNS en **Cloudflare**.
+- El Vue v1 en producción sigue en **Firebase** y **no se toca**.
+- El sitio nuevo va en la **raíz del dominio** → `<base href="/">` y las URLs absolutas de la
+  fuente (`/fonts/inter-latin-wght.woff2` en el `@font-face` y en el preload) son correctas.
+  ~~Pendiente de la F5: revisar `base href` y rutas absolutas~~ — **cerrado**.
+- Candidato a evaluar cuando toque: **Cloudflare (Pages/Workers)**, por tener ahí el DNS.
+  Encaja con la salida estática del prerender.
 
 ## Cambios de orden (2026-09-16)
 

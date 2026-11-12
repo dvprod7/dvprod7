@@ -36,6 +36,18 @@ Regla cerrada el 2026-09-16: **desktop manda; mobile solo cambia tamaños.** Las
 "Reglas de reconciliación" de `design-tokens.md` dicen cómo mapear cada valor. Las
 diferencias listadas abajo como *deriva* se documentan para que nadie las implemente.
 
+## Flujo para construir una sección
+
+1. Lee la sección abajo (node ID desktop + node ID mobile).
+2. Llama `get_design_context` con **ambos** node IDs — el diseño solo tiene dos breakpoints
+   diseñados, todo lo intermedio se interpola con `clamp()`.
+3. Traduce el output React+Tailwind a **Angular + SCSS con tokens**. Nunca instales Tailwind.
+4. Mapea cada valor crudo (hex, px) a su token en `design-tokens.md`. Si un valor no tiene
+   token, **propón el token primero**, no lo hardcodees.
+5. Mobile-first: escribe el estilo mobile y sube con el mixin `up()`.
+6. Verifica en navegador (`ng serve` + browser tools) contra el screenshot de Figma, desktop
+   y mobile.
+
 ---
 
 ## Inventario de secciones

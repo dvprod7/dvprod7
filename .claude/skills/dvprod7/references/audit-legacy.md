@@ -180,7 +180,7 @@ sigue en los providers.~~
 ### 🟡 SEO — no hay nada
 
 `index.html`: `<title>Dvprod7App</title>`, sin `meta description`, sin Open Graph, sin canonical.
-Para una pieza cuyo objetivo es comercial, esto es lo primero a arreglar.
+Para una pieza que tienen que encontrar recruiters, esto es lo primero a arreglar.
 
 ### 🟡 Higiene
 
