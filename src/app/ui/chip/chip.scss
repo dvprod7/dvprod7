@@ -1,0 +1,19 @@
+:host {
+  display: inline-flex;
+}
+
+.chip {
+  padding: var(--dv-space-4) var(--dv-space-12);
+  font-size: var(--dv-text-chip);
+  font-weight: var(--dv-weight-semibold);
+  line-height: var(--dv-leading-normal);
+  color: var(--dv-color-accent);
+  white-space: nowrap;
+  border: var(--dv-border-chip);
+  border-radius: var(--dv-radius-full);
+
+  &--cta {
+    color: var(--dv-color-cta-text);
+    border: var(--dv-border-chip-cta);
+  }
+}
