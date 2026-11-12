@@ -1,0 +1,48 @@
+@use 'mixins' as *;
+
+// The link inside is the flex item that matters; the host only wraps it.
+:host {
+  display: inline-flex;
+}
+
+// Every variant carries the same border width, transparent on the fills, so
+// all three are the same height side by side (Figma draws the stroke inside).
+.button {
+  display: inline-flex;
+  gap: var(--dv-space-8);
+  align-items: center;
+  justify-content: center;
+  padding: var(--dv-space-14) var(--dv-space-20);
+  font-size: var(--dv-text-btn);
+  font-weight: var(--dv-weight-semibold);
+  line-height: var(--dv-leading-normal);
+  text-decoration: none;
+  white-space: nowrap;
+  border: var(--dv-border-btn);
+  border-radius: var(--dv-radius-sm);
+
+  @include up(md) {
+    padding: var(--dv-space-16) var(--dv-space-30);
+  }
+
+  &--sm {
+    font-size: var(--dv-text-btn-sm);
+  }
+
+  &--cta {
+    color: var(--dv-color-cta-contrast);
+    background-color: var(--dv-color-cta);
+    border-color: transparent;
+  }
+
+  &--outline {
+    color: var(--dv-color-accent);
+    background-color: var(--dv-color-surface-inverse);
+  }
+
+  &--accent {
+    color: var(--dv-color-accent-contrast);
+    background-color: var(--dv-color-accent);
+    border-color: transparent;
+  }
+}
