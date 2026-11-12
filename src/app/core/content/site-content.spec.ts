@@ -65,6 +65,10 @@ describe('SITE_CONTENT', () => {
         expect(link.href)
           .withContext(`${locale}: ${link.id}`)
           .toMatch(/^(https:\/\/|mailto:)/);
+        // External profiles open a new tab; mailto never does.
+        expect(link.newTab)
+          .withContext(`${locale}: ${link.id}`)
+          .toBe(link.href.startsWith('https://'));
       }
     }
   });

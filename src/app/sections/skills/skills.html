@@ -1,0 +1,20 @@
+<section class="skills" aria-labelledby="skills-title">
+  <div class="skills__inner">
+    <p class="skills__eyebrow"><span aria-hidden="true">/</span> {{ content.heading.eyebrow }}</p>
+
+    <h2 id="skills-title" class="skills__title">{{ content.heading.title }}</h2>
+
+    <div class="skills__groups">
+      @for (group of content.groups; track group.title) {
+        <div class="skills__group">
+          <h3 class="skills__group-title">{{ group.title }}</h3>
+          <ul class="skills__items">
+            @for (item of group.items; track item) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+  </div>
+</section>

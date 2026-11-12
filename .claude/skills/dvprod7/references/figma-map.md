@@ -79,7 +79,8 @@ Orden en la página. Alturas del frame desktop.
 
 ### 2. Hero — `702:12` (1440×780) · `726:18` (440×428)
 
-- Decoración `bg-hex` (`725:10` desktop · `726:19` mobile).
+- Decoración `bg-hex` (`725:10` desktop · `726:19` mobile). El de mobile cae fuera del frame y no
+  se ve: en código solo existe desde `md` (ver `design-tokens.md` §10).
 - Eyebrow `/ Hi, I'm Daniel Valenzuela` en amarillo, 20px/600/+1px tracking (en código usa
   `--dv-text-eyebrow`, 18/16, como el resto de eyebrows).
 - *Deriva mobile:* eyebrow naranja, CTA "View Projects" amarillo + "Contact" outline gris,
@@ -97,6 +98,8 @@ Orden en la página. Alturas del frame desktop.
 
 ### 3. About — `702:13` (1440×820) · `728:10` (440×1050)
 
+- ⚠️ **El copy de mobile (`728:10`) es otro** (párrafo sin la frase del SaaS, pillars
+  reescritos: "Front end + CMS", "I direct AI, review its output…"). Es deriva: manda el de desktop.
 - Columna izquierda `705:10` (700px): eyebrow `/ ABOUT`, título "I like to code 💻",
   párrafo largo, `pillars`, botón `Download CV` (relleno naranja; texto blanco en Figma →
   `--dv-color-cta-contrast`, `#0D160B`).
@@ -130,7 +133,8 @@ Orden en la página. Alturas del frame desktop.
 
 ### 4. Skills — `702:14` (1440×511) · `728:31` (440×876)
 
-- Decoración `bg-hex` (`725:11`). **Mobile no lleva `bg-hex`.**
+- Decoración `bg-hex` (`725:11`). **Mobile no lleva `bg-hex`.** Y en desktop el nodo cae entero
+  fuera del lienzo (no pinta nada en `702:10`): **en código Skills no lleva hex.**
 - Eyebrow `/ SKILLS` + título "What I work with".
 - `skill-groups` (`715:10`): **4 columnas de 264px, gap 28px**. Cada `skill-col`:
   regla superior de 2px (`rgba(236,235,243,.16)`), título 17px/600 amarillo,

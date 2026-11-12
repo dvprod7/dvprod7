@@ -1,0 +1,49 @@
+<section class="about" aria-labelledby="about-title">
+  <div class="about__inner">
+    <div class="about__text">
+      <p class="about__eyebrow"><span aria-hidden="true">/</span> {{ content.heading.eyebrow }}</p>
+
+      <h2 id="about-title" class="about__title">
+        {{ content.heading.title }}
+        @if (content.heading.emoji) {
+          <span aria-hidden="true">{{ content.heading.emoji }}</span>
+        }
+      </h2>
+
+      <p class="about__body">{{ content.body }}</p>
+
+      <ul class="about__pillars">
+        @for (pillar of content.pillars; track pillar.title) {
+          <li class="about__pillar">
+            <h3 class="about__pillar-title">{{ pillar.title }}</h3>
+            <p class="about__pillar-description">{{ pillar.description }}</p>
+          </li>
+        }
+      </ul>
+
+      <app-button [href]="content.cv.href" variant="cta" size="sm" [download]="true">{{
+        content.cv.label
+      }}</app-button>
+    </div>
+
+    <!-- One crop for both breakpoints: object-fit: cover in a box of the design's ratio. -->
+    <picture class="about__photo">
+      <source
+        type="image/avif"
+        srcset="/images/profile-dany-400w.avif 400w, /images/profile-dany-524w.avif 524w"
+        sizes="(min-width: 1024px) 360px, 392px"
+      />
+      <img
+        class="about__img"
+        src="/images/profile-dany-524w.webp"
+        srcset="/images/profile-dany-400w.webp 400w, /images/profile-dany-524w.webp 524w"
+        sizes="(min-width: 1024px) 360px, 392px"
+        width="524"
+        height="669"
+        loading="lazy"
+        decoding="async"
+        [alt]="content.photoAlt"
+      />
+    </picture>
+  </div>
+</section>

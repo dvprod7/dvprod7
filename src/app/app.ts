@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { About } from './components/about/about';
 import { Contact } from './components/contact/contact';
-import { Hero } from './components/hero/hero';
 import { Projects } from './components/projects/projects';
-import { Skills } from './components/skills/skills';
 import { DEFAULT_LOCALE, SITE_CONTENT } from './core/content/site-content';
+import { About } from './sections/about/about';
 import { Footer } from './sections/footer/footer';
+import { Hero } from './sections/hero/hero';
 import { Nav } from './sections/nav/nav';
+import { Skills } from './sections/skills/skills';
 
 @Component({
   selector: 'app-root',

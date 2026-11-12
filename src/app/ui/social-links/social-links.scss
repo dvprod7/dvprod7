@@ -36,7 +36,9 @@
     block-size: var(--dv-space-20);
   }
 
+  // Relative: anchors the visually hidden hint inside the pill.
   &__pill {
+    position: relative;
     display: inline-flex;
     align-items: center;
     padding: var(--dv-space-8) var(--dv-space-16);
@@ -62,5 +64,9 @@
     &:focus-visible {
       color: var(--dv-color-accent);
     }
+  }
+
+  &__hint {
+    @include visually-hidden;
   }
 }

@@ -1,0 +1,107 @@
+@use 'mixins' as *;
+
+.about {
+  padding-block: var(--dv-section-padding-block);
+  padding-inline: var(--dv-gutter);
+
+  // Text, then the photo below it; side by side from lg. The two tracks keep
+  // the design's 700 : 360 split at any width.
+  &__inner {
+    display: grid;
+    gap: var(--dv-space-16);
+    align-items: center;
+    max-inline-size: var(--dv-content-max);
+    margin-inline: auto;
+
+    @include up(lg) {
+      grid-template-columns: 35fr 18fr;
+      gap: var(--dv-about-columns-gap);
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dv-space-16);
+    align-items: flex-start;
+
+    @include up(md) {
+      gap: var(--dv-space-20);
+    }
+  }
+
+  &__eyebrow {
+    @include eyebrow;
+
+    text-transform: uppercase;
+  }
+
+  &__title {
+    @include section-title;
+  }
+
+  &__body {
+    font-size: var(--dv-text-body-lg);
+    line-height: var(--dv-leading-prose);
+    color: var(--dv-color-text);
+  }
+
+  &__pillars {
+    display: grid;
+    gap: var(--dv-space-16);
+    align-self: stretch;
+    padding: 0;
+    list-style: none;
+
+    @include up(md) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--dv-space-24);
+      padding-block-start: var(--dv-space-8);
+    }
+  }
+
+  &__pillar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dv-space-8);
+    padding-block-start: var(--dv-space-8);
+    border-block-start: var(--dv-rule-top);
+
+    @include up(md) {
+      padding-block-start: var(--dv-space-16);
+    }
+  }
+
+  &__pillar-title {
+    font-size: var(--dv-text-label);
+    font-weight: var(--dv-weight-semibold);
+    line-height: var(--dv-leading-normal);
+    color: var(--dv-color-accent);
+  }
+
+  &__pillar-description {
+    font-size: var(--dv-text-small);
+    line-height: var(--dv-leading-body);
+    color: var(--dv-color-text);
+  }
+
+  // Border and radius live here, not in the image file.
+  &__photo {
+    inline-size: 100%;
+    max-inline-size: var(--dv-about-photo-max);
+    aspect-ratio: 392 / 461;
+    overflow: hidden;
+    border: var(--dv-border-photo);
+    border-radius: var(--dv-radius-lg);
+
+    @include up(lg) {
+      aspect-ratio: 360 / 440;
+    }
+  }
+
+  &__img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+}

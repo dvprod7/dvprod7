@@ -2,11 +2,26 @@
   @for (link of links(); track link.id) {
     <li>
       @if (variant() === 'icon') {
-        <a class="social-links__icon-link" [href]="link.href" [attr.aria-label]="link.label">
+        <a
+          class="social-links__icon-link"
+          [href]="link.href"
+          [attr.target]="link.newTab ? '_blank' : null"
+          [attr.rel]="link.newTab ? 'noopener noreferrer' : null"
+          [attr.aria-label]="link.newTab ? link.label + ' ' + newTabHint() : link.label"
+        >
           <app-icon class="social-links__icon" [name]="link.icon" />
         </a>
       } @else {
-        <a class="social-links__pill" [href]="link.href">{{ link.label }}</a>
+        <a
+          class="social-links__pill"
+          [href]="link.href"
+          [attr.target]="link.newTab ? '_blank' : null"
+          [attr.rel]="link.newTab ? 'noopener noreferrer' : null"
+          >{{ link.label }}
+          @if (link.newTab) {
+            <span class="social-links__hint"> {{ newTabHint() }}</span>
+          }
+        </a>
       }
     </li>
   }

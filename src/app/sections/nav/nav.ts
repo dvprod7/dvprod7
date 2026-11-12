@@ -27,6 +27,7 @@ export class Nav {
 
   protected readonly content = SITE_CONTENT[DEFAULT_LOCALE].shell;
   protected readonly socialLinks = SITE_CONTENT[DEFAULT_LOCALE].socialLinks;
+  protected readonly newTabHint = SITE_CONTENT[DEFAULT_LOCALE].a11y.newTabHint;
   protected readonly languageSwitch = LANGUAGE_SWITCH;
   protected readonly isMenuOpen = signal(false);
   // Resolved when the page renders: at build time once the site is prerendered.

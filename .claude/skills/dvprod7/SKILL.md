@@ -58,7 +58,7 @@ mensajes de commit *como texto para copiar*, nunca ejecutarlos.
 
 ## Estado actual
 
-> **Última revisión: 2026-11-12 · Fase actual: 4 (Secciones) — Fase 3 cerrada (3a–3g).**
+> **Última revisión: 2026-11-12 · Fase actual: 4 (Secciones), en curso — sesión 1 de 2 hecha.**
 > Alcance recortado a lanzamiento (F3–F5); la F6 es post-lanzamiento. Ver `references/architecture.md`.
 
 **Esta tabla puede estar desactualizada. Verifícala contra el repo antes de confiar en ella**
@@ -71,9 +71,9 @@ mensajes de commit *como texto para copiar*, nunca ejecutarlos.
 | Fase 1 — Tokens y fundación | ✅ Terminada (1a–1g) | ¿existe `src/app/styles/_tokens.scss`? |
 | Fase 2 — Shell | ✅ Terminada (2a–2h) | `ls src/app/sections/nav/` |
 | Fase 3 — Primitivas UI | ✅ Terminada (3a–3g) | `ls src/app/ui/` (button, card, chip, icon, logo, social-links) |
-| Fase 4 — Secciones | ⬜ No iniciada | ¿existe `src/app/sections/hero/`? |
+| Fase 4 — Secciones | 🟡 4.0, Hero, Skills, About hechos. Quedan Projects, Contact, borrado final y cierre (sesión 2) | `ls src/app/sections/` |
 | Fase 5 — Copy EN, SEO, prerender | ⬜ No iniciada | ¿`index.html` tiene `meta description`? |
-| Código legado | 🟡 Quedan 6 componentes y `_variables` (mueren en la F4) | `ls src/app/components/` |
+| Código legado | 🟡 Quedan `projects`, `contact` y `_variables` (mueren en la sesión 2 de la F4) | `ls src/app/components/` |
 | Assets | ✅ Foto (AVIF+WebP, 524w/400w, sin 2x real) y PDF del CV, servidos desde `public/` | `ls public/images/` |
 
 Leyenda: ⬜ no iniciada · 🟡 en curso · ✅ terminada · 🔴 problema conocido
@@ -95,7 +95,7 @@ Lo que el repo **no** puede contarte —qué quedó a medias, qué se revirtió�
 **Node según `.nvmrc`; verifica `node -v` antes de cualquier `ng`.** No se aplica solo; si falta
 la versión exacta, vale una que cumpla `engines.node`. No instales Node.
 - macOS (nvm): `export PATH="$HOME/.nvm/versions/node/v22.23.2/bin:$PATH"` en el mismo comando.
-- Windows (nvm-windows): `nvm use 22.23.2`, o la activa si cumple `engines` (22.18.0 funcionó).
+- Windows (nvm-windows): `nvm use 22.23.2`. EOL: LF por `.gitattributes`, `format:check` tal cual.
   `lint:track` es POSIX: añade `--script-shell="C:\Program Files\Git\bin\bash.exe"`.
 
 ## Referencias (léelas cuando apliquen)

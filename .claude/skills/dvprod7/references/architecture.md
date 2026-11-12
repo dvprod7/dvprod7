@@ -335,7 +335,12 @@ la F4 (o ya en la nav). Todas son tontas: reciben datos por `input()` y no leen 
   tags y el borde naranja. Los tags hacen de clave de `track`, así que no se repiten en una card.
 - **Social links (3e):** los datos viven en `SITE_CONTENT[locale].socialLinks` (id, label, href,
   icono); el label es el texto de la pill y el `aria-label` del link de icono. URLs tomadas del
-  legado (`socials.ts`). Mismo tab, sin `target="_blank"`. Hover solo en `pill` (mismo patrón que
+  legado (`socials.ts`). ~~Mismo tab, sin `target="_blank"`.~~ **Revertido en la 4.0
+  (2026-11-12, Dany):** los perfiles externos (`newTab: true` en el dato, no se deduce del href)
+  abren en pestaña nueva con `target="_blank" rel="noopener noreferrer"`, y su nombre accesible
+  lleva `a11y.newTabHint` ("(opens in a new tab)"): en el `aria-label` del link de icono y en un
+  `<span>` visualmente oculto en la pill. El `mailto` no lleva `target`. La primitiva recibe la
+  pista por `input.required` (no lee el content layer). Hover solo en `pill` (mismo patrón que
   los links de la nav). 44 px en todos los breakpoints (objetivo táctil); el 37–39 de mobile y el
   45 del menú son deriva.
 - **Menú (3f):** las pills van con `margin-block-start: auto`, justo encima del copyright; caen
@@ -345,6 +350,38 @@ la F4 (o ya en la nav). Todas son tontas: reciben datos por `input()` y no leen 
   `close` del `<dialog>` llega después de la espera del spec y fallan 4 specs de Nav (pasan en
   `--browsers=ChromeHeadless`, y aislados también fallan con Chrome visible). La verificación usa
   headless.
-- **`format:check` en Windows.** Con `core.autocrlf=true` el checkout es CRLF y Prettier exige LF:
-  marca casi todos los archivos. Para revisar formato de verdad: `npx prettier --check
-  --end-of-line auto .`; git normaliza a LF al commitear.
+- ~~**`format:check` en Windows.** Con `core.autocrlf=true` el checkout es CRLF y Prettier exige
+  LF: marca casi todos los archivos.~~ **Resuelto en la 4.0:** `.gitattributes` fija
+  `* text=auto eol=lf` (manda sobre `core.autocrlf`) y marca como `binary` avif, webp, png, ico,
+  woff2 y pdf. `format:check` pasa tal cual en Windows, sin `--end-of-line auto`.
+
+## Fase 4 (en curso; sesión 1 del 2026-11-12: 4.0 + Hero, Skills, About)
+
+La F4 va en dos sesiones (decidido por Dany). La sesión 2 hace Projects, Contact, el borrado
+final del legado (`components/`, `_variables` y su `@use` en `styles.scss`, entradas de las tres
+listas de ignores) y el cierre de fase.
+
+- **4.0 — EOL y enlaces.** `.gitattributes` con LF y binarios (ver "format:check" arriba);
+  email público `dvprod7@gmail.com`; perfiles externos en pestaña nueva (ver "Social links").
+- **Secciones = `sections/<nombre>/`, tontas respecto al contenido de otras:** cada una lee solo
+  su rama de `SITE_CONTENT` (`hero`, `skills`, `about`) más `socialLinks` / `a11y` si los pinta.
+  El `id` del ancla sigue en el host, en `app.html`; dentro, un `<section aria-labelledby>` que
+  apunta a su `h1`/`h2`.
+- **Eyebrow y h2 de sección son mixins** (`eyebrow`, `section-title` en `_mixins`), no una
+  primitiva: es tipografía, sin comportamiento. La `/` va en el template con `aria-hidden`; el
+  copy se guarda en caja normal y la mayúscula es CSS donde el diseño la muestra (About, Skills),
+  igual que en la nav. El título del hero también (`'Web developer'` + `text-transform`).
+- **Emojis decorativos** (`😎`, `💻`): campo `emoji` aparte en el content layer, pintado en un
+  `<span aria-hidden>`; no entran en el nombre accesible.
+- **Hero.** El título es una sola caja que envuelve: "WEB DEVELOPER" es más ancho que el
+  contenido a cualquier ancho, así que siempre cae en las dos líneas del diseño (verificado a
+  440, 768, 800, 1024, 1100 y 1440). CTAs: `cta` → `#projects`, `outline` → `#contact`.
+- **Skills.** 1 columna → 2 desde `md` → 4 desde `lg`. La regla es el `border-block-start` del
+  grupo. Grupos `h3` + `ul`.
+- **About.** Apilado hasta `lg`, luego grid `35fr 18fr` (= 700 : 360) con
+  `--dv-about-columns-gap`. Pillars en 3 columnas desde `md`. Foto: `<picture>` AVIF + WebP
+  (400w/524w), `object-fit: cover`, `aspect-ratio` 392/461 en mobile y 360/440 desde `lg`,
+  `loading="lazy"`. CV con `app-button` `cta` `sm` y `download`.
+- **Alto de sección:** todas con `--dv-section-padding-block`, sin `min-height`. About queda más
+  baja que el frame de Figma (820, con el contenido centrado en mucho aire): aceptado por la regla
+  de normalización de `design-tokens.md`.

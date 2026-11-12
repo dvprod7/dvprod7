@@ -1,0 +1,76 @@
+@use 'mixins' as *;
+
+// No bg-hex here: in Figma the node (725:11) sits entirely off the canvas, so
+// it paints nothing, and the mobile frame has none.
+.skills {
+  padding-block: var(--dv-section-padding-block);
+  padding-inline: var(--dv-gutter);
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dv-space-24);
+    max-inline-size: var(--dv-content-max);
+    margin-inline: auto;
+
+    @include up(md) {
+      gap: var(--dv-space-30);
+    }
+  }
+
+  &__eyebrow {
+    @include eyebrow;
+
+    text-transform: uppercase;
+  }
+
+  &__title {
+    @include section-title;
+  }
+
+  // One column on mobile, two on tablets, the four of the design from lg.
+  &__groups {
+    display: grid;
+    gap: var(--dv-space-24) var(--dv-space-28);
+
+    @include up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include up(lg) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  // The rule is the group's top border, so it always spans its column.
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dv-space-8);
+    padding-block-start: var(--dv-space-8);
+    border-block-start: var(--dv-rule);
+
+    @include up(md) {
+      gap: var(--dv-space-14);
+      padding-block-start: var(--dv-space-14);
+    }
+  }
+
+  &__group-title {
+    font-size: var(--dv-text-label);
+    font-weight: var(--dv-weight-semibold);
+    line-height: var(--dv-leading-normal);
+    color: var(--dv-color-accent);
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dv-space-8);
+    padding: 0;
+    font-size: var(--dv-text-body);
+    line-height: var(--dv-leading-normal);
+    color: var(--dv-color-text-strong);
+    list-style: none;
+  }
+}

@@ -17,4 +17,6 @@ export type SocialLinksVariant = 'icon' | 'pill';
 export class SocialLinks {
   readonly links = input.required<readonly SocialLink[]>();
   readonly variant = input<SocialLinksVariant>('icon');
+  // Copy for links that open a new tab, read by assistive tech only.
+  readonly newTabHint = input.required<string>();
 }

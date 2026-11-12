@@ -1,0 +1,11 @@
+# LF everywhere, on every OS. Overrides core.autocrlf, so a Windows checkout
+# matches what Prettier expects.
+* text=auto eol=lf
+
+# Binary assets: never touch their bytes.
+*.avif binary
+*.webp binary
+*.png binary
+*.ico binary
+*.woff2 binary
+*.pdf binary

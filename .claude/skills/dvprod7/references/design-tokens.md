@@ -257,7 +257,9 @@ Mapeo de valores sueltos de Figma (paso más cercano, empate → menor):
 | `--dv-nav-height` | `90px` | `80px` | |
 | `--dv-section-padding-block` | `96px` | `52px` | Todas las secciones (Contact 110/80 y hero mobile 44/60 se normalizan a este) |
 | `--dv-footer-gap` | `64px` | `18px` | Espacio a cada lado de la regla del footer (Figma: 72/64 desktop, 18/18 mobile). Abajo, el footer usa `--dv-section-padding-block` (Figma 80/48) |
-| `--dv-about-columns-gap` | `80px` | — | Solo desktop; en mobile las columnas se apilan |
+| `--dv-about-columns-gap` | `80px` | — | Solo desde `lg`; por debajo las columnas se apilan |
+| `--dv-hero-lead-max` | `700px` | — | Ancho máximo del lead del hero (ancho fijo en Figma) |
+| `--dv-about-photo-max` | `392px` | — | Tope de la caja de la foto: ancho de mobile; apilada entre 440 y `lg` no crece más. Desde `lg` manda la columna (≤360) |
 
 > Desktop: frame de 1440 con 150px a cada lado → contenido de **1140px**.
 > Mobile: frame de 440 con 24px a cada lado → contenido de **392px**.
@@ -324,8 +326,9 @@ alternativa era inventar un token de posición. El copyright sí cae donde Figma
 **Revisado en la Fase 3 (2026-11-12)** con las social pills puestas (y≈736 frente a 740): se
 mantiene 132. Llegar a 210 pedía un token nuevo (`--dv-menu-offset`, 130 px en mobile) o un
 múltiplo mágico de `--dv-section-padding-block`; y 132 deja más aire en pantallas bajas (a
-375×667 los links acaban en 336 y las pills empiezan en 503). Si Dany prefiere el reparto de
-Figma, la opción es ese token, propuesto aquí y no creado.
+375×667 los links acaban en 336 y las pills empiezan en 503).
+**Cerrado (Dany, 2026-11-12, Fase 4):** se queda en y=132. `--dv-menu-offset` **no** se crea;
+no reabrir.
 
 ### Estados de la nav (decisión, 2026-09-17)
 
@@ -370,10 +373,29 @@ rotado y posicionado fuera del flujo, muy tenue, sangrando por los bordes.
 - Es **puramente decorativo** → `aria-hidden="true"`, `pointer-events: none`.
 - Va posicionado absoluto dentro de una sección con `position: relative; overflow: clip`.
 - Es un asset (`public/images/bg-hex.svg`, como `<img alt="">`), no va en el sprite ni inline en
-  el template. El archivo no trae opacidad: la de cada sección (hero .5, skills .26, contact .34)
-  **no cae en la rampa de alfa** (§1, que es de color), así que en la F4 se propone su token antes
-  de escribirla.
+  el template. Se pinta a su **tamaño intrínseco** (1389.22 × 1608.75, el del SVG): nunca se le
+  fija ancho ni alto en CSS, solo `max-inline-size: none` para escapar del reset.
 - Node IDs en `figma-map.md` (desktop y mobile).
+
+**Tokens (creados en la F4, 2026-11-12).** La opacidad es la del grupo, no un alfa de color, así
+que **no** entra en la rampa de §1: tiene su propia familia, una por sección que la pinta.
+
+| Token | Valor | Uso |
+|---|---|---|
+| `--dv-hex-transform` | `rotate(-150deg) scaleY(-1)` | El giro de Figma, igual en todos los nodos; gira sobre el centro |
+| `--dv-hex-opacity-hero` | `0.5` | Hero |
+| `--dv-hex-opacity-contact` | `0.34` | Contact (el `.3` de mobile es deriva) |
+| `--dv-hex-hero-x` / `-y` | `-896px` / `-714px` | Esquina sup.-izq. de la imagen sin girar, desde la esquina de la sección |
+
+- **Cómo se sacan las coordenadas:** centro del recuadro del nodo en Figma (`left + w/2`,
+  `top + h/2`, con el recuadro de 1941.9 × 2022.25) menos la mitad del SVG (694.61, 804.38).
+  Hero desktop: centro (−200.95, 90.52) → (−896, −714). Contact hará lo mismo en su subpaso.
+- **Skills no lleva hex** (y por eso no hay `--dv-hex-opacity-skills`, `.26`): su nodo `725:11`
+  queda entero fuera del lienzo (centro x ≈ −1491) y no pinta nada; verificado en el screenshot
+  de `702:10`. Mobile tampoco lo tiene.
+- **Hero mobile no lo pinta:** el nodo `726:19` existe pero cae fuera del frame de 440 (centro
+  x ≈ −861). En código el `<img>` va `display: none` hasta `md` y lleva `loading="lazy"`, así que
+  en mobile ni se descarga.
 
 ---
 

@@ -1,0 +1,73 @@
+@use 'mixins' as *;
+
+// Clip: the decoration bleeds far past every edge.
+.hero {
+  position: relative;
+  padding-block: var(--dv-section-padding-block);
+  padding-inline: var(--dv-gutter);
+  overflow: clip;
+
+  // Drawn at the SVG's intrinsic size, rotated around its center. In the
+  // mobile frame it sits entirely off canvas, so it only exists from md up.
+  &__hex {
+    position: absolute;
+    inset-block-start: var(--dv-hex-hero-y);
+    inset-inline-start: var(--dv-hex-hero-x);
+    display: none;
+    max-inline-size: none;
+    pointer-events: none;
+    opacity: var(--dv-hex-opacity-hero);
+    transform: var(--dv-hex-transform);
+
+    @include up(md) {
+      display: block;
+    }
+  }
+
+  // Positioned so it paints above the decoration without a z-index.
+  &__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--dv-space-16);
+    align-items: flex-start;
+    max-inline-size: var(--dv-content-max);
+    margin-inline: auto;
+
+    @include up(md) {
+      gap: var(--dv-space-24);
+    }
+  }
+
+  &__eyebrow {
+    @include eyebrow;
+  }
+
+  // One text box: "WEB DEVELOPER" is wider than the content at every width,
+  // so it always breaks into the two lines of the design.
+  &__title {
+    font-size: var(--dv-text-display);
+    font-weight: var(--dv-weight-extrabold);
+    line-height: var(--dv-leading-display);
+    letter-spacing: var(--dv-tracking-display);
+    color: var(--dv-color-accent);
+    text-transform: uppercase;
+  }
+
+  &__lead {
+    max-inline-size: var(--dv-hero-lead-max);
+    font-size: var(--dv-text-lead);
+    line-height: var(--dv-leading-body);
+    color: var(--dv-color-text);
+  }
+
+  &__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--dv-space-12);
+
+    @include up(md) {
+      gap: var(--dv-space-16);
+    }
+  }
+}

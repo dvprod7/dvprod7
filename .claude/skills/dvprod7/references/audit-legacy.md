@@ -10,8 +10,10 @@ patrones**: ninguno se replica en código nuevo y todos mueren con su componente
 
 | Parche | Archivo | Por qué | Muere en |
 |---|---|---|---|
-| `height` → `min-height` | `hero.scss`, `about.scss` | Sin `_grid` (2c), el contenido de About se desbordaba sobre el hero y sobre Skills: texto ilegible a 1440 | Fase 4 |
-| Fuera `flex-wrap: nowrap` en `md` | `skills.scss` | Sus 5 iconos no caben hasta ~1280 y la página ganaba scroll horizontal, antes oculto por el `overflow: hidden` que se quitó en la 2b | Fase 4 |
+| ~~`height` → `min-height`~~ | ~~`hero.scss`, `about.scss`~~ | ✅ Murió con hero y about (F4, 2026-11-12) | — |
+| ~~Fuera `flex-wrap: nowrap` en `md`~~ | ~~`skills.scss`~~ | ✅ Murió con skills (F4, 2026-11-12) | — |
+
+Ya no queda ningún parche vivo.
 
 ## Veredicto
 
@@ -35,7 +37,10 @@ un diseño abandonado. Reescribir sale más barato y más limpio que adaptar.
 - Todo el `src/app/styles/` legado (`_variables`, ~~`_fonts`~~, ~~`_globals`~~, ~~`_grid`~~,
   ~~`_helpers`~~, ~~`_ui`~~). `_fonts` ✅ borrado en la Fase 1f; los otros cuatro ✅ en la 2c.
   Solo queda `_variables` (Fase 4).
-- Todos los componentes de sección: `hero`, `about`, `skills`, `projects`, `contact`, `socials`.
+- Todos los componentes de sección: ~~`hero`~~, ~~`about`~~, ~~`skills`~~, `projects`, `contact`,
+  ~~`socials`~~. ✅ Hero, about, skills y socials borrados en la F4 (sesión 1, 2026-11-12), con
+  sus specs; quedan `projects` y `contact`. `_variables` ya no lo usa ningún componente: solo
+  el `@use` de `styles.scss`.
 - ~~El layout de scroll-snap en `app.scss` + `styles.scss`.~~ ✅ Borrado en la Fase 2b.
 - ~~Las fuentes Manrope y Roboto Condensed (ambas copias).~~ ✅ Borradas en la Fase 1f.
 - Los `.spec.ts` de los componentes — stubs generados por el CLI, no prueban nada.
@@ -71,7 +76,7 @@ Evidencia: `grep -c '@font-face' dist/dvprod7-app/browser/main.js` → **48** oc
 Lección para V3: los partials que se `@use`an desde componentes deben contener **solo**
 variables, mixins y funciones. Nunca CSS emitido.
 
-**2. `Skills.setupScrollListener()` nunca corre.**
+**2. ~~`Skills.setupScrollListener()` nunca corre.~~** ✅ El componente murió en la F4.
 `@ViewChild('mainStack')` sin `{ static: true }` no está resuelto en `ngOnInit`, así que
 `if (!this.mainStack) return;` sale siempre. Los indicadores del slider mobile están muertos.
 Además el listener nunca se remueve. En V3 la sección Skills es texto plano, así que el
@@ -113,7 +118,8 @@ autónomo, usa `@use 'sass:map'` + `map.get` y no queda ningún `map-get` en `sr
 ~~`_mixins.scss` usa `map-get($breakpoints, $breakpoint)`. Dart Sass pide `@use 'sass:map'` +
 `map.get`. Va a romper en Sass 3.~~
 
-**8. Números mágicos.** Existe `$navbar-height: 120px`, pero `hero.scss` y `about.scss`
+**8. ~~Números mágicos.~~** ✅ Los dos `calc` y los dos parches de abajo murieron con hero,
+about y skills en la F4. Historia: existe `$navbar-height: 120px`, pero `hero.scss` y `about.scss`
 hardcodean `calc(100dvh - 120px)`. La variable y el uso ya divergieron.
 Desde la 2b, `$navbar-height` no lo usa nadie; los dos `calc` mueren con hero y about (Fase 4).
 **Parche temporal (2c):** al borrar `_grid`, la foto de About perdió `.col-lg-4` y ocupaba todo
@@ -131,7 +137,8 @@ iconos.
 
 **9. La paleta ya divergió del diseño.** `$bolt: #f5f749` en SCSS, contra el `#FAFF70` de V3.
 ~~El SVG del logo en `navbar.html` trae `stroke="#FAFF70"` hardcodeado.~~ ✅ Ese SVG murió con el
-navbar en la 2f; el amarillo viejo sigue en hero, skills y socials hasta la Fase 4.
+navbar en la 2f; ✅ el amarillo viejo murió con hero, skills y socials en la F4. Solo queda el
+`$bolt` de `_variables.scss`, sin consumidores.
 
 **10. ~~`app.html` renderiza `<app-hero>` dos veces~~** como relleno de la cuarta sección.
 ✅ **Resuelto en la Fase 2b.**
@@ -142,7 +149,7 @@ incompatible con la página larga de V3.~~
 
 ### 🟡 Calidad / mantenibilidad
 
-**12. Zoo de SVG inline.** `skills.html` son 189 líneas, casi todas paths SVG dentro de cadenas
+**12. ~~Zoo de SVG inline.~~** ✅ Murió con skills en la F4. `skills.html` son 189 líneas, casi todas paths SVG dentro de cadenas
 `@if ($index === 0)`, `@if ($index === 1)`... Acopla el icono al índice del array. Algunos ni
 son los logos reales (el de PHP es un `<circle>` con un `<text>PHP</text>`, el de Docker son
 4 rectángulos).
@@ -150,16 +157,17 @@ son los logos reales (el de PHP es un `<circle>` con un `<text>PHP</text>`, el d
 **13. `bypassSecurityTrustHtml` para iconos estáticos.** `socials.ts` mete SVG como strings y
 los inyecta con `[innerHTML]`. Innecesario y mal patrón: un sprite lo resuelve sin tocar el
 sanitizador. **Sustituto listo en la Fase 3** (`public/icons/sprite.svg` + `ui/icon` +
-`ui/social-links`); el componente legado `socials` muere en la F4, cuando el hero lo reemplace.
+`ui/social-links`); ✅ el componente legado `socials` se borró en la F4 junto con el hero.
 
 **14. Sin signals.** ~~`Navbar.isMenuOpen` es un booleano público mutable.~~ ✅ Resuelto en la
 2f/2g: ese componente ya no existe y el menú usa un signal. Desde la 2a.1 la app es **zoneless**
 y todo lo nuevo lleva `OnPush`; los componentes legados siguen sin `OnPush` hasta la Fase 4.
 
-**15. `Socials.trackByName()` es código muerto** — la plantilla ya usa `@for ... track link.name`.
+**15. ~~`Socials.trackByName()` es código muerto~~** ✅ Murió con socials en la F4.
 
-**16. `@for (i of [0,1,2,3,4]; track i)`** en `skills.html`: literal de array en la plantilla,
-se recrea en cada CD, y el conteo está hardcodeado en vez de derivarse de `mainSkills`.
+**16. ~~`@for (i of [0,1,2,3,4]; track i)`~~** ✅ Murió con skills en la F4. Era un literal de
+array en la plantilla, recreado en cada CD. **Sigue siendo regla:** nada de `@for` sobre arrays
+literales en plantillas nuevas.
 
 **17. ~~Router muerto.~~** ✅ **Resuelto en la Fase 2a** (`app.routes.ts` y `provideRouter`
 borrados). Quedan dos comentarios `RouterOutlet` en `app.ts`, que se reescribe en la 2e.
@@ -175,8 +183,9 @@ sigue en los providers.~~
 - Ningún SVG decorativo tiene `aria-hidden` (queda en el legado; lo nuevo sí lo marca).
 - ~~No hay skip-link, ni landmarks (`<header>`, `<footer>`), ni estilos de `:focus-visible`.~~
   ✅ 2e/2f: skip link, `banner` / `main` / `contentinfo` / `navigation` y anillo de foco global.
-- `.social-links .icon:hover { transform: rotateY(360deg) }` ignora `prefers-reduced-motion`.
-- `<h4>dvprod7 © 2025</h4>` usa un heading como texto de pie — jerarquía rota.
+- ~~`.social-links .icon:hover { transform: rotateY(360deg) }` ignora `prefers-reduced-motion`.~~
+  ✅ Murió con socials en la F4.
+- ~~`<h4>dvprod7 © 2025</h4>` usa un heading como texto de pie — jerarquía rota.~~ ✅ Ídem.
 
 ### 🟡 SEO — no hay nada
 
