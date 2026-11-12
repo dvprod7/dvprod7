@@ -6,7 +6,7 @@ description: Context and working rules for the dvprod7 Angular portfolio during 
 # dvprod7 — Portafolio Angular (reconstrucción V3)
 
 Portafolio single-page de **Daniel Felipe Valenzuela (Dany)**, frontend/Drupal dev en Bogotá.
-Repo: `/Users/danval2/personal/projects/dvprod7`. Angular 20 standalone, SCSS, sin backend.
+Repo: la raíz del repo (rutas relativas a ella). Angular 20 standalone, SCSS, sin backend.
 
 ## ⚠️ Regla número uno
 
@@ -47,7 +47,7 @@ mensajes de commit *como texto para copiar*, nunca ejecutarlos.
 - Ejecuta todos los subpasos (3a, 3b…) seguidos, **sin pedir permiso entre ellos**. El working
   tree puede quedar con cambios acumulados: Dany commitea por grupos al final.
 - **Verificación obligatoria por subpaso:** `ng build`, `npm run lint`, `npm run lint:styles`,
-  `npm run lint:track`, `npm test -- --watch=false` y comparación en navegador contra Figma,
+  `lint:track`, `npm test -- --watch=false --browsers=ChromeHeadless` y comparación con Figma,
   desktop **y** mobile.
 - **Para y pregunta solo si:** el Figma es ambiguo de una forma que cambia la estructura; hay
   que borrar algo que no está en `audit-legacy.md`; o una decisión contradice esta skill.
@@ -58,7 +58,7 @@ mensajes de commit *como texto para copiar*, nunca ejecutarlos.
 
 ## Estado actual
 
-> **Última revisión: 2026-11-12 · Fase actual: 3 (Primitivas UI) — Fase 2 cerrada (2a–2h).**
+> **Última revisión: 2026-11-12 · Fase actual: 4 (Secciones) — Fase 3 cerrada (3a–3g).**
 > Alcance recortado a lanzamiento (F3–F5); la F6 es post-lanzamiento. Ver `references/architecture.md`.
 
 **Esta tabla puede estar desactualizada. Verifícala contra el repo antes de confiar en ella**
@@ -70,7 +70,7 @@ mensajes de commit *como texto para copiar*, nunca ejecutarlos.
 | Fase 0 — Higiene | ✅ Terminada (0a+0b+0c) | ¿existe `.nvmrc`? ¿hay ESLint en `package.json`? |
 | Fase 1 — Tokens y fundación | ✅ Terminada (1a–1g) | ¿existe `src/app/styles/_tokens.scss`? |
 | Fase 2 — Shell | ✅ Terminada (2a–2h) | `ls src/app/sections/nav/` |
-| Fase 3 — Primitivas UI | 🟡 Solo `ui/logo` (adelantado en la 2f) | `ls src/app/ui/` |
+| Fase 3 — Primitivas UI | ✅ Terminada (3a–3g) | `ls src/app/ui/` (button, card, chip, icon, logo, social-links) |
 | Fase 4 — Secciones | ⬜ No iniciada | ¿existe `src/app/sections/hero/`? |
 | Fase 5 — Copy EN, SEO, prerender | ⬜ No iniciada | ¿`index.html` tiene `meta description`? |
 | Código legado | 🟡 Quedan 6 componentes y `_variables` (mueren en la F4) | `ls src/app/components/` |
@@ -92,12 +92,11 @@ Lo que el repo **no** puede contarte —qué quedó a medias, qué se revirtió�
 
 ## Requisito de entorno
 
-`.nvmrc` (22.23.2) y `engines.node` **no se aplican solos** y el CLI rechaza el node por
-defecto. Antes de cualquier `ng` / `npm run`, en el mismo comando (el shell no persiste):
-
-```bash
-export PATH="/Users/danval2/.nvm/versions/node/v22.23.2/bin:$PATH"
-```
+**Node según `.nvmrc`; verifica `node -v` antes de cualquier `ng`.** No se aplica solo; si falta
+la versión exacta, vale una que cumpla `engines.node`. No instales Node.
+- macOS (nvm): `export PATH="$HOME/.nvm/versions/node/v22.23.2/bin:$PATH"` en el mismo comando.
+- Windows (nvm-windows): `nvm use 22.23.2`, o la activa si cumple `engines` (22.18.0 funcionó).
+  `lint:track` es POSIX: añade `--script-shell="C:\Program Files\Git\bin\bash.exe"`.
 
 ## Referencias (léelas cuando apliquen)
 
@@ -112,8 +111,7 @@ export PATH="/Users/danval2/.nvm/versions/node/v22.23.2/bin:$PATH"
 
 - **Mobile-first.** Base = mobile, `@include up(md)` hacia arriba. Nunca `max-width`.
 - **Tokens, no literales.** Cero hex, cero px mágicos en SCSS de componente.
-- **BEM** dentro de cada componente (`.hero`, `.hero__title`, `.hero--compact`). Consistente
-  con lo que Dany escribe a diario en Emulsify/Drupal.
+- **BEM** dentro de cada componente (`.hero`, `.hero__title`, `.hero--compact`).
 - **Signals, no campos mutables.** `signal()`, `computed()`, `input()`, `output()`.
 - **`ChangeDetectionStrategy.OnPush`** en todo componente.
 - **Contenido como datos.** El copy vive en un content layer tipado con forma
@@ -155,20 +153,22 @@ propósito, callejones sin salida. Si se deduce con un `ls` o un `git log`, no v
 cortas, con fecha, más reciente arriba. **Máximo 5 entradas**: al añadir la sexta, borra la más
 vieja — si algo de ahí sigue importando, ya debería ser una regla o una decisión cerrada.
 
+- **2026-11-12** — Fase 3 cerrada (3a–3g). Botón = `<app-button>` que envuelve un `<a>` (ESLint
+  exige selector de elemento); `bg-hex` = un SVG en `public/images/`, no en el sprite (las 5
+  instancias solo difieren en opacidad → CSS en la F4); iconos de Tabler (MIT). Links del menú
+  siguen en y=132. Tests en headless: con Chrome visible y en segundo plano el `close` del
+  `<dialog>` llega tarde y fallan 4 specs de Nav. Detalle en `architecture.md`.
 - **2026-11-12** — Cambio de alcance y de modo de trabajo. El sitio es una pieza para
   recruiters (bio, stack, proyectos, CV, contacto); servicios/venta van a otro proyecto. F3
   solo con lo que consuma la F4; Projects con placeholders `TODO` en el content layer; F5 sin
   copy ES; F6 post-lanzamiento. Hosting aplazado (dvprod7.com en la raíz → `base href="/"`
   cerrado). Nuevo modo autónomo: una sesión = una fase.
 - **2026-09-17** — Fase 2 cerrada (2a–2h). Zoneless y scroll de documento; nav V3 con menú en
-  `<dialog>`; fuera `_grid`/`_helpers`/`_ui`/`_globals`, navbar y router. Aplazado: redes del
-  menú y revisar con ellas la posición de sus links (y=132 frente al y=210 de Figma) → F3;
-  parches temporales del legado (`min-height` en hero/about, `flex-wrap` en skills) y
-  `_variables` → F4; `providersFile` del builder `unit-test`, cuando deje de ser experimental.
+  `<dialog>`; fuera `_grid`/`_helpers`/`_ui`/`_globals`, navbar y router. Aplazado a la F4:
+  parches del legado (`min-height` en hero/about, `flex-wrap` en skills) y `_variables`;
+  `providersFile` del builder `unit-test`, cuando deje de ser experimental.
 - **2026-09-17** — Fase 1 cerrada (1a–1g). Legado mixto: aceptado.
 - **2026-09-16** — Fase 0 cerrada (0a–0c). Aplazado: presupuesto de `skills.scss` → F4.
-- **2026-08-20** — Auditoría inicial y creación de esta skill. Decisiones cerradas (el detalle
-  está en `architecture.md`). Pendiente de Dany: foto de perfil V3.
 
 ## Contexto de negocio (por qué el rediseño)
 

@@ -49,14 +49,14 @@ src/
       content/                             copy tipado (fuente de verdad del texto)
         site-content.ts                    interfaces + datos EN
         site-content.es.ts                 datos ES (fase posterior)
-      models/                              interfaces compartidas (Project, SkillGroup, ...)
+      models/                              interfaces compartidas (SectionId, IconName, breakpoints, ...)
     sections/                              una carpeta por sección de la página
       nav/        hero/        about/
       skills/     projects/    contact/
       footer/                              <footer> del shell (fuera de <main>)
     ui/                                    primitivas reutilizables, sin lógica de negocio
       button/     chip/        card/
-      icon/       social-links/
+      icon/       logo/        social-links/
     styles/
       _tokens.scss                         :root con todas las custom properties
       _reset.scss
@@ -66,8 +66,8 @@ src/
   styles.scss                              orquesta lo anterior + @font-face (UNA sola vez)
 public/
   fonts/inter-latin-wght.woff2             subset propio (ver design-tokens.md)
-  icons/sprite.svg
-  images/
+  icons/sprite.svg + Tabler-Icons-MIT.txt
+  images/                                  foto de perfil + bg-hex.svg (decoración, fuera del sprite)
 ```
 
 Notas:
@@ -153,7 +153,8 @@ modo claro.
 > sale del camino crítico: las fases que cuentan para el lanzamiento son F3–F5; la F6 es
 > post-lanzamiento. Las páginas de servicios/venta a clientes no van en este repo.
 
-**Fase 3 — Primitivas UI**
+**Fase 3 — Primitivas UI** ✅ **Cerrada el 2026-11-12 (3a–3g).** Decisiones abajo, en
+"Fase 3 (2026-11-12)". Plan original:
 **Solo las primitivas que consuman las secciones de la F4** — nada "por si acaso". Candidatas:
 `button` (variantes fill-cta / outline-accent / fill-accent), `chip`, `card`, `icon` (con el
 sprite SVG), `social-links`; antes de construir una, confirma en `figma-map.md` qué sección de
@@ -296,3 +297,54 @@ Mientras tanto la revisión es local con `ng serve`. Hechos ya conocidos:
   el panel invisible; lo cierra el listener de `matchMedia` (`afterNextRender` + `DestroyRef`).
   El año del copyright se calcula al renderizar (`new Date().getFullYear()`), así que con
   prerender queda horneado en el HTML y el content layer solo guarda el texto fijo.
+
+## Fase 3 (2026-11-12)
+
+Cada primitiva se confirmó contra `figma-map.md` antes de crearla; las cinco tienen consumidor en
+la F4 (o ya en la nav). Todas son tontas: reciben datos por `input()` y no leen el content layer.
+
+| Primitiva | La consume | API |
+|---|---|---|
+| `ui/icon` | `social-links` (y quien necesite un icono) | `name: IconName` |
+| `ui/button` | Hero (View Projects, Hire me), About (Download CV), Contact (Say hello) | `href`, `variant: cta \| outline \| accent`, `size: md \| sm`, `download` |
+| `ui/chip` | `ui/card` | `variant: default \| cta`; texto proyectado |
+| `ui/card` | Projects (Selected work y Building now) | `heading`, `description`, `tags`, `status?` |
+| `ui/social-links` | Menú mobile (ya), Hero (`icon`) y Contact (`pill`) en la F4 | `links: SocialLink[]`, `variant: icon \| pill` |
+
+- **Sprite (3a).** `public/icons/sprite.svg`, servido como `/icons/sprite.svg` (`ICON_SPRITE` en
+  `core/models/icon.ts`, junto a `ICON_NAMES`; un spec comprueba que cada nombre tiene su
+  `<symbol>`). Iconos de **Tabler Icons v3.31.0** (MIT, licencia junto al sprite): `at`,
+  `brand-github` → `github`, `brand-linkedin` → `linkedin`. Se eligió un set de trazo (no logos
+  oficiales a color) porque van en negro sobre la pill amarilla y tienen que verse de una familia.
+  Para añadir uno: el `<symbol>` al sprite primero y luego el nombre a `ICON_NAMES`.
+- **`<app-icon>` declara su propio display (3a):** `:host { display: inline-block }` a `1em`
+  (sigue al texto); el consumidor fija el tamaño sobre el host. Siempre `aria-hidden`: el nombre
+  accesible es del link o botón que lo contiene.
+- **`bg-hex` (3a): un solo asset, fuera del sprite.** Los cinco SVG de Figma (hero d/m, skills,
+  contact d/m) tienen la misma geometría, degradado, blur y tamaño; **solo cambia la opacidad del
+  grupo** (hero .5, skills .26, contact .34; el .3 de contact mobile es deriva). Se guardó una vez
+  en `public/images/bg-hex.svg` **sin** esa opacidad, que la pone cada sección en la F4. No va al
+  sprite porque lleva degradado y filtro, que por `<use>` externo no son fiables entre
+  navegadores; se usa como `<img alt="" aria-hidden>`. Ojo: trae `preserveAspectRatio="none"`.
+- **Botón (3b) = `<app-button>` que envuelve un `<a>` real.** Todos los botones del diseño
+  navegan (ancla, PDF, mailto). Un selector de atributo (`a[app-button]`) choca con la regla
+  `component-selector` (tipo elemento) de ESLint, y no se toca la regla. Los tres variantes llevan
+  el mismo borde de `--dv-border-btn` (transparente en los rellenos) para medir igual. Figma no
+  dibuja hover: los botones no tienen; se revisa en la pasada visual de la F5.
+- **Card (3d):** `<article>` con `<h3>`; el `status` (texto) pinta el chip `cta` delante de los
+  tags y el borde naranja. Los tags hacen de clave de `track`, así que no se repiten en una card.
+- **Social links (3e):** los datos viven en `SITE_CONTENT[locale].socialLinks` (id, label, href,
+  icono); el label es el texto de la pill y el `aria-label` del link de icono. URLs tomadas del
+  legado (`socials.ts`). Mismo tab, sin `target="_blank"`. Hover solo en `pill` (mismo patrón que
+  los links de la nav). 44 px en todos los breakpoints (objetivo táctil); el 37–39 de mobile y el
+  45 del menú son deriva.
+- **Menú (3f):** las pills van con `margin-block-start: auto`, justo encima del copyright; caen
+  donde Figma (y≈736 frente a 740 a 440×900). Los links **se quedan en y=132** (decisión en
+  `design-tokens.md`, "Posición de los links del menú").
+- **Tests en headless.** `ng test` lanza Chrome visible; con la ventana en segundo plano el evento
+  `close` del `<dialog>` llega después de la espera del spec y fallan 4 specs de Nav (pasan en
+  `--browsers=ChromeHeadless`, y aislados también fallan con Chrome visible). La verificación usa
+  headless.
+- **`format:check` en Windows.** Con `core.autocrlf=true` el checkout es CRLF y Prettier exige LF:
+  marca casi todos los archivos. Para revisar formato de verdad: `npx prettier --check
+  --end-of-line auto .`; git normaliza a LF al commitear.

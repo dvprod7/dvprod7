@@ -321,6 +321,11 @@ En Figma (`730:32`) el bloque de links empieza en **y=210**. En código se const
 layout, sin token nuevo: barra de `--dv-nav-height` (80 en mobile) + `--dv-section-padding-block`
 (52) → **y=132**, 78px más arriba. Se acepta: el diseño no ancla ese bloque a nada y la
 alternativa era inventar un token de posición. El copyright sí cae donde Figma (≈835).
+**Revisado en la Fase 3 (2026-11-12)** con las social pills puestas (y≈736 frente a 740): se
+mantiene 132. Llegar a 210 pedía un token nuevo (`--dv-menu-offset`, 130 px en mobile) o un
+múltiplo mágico de `--dv-section-padding-block`; y 132 deja más aire en pantallas bajas (a
+375×667 los links acaban en 336 y las pills empiezan en 503). Si Dany prefiere el reparto de
+Figma, la opción es ese token, propuesto aquí y no creado.
 
 ### Estados de la nav (decisión, 2026-09-17)
 
@@ -364,7 +369,10 @@ rotado y posicionado fuera del flujo, muy tenue, sangrando por los bordes.
 
 - Es **puramente decorativo** → `aria-hidden="true"`, `pointer-events: none`.
 - Va posicionado absoluto dentro de una sección con `position: relative; overflow: clip`.
-- Debe ir en el sprite/assets, no inline en el template.
+- Es un asset (`public/images/bg-hex.svg`, como `<img alt="">`), no va en el sprite ni inline en
+  el template. El archivo no trae opacidad: la de cada sección (hero .5, skills .26, contact .34)
+  **no cae en la rampa de alfa** (§1, que es de color), así que en la F4 se propone su token antes
+  de escribirla.
 - Node IDs en `figma-map.md` (desktop y mobile).
 
 ---

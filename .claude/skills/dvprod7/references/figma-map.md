@@ -71,9 +71,11 @@ Orden en la página. Alturas del frame desktop.
   ~~El overlay cubre el hero, que sigue visible detrás desenfocado.~~
 - **Posición de los links en código (2g):** el bloque empieza en **y=132**, no en el y=210 del
   diseño. Sale del layout (barra de `--dv-nav-height` + `--dv-section-padding-block`), sin token
-  de posición. **Se revisa en la Fase 3**, cuando las social pills ocupen su hueco (hoy vacío) y
-  se vea el reparto vertical completo. El logo del menú es un enlace a `#main` que cierra el
+  de posición. **Revisado en la Fase 3** con las social pills ya colocadas (y≈736, Figma 740):
+  se queda en 132 (ver `design-tokens.md`). El logo del menú es un enlace a `#main` que cierra el
   menú, como los demás.
+- *Deriva del menú:* pills de 45 px con gap 14 y texto `#333` → en código las de 44 px del hero
+  (`ui/social-links`, variante `icon`), gap 12.
 
 ### 2. Hero — `702:12` (1440×780) · `726:18` (440×428)
 
@@ -90,7 +92,8 @@ Orden en la página. Alturas del frame desktop.
   `#0D160B`, por contraste) + `btn-Hire me 😎` (outline amarillo sobre
   `#0D160B`). Gap 16px.
 - Socials: 3 pills circulares de 44px amarillas con texto (`@`, `GH`, `in`), gap 12px.
-  → En código deben ser **iconos SVG del sprite**, no letras; en Figma son placeholders.
+  → En código son **iconos SVG del sprite** (`at`, `github`, `linkedin`), no letras; en Figma son
+  placeholders. Ya existen: `ui/social-links` con `variant="icon"`.
 
 ### 3. About — `702:13` (1440×820) · `728:10` (440×1050)
 
@@ -167,7 +170,8 @@ de estado y el contenido.
 - Decoración `bg-hex` (`725:12` desktop · `729:56` mobile).
 - Eyebrow `/ CONTACT`, título "Ready to start?" (56/40, `--dv-text-h2-lg`), párrafo.
 - `cta-row` (`718:14`): botón `Say hello` (amarillo relleno) + 3 pills outline
-  (`Email`, `GitHub`, `LinkedIn`, radio full, 40px de alto).
+  (`Email`, `GitHub`, `LinkedIn`, radio full, 40px de alto). En código: `app-button`
+  `variant="accent" size="sm"` + `ui/social-links` con `variant="pill"` (mismos datos que el hero).
 - Divisor de 1px a lo ancho del contenido.
 - Footer: `</dvprod7> — Daniel Valenzuela` a la izquierda,
   `Bogotá, Colombia · Available for remote work` a la derecha. En mobile van apilados.
@@ -181,11 +185,13 @@ de estado y el contenido.
 - ~~Foto real de perfil~~ ✅ resuelta en Figma el 2026-08-20 (`753:797`) y ✅ **exportada** a
   `public/images/` en la Fase 1g. ~~La del legado es otro encuadre y no se reutiliza.~~
   **Corrección (2026-09-16):** es el mismo archivo; solo cambia el recorte (ver About).
-- **Hashes de `bg-hex` por comprobar.** Figma exporta un SVG con nombre distinto por sección
-  (`89b87` hero desktop y mobile, `72571` skills, `0fd86` contact desktop, `0dfba` contact
-  mobile). Antes de meterlo al sprite, comparar su contenido: si difieren solo en rotación u
-  offset, basta con un asset.
-- Iconos reales para las social pills (en Figma son las letras `@`, `GH`, `in`).
+- ~~**Hashes de `bg-hex` por comprobar.**~~ ✅ **Comparados en la Fase 3:** los cinco SVG
+  (`89b87` hero d/m, `72571` skills, `0fd86` contact d, `0dfba` contact m) tienen la misma
+  geometría, degradado, blur (12) y tamaño, y el mismo recuadro en el nodo; **solo cambia la
+  opacidad del grupo**: hero **.5**, skills **.26**, contact **.34** (mobile .3 = deriva). Un solo
+  asset, `public/images/bg-hex.svg`, sin opacidad; la posición (x/y de cada nodo) y la opacidad
+  las pone cada sección en la F4.
+- ~~Iconos reales para las social pills~~ ✅ Fase 3: Tabler Icons (MIT) en el sprite.
 - ~~El PDF del CV~~ ✅ En el repo desde 2026-08-20:
   `public/DanielValenzuela_FrontEndDeveloper_CV_EN_2025.pdf` (96 KB).
   ~~⚠️ **Todavía no se sirve**: `angular.json` no incluye `public/` en `assets`. El enlace

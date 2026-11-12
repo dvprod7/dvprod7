@@ -97,7 +97,7 @@ cuando la Fase 1 migre a Inter y borre `src/assets/`.
 ~~El `node` por defecto es v22.11.0 y el CLI de Angular exige ≥ v22.12 — `ng build` falla en seco.
 Hay que usar `~/.nvm/versions/node/v22.23.2`. Sin `.nvmrc` ni `engines`, esto vuelve a morder.~~
 Hay `.nvmrc` con `22.23.2` y `engines.node` en `package.json`. **Ojo:** `.nvmrc` no se aplica
-solo — sigue haciendo falta `nvm use` (o el `export PATH` de la skill) en cada shell nuevo.
+solo — sigue haciendo falta `nvm use` (ver "Requisito de entorno" en la skill) en cada shell nuevo.
 
 ### 🟠 Deuda de diseño
 
@@ -149,7 +149,8 @@ son los logos reales (el de PHP es un `<circle>` con un `<text>PHP</text>`, el d
 
 **13. `bypassSecurityTrustHtml` para iconos estáticos.** `socials.ts` mete SVG como strings y
 los inyecta con `[innerHTML]`. Innecesario y mal patrón: un sprite lo resuelve sin tocar el
-sanitizador.
+sanitizador. **Sustituto listo en la Fase 3** (`public/icons/sprite.svg` + `ui/icon` +
+`ui/social-links`); el componente legado `socials` muere en la F4, cuando el hero lo reemplace.
 
 **14. Sin signals.** ~~`Navbar.isMenuOpen` es un booleano público mutable.~~ ✅ Resuelto en la
 2f/2g: ese componente ya no existe y el menú usa un signal. Desde la 2a.1 la app es **zoneless**
@@ -215,7 +216,7 @@ Para una pieza que tienen que encontrar recruiters, esto es lo primero a arregla
 ## Comandos de verificación
 
 ```bash
-export PATH="/Users/danval2/.nvm/versions/node/v22.23.2/bin:$PATH"
+# Node según .nvmrc (ver "Requisito de entorno" en SKILL.md)
 npx ng build --configuration development
 grep -o '@font-face' dist/dvprod7-app/browser/main.js | wc -l   # 0 desde la Fase 1f
 # Antes de la 1f: 48 en desarrollo (12 hojas × 4 reglas) y 24 en producción (main-*.js).
