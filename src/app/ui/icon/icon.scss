@@ -1,0 +1,14 @@
+// Own display on purpose: _reset makes every <svg> a block, which would break
+// the icon out of a line of text or the row of a button.
+:host {
+  display: inline-block;
+  flex-shrink: 0;
+  inline-size: 1em;
+  block-size: 1em;
+  vertical-align: middle;
+}
+
+.icon {
+  inline-size: 100%;
+  block-size: 100%;
+}
