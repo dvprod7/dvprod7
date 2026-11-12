@@ -1,0 +1,18 @@
+<article class="card" [class.card--cta]="!!status()">
+  @if (status() || tags().length) {
+    <ul class="card__tags">
+      @if (status(); as status) {
+        <li>
+          <app-chip variant="cta">{{ status }}</app-chip>
+        </li>
+      }
+      @for (tag of tags(); track tag) {
+        <li>
+          <app-chip>{{ tag }}</app-chip>
+        </li>
+      }
+    </ul>
+  }
+  <h3 class="card__title">{{ heading() }}</h3>
+  <p class="card__description">{{ description() }}</p>
+</article>
