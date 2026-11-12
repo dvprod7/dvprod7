@@ -1,5 +1,6 @@
 // Site copy, typed by locale. Source of truth for every UI string: templates
 // never hold text. Visible copy comes from Figma V3; aria labels are ours.
+import { IconName } from '../models/icon';
 import { SectionId } from '../models/section-id';
 
 export const LOCALES = ['en', 'es'] as const;
@@ -46,8 +47,19 @@ export interface ShellContent {
   };
 }
 
+// Email, GitHub, LinkedIn: the same three links in the hero, the mobile menu
+// and Contact. The label is visible on Contact's pills and is the accessible
+// name of the icon-only links.
+export interface SocialLink {
+  readonly id: 'email' | 'github' | 'linkedin';
+  readonly label: string;
+  readonly href: string;
+  readonly icon: IconName;
+}
+
 export interface SiteContent {
   readonly shell: ShellContent;
+  readonly socialLinks: readonly SocialLink[];
 }
 
 // Only the default locale is required. Adding Spanish means adding its entry
@@ -82,6 +94,16 @@ export const SITE_CONTENT: SiteContentByLocale = {
         location: 'Bogotá, Colombia · Available for remote work',
       },
     },
+    socialLinks: [
+      { id: 'email', label: 'Email', href: 'mailto:danieling2203@gmail.com', icon: 'at' },
+      { id: 'github', label: 'GitHub', href: 'https://github.com/dvprod7', icon: 'github' },
+      {
+        id: 'linkedin',
+        label: 'LinkedIn',
+        href: 'https://www.linkedin.com/in/dvprod7/',
+        icon: 'linkedin',
+      },
+    ],
   },
 };
 

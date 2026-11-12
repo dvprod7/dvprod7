@@ -56,6 +56,19 @@ describe('SITE_CONTENT', () => {
     }
   });
 
+  it('has each social link once, with a usable href', () => {
+    for (const [locale, content] of entries) {
+      const ids = content.socialLinks.map((link) => link.id);
+
+      expect(new Set(ids).size).withContext(`${locale}: duplicated link`).toBe(ids.length);
+      for (const link of content.socialLinks) {
+        expect(link.href)
+          .withContext(`${locale}: ${link.id}`)
+          .toMatch(/^(https:\/\/|mailto:)/);
+      }
+    }
+  });
+
   it('has no empty strings', () => {
     const strings = entries.flatMap(([locale, content]) => collectStrings(content, locale));
 

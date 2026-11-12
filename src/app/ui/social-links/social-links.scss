@@ -1,0 +1,66 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dv-space-12);
+  padding: 0;
+  list-style: none;
+
+  &--pill {
+    gap: var(--dv-space-8);
+
+    @include up(md) {
+      gap: var(--dv-space-14);
+    }
+  }
+
+  // 44px circle: also the minimum touch target, so it does not shrink on mobile.
+  &__icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--dv-space-44);
+    block-size: var(--dv-space-44);
+    color: var(--dv-color-accent-contrast);
+    background-color: var(--dv-color-accent);
+    border-radius: var(--dv-radius-full);
+  }
+
+  &__icon {
+    inline-size: var(--dv-space-20);
+    block-size: var(--dv-space-20);
+  }
+
+  &__pill {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--dv-space-8) var(--dv-space-16);
+    font-size: var(--dv-text-body);
+    font-weight: var(--dv-weight-semibold);
+    line-height: var(--dv-leading-normal);
+    color: var(--dv-color-text-strong);
+    text-decoration: none;
+    white-space: nowrap;
+    border: var(--dv-border-pill);
+    border-radius: var(--dv-radius-full);
+
+    @include up(md) {
+      padding: var(--dv-space-12) var(--dv-space-20);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: color 0.2s ease;
+    }
+
+    // Same rule as the nav links (design-tokens.md, "Estados de la nav").
+    &:hover,
+    &:focus-visible {
+      color: var(--dv-color-accent);
+    }
+  }
+}

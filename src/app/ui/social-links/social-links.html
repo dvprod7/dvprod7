@@ -1,0 +1,13 @@
+<ul class="social-links" [class.social-links--pill]="variant() === 'pill'">
+  @for (link of links(); track link.id) {
+    <li>
+      @if (variant() === 'icon') {
+        <a class="social-links__icon-link" [href]="link.href" [attr.aria-label]="link.label">
+          <app-icon class="social-links__icon" [name]="link.icon" />
+        </a>
+      } @else {
+        <a class="social-links__pill" [href]="link.href">{{ link.label }}</a>
+      }
+    </li>
+  }
+</ul>
