@@ -138,6 +138,16 @@ describe('Nav', () => {
     expect(toggle().getAttribute('aria-expanded')).toBe('false');
   });
 
+  it('puts the social links in the menu, right above the copyright', () => {
+    const socials = host.querySelector('.menu__socials');
+    const links = SITE_CONTENT[DEFAULT_LOCALE].socialLinks;
+
+    expect(socials?.nextElementSibling?.classList).toContain('menu__copyright');
+    expect(Array.from(socials?.querySelectorAll('a') ?? [], (a) => a.getAttribute('href'))).toEqual(
+      links.map((link) => link.href),
+    );
+  });
+
   it('shows the current year next to the fixed copyright text', () => {
     expect(host.querySelector('.menu__copyright')?.textContent?.trim()).toBe(
       `${content.menu.copyright} ${new Date().getFullYear()}`,

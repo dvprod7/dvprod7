@@ -220,8 +220,13 @@
     color: var(--dv-color-cta-text);
   }
 
-  &__copyright {
+  // Pushed to the bottom with the copyright, as in Figma: links on top,
+  // socials and copyright at the foot of the panel.
+  &__socials {
     margin-block-start: auto;
+  }
+
+  &__copyright {
     padding-block: var(--dv-section-padding-block);
     font-size: var(--dv-text-small);
     color: var(--dv-color-text-subtle);

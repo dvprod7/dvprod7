@@ -12,10 +12,11 @@ import {
 import { DEFAULT_LOCALE, LANGUAGE_SWITCH, SITE_CONTENT } from '../../core/content/site-content';
 import { BREAKPOINT_LG } from '../../core/models/breakpoints';
 import { Logo } from '../../ui/logo/logo';
+import { SocialLinks } from '../../ui/social-links/social-links';
 
 @Component({
   selector: 'app-nav',
-  imports: [Logo],
+  imports: [Logo, SocialLinks],
   templateUrl: './nav.html',
   styleUrl: './nav.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,6 +26,7 @@ export class Nav {
   private readonly menu = viewChild.required<ElementRef<HTMLDialogElement>>('menu');
 
   protected readonly content = SITE_CONTENT[DEFAULT_LOCALE].shell;
+  protected readonly socialLinks = SITE_CONTENT[DEFAULT_LOCALE].socialLinks;
   protected readonly languageSwitch = LANGUAGE_SWITCH;
   protected readonly isMenuOpen = signal(false);
   // Resolved when the page renders: at build time once the site is prerendered.
