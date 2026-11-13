@@ -44,12 +44,14 @@ Figma variables más adelante. SCSS se queda solo por anidamiento, mixins y bucl
 src/
   app/
     app.ts / app.html / app.scss          shell: skip link + <app-nav> + <main> con las 5 secciones + <app-footer>
-    app.config.ts                          providers (zoneless, router opcional)
+    app.config.ts                          providers (zoneless, hidratación, applySeo)
+    app.config.server.ts / app.routes.server.ts   solo para el prerender (F5h)
     core/
       content/                             copy tipado (fuente de verdad del texto)
         site-content.ts                    interfaces + datos EN
         site-content.es.ts                 datos ES (fase posterior)
       models/                              interfaces compartidas (SectionId, IconName, breakpoints, ...)
+      seo/                                 applySeo(): <head> desde el content layer (F5g)
     sections/                              una carpeta por sección de la página
       nav/        hero/        about/
       skills/     projects/    contact/
@@ -65,6 +67,7 @@ src/
       _mixins.scss                         up(), container(), eyebrow(), section-title(), visually-hidden()
       _layers.scss                         @layer reset, tokens, base, layout, components, utils
   styles.scss                              orquesta lo anterior + @font-face (UNA sola vez)
+  main.server.ts                           entrada del prerender (no hay servidor en producción)
 public/
   fonts/inter-latin-wght.woff2             subset propio (ver design-tokens.md)
   icons/sprite.svg + Tabler-Icons-MIT.txt
@@ -187,7 +190,8 @@ relleno marcados de forma inequívoca — cada proyecto lleva un comentario `// 
 encima (y un texto visible que no se pueda confundir con copy real) para que Dany llene el
 contenido después **sin tocar componentes**. El componente no sabe si el dato es placeholder.
 
-**Fase 5 — Lanzamiento (recortada)**
+**Fase 5 — Lanzamiento (recortada)** ✅ **Cerrada el 2026-11-12 (5a–5k).** Decisiones abajo, en
+"Fase 5". Plan original:
 Copy real **en inglés** en el content layer, meta/SEO (title, description, Open Graph, canonical,
 JSON-LD), prerender, `prefers-reduced-motion` y **una** pasada de Lighthouse (+ contraste)
 corrigiendo lo que salga, sin perseguir 100/100. **Fuera de la F5:** el copy en español; la
@@ -199,6 +203,9 @@ estructura `Record<Locale, …>` se queda tal cual.
 - Analytics.
 - Fondo decorativo animado (figuras difusas que se mueven con el scroll), sustituye al bg-hex
   (retirado en la 4.5).
+- Imagen OG 1200×630 (`og:image` / `twitter:image`; hoy la card es `summary` sin imagen, 5g).
+- Favicon propio: el de `public/favicon.ico` es el de Angular por defecto (5g).
+- Subir `@angular/*` al último parche 20.3.x (avisos de `npm audit`, 5k).
 
 Animaciones de entrada: cuando entren, **CSS nativo** con
 `animation-timeline: view()` por sección, sin librerías, solo dentro de
@@ -217,7 +224,7 @@ equivalente, con `Locale = 'en' | 'es'`. En v1 solo se llena `en`.
 - Con prerender, el plan a futuro es una ruta por locale (`/` y `/es`), no un toggle en runtime
   — tenlo presente al diseñar el content layer para no cerrarte esa puerta.
 
-**2. Prerender estático — sí.**
+**2. Prerender estático — sí.** ✅ **Aplicado en la 5h** (ver "Fase 5").
 Se añade `@angular/ssr` y se construye con `ng build --prerender`. Salida: HTML plano, sin
 servidor Node. Consecuencias que hay que respetar desde la Fase 2, no al final:
 - **Nunca toques `window`, `document` o `localStorage` en el cuerpo de un componente.** Va en
@@ -237,6 +244,10 @@ Mientras tanto la revisión es local con `ng serve`. Hechos ya conocidos:
   ~~Pendiente de la F5: revisar `base href` y rutas absolutas~~ — **cerrado**.
 - Candidato a evaluar cuando toque: **Cloudflare (Pages/Workers)**, por tener ahí el DNS.
   Encaja con la salida estática del prerender.
+- **Desde la F5 el build ya es estático y desplegable** (2026-11-12): `ng build` deja en
+  `dist/dvprod7-app/browser/` HTML prerenderizado + assets, sin servidor ni runtime de Node.
+  Sirve cualquier host de archivos estáticos; debe comprimir el texto (gzip/brotli) y cachear
+  para siempre los `*-HASH.js/css` y `/fonts/`. Sigue aplazado **cuál** host.
 
 ## Cambios de orden (2026-09-16)
 
@@ -422,10 +433,11 @@ Projects, Contact, el borrado final del legado y el cierre.
   `components`. El aviso de presupuesto (`anyComponentStyle`, 4 kB) era del `skills.scss` legado
   y ya no aparece en `ng build` de producción desde la sesión 1.
 
-## Fase 5 (2026-11-12) — en curso
+## Fase 5 (2026-11-12) — cerrada
 
-En dos sesiones (decidido por Dany): la 1 hace contenido y ajustes visibles (5a–5e); la 2,
-meta/SEO, prerender, reduced motion, Lighthouse y el cierre.
+En dos sesiones (decidido por Dany): la 1 hizo contenido y ajustes visibles (5a–5e); la 2,
+ajustes de copy, meta/SEO, prerender, reduced motion, Lighthouse, `npm audit` y el cierre
+(5f–5k).
 
 - **5a — Links en `ui/card`.** `links?: CardLink[]` (`label`, `href`, `newTab`) en el dato del
   proyecto; la tarjeta los pinta en un `<ul>` al pie (`margin-block-start: auto`, así se alinean en
@@ -471,3 +483,45 @@ meta/SEO, prerender, reduced motion, Lighthouse y el cierre.
     Inter).
   Verificado a 440, 800, 1100, 1440, 1536 y 1920 (Chrome headless por CDP: capturas, hover,
   copia real con permiso de portapapeles y reset a los 2 s).
+- **5f — Copy.** Link "Code" de Dubtoast puesto (el `TODO(content)` se fue). Intro de Projects sin
+  "not demos". About nombra a Five9; un spec exige que el empleador de About sea el de la primera
+  tarjeta de Selected work, para que no vuelvan a divergir.
+- **5g — `<head>` desde el content layer.** `SITE_CONTENT[locale].seo` (title, description,
+  person) y la constante `SITE_URL`. Nombre, cargo y ubicación son constantes únicas que también
+  usan el hero, el footer y el JSON-LD. `core/seo/applySeo()` corre como `provideAppInitializer`:
+  `Title`, `Meta.updateTag` y, para canonical y JSON-LD, el `DOCUMENT` inyectado (existe en el
+  prerender). Es idempotente (actualiza, nunca añade): el prerender hornea los tags y el navegador
+  los reescribe igual al hidratar. Sin `og:image` (decidido; F6). `twitter:card` = `summary`.
+  `theme-color` va literal en `index.html` (`#333333` = `--dv-grey-800`: no es texto y un meta no
+  puede leer una custom property). `robots.txt` y `sitemap.xml` (una URL, sin `lastmod` para que
+  no envejezca) son estáticos en `public/` y repiten la URL: un spec los descarga en Karma y los
+  compara con `SITE_URL`.
+- **5h — Prerender 100 % estático.** `@angular/ssr` 20.3.9 + `@angular/platform-server` 20.3.10,
+  alineados con el CLI y el framework instalados. `ng add` quiso la última 20.3.x, que choca con
+  el lockfile; se instalaron a mano sin `--force`, fijando `@angular/router` a la 20.3.10 que ya
+  estaba (el lockfile solo suma esos dos paquetes y `xhr2`). `angular.json`: `"server":
+  "src/main.server.ts"` y `"outputMode": "static"`, **sin** `ssr.entry` ni Express: el servidor
+  solo existe durante el build. Plantillas del schematic oficial (`main.server.ts`,
+  `app.config.server.ts`, `app.routes.server.ts` con `'**'` → `RenderMode.Prerender`).
+  `provideClientHydration(withEventReplay())` en `app.config.ts`. Salida:
+  `dist/dvprod7-app/browser/index.html` con todas las secciones y el `<head>` completo
+  (`ng-server-context="ssg"`); `index.csr.html` es el respaldo CSR que genera el builder. Sin
+  errores de `window`/`document` en el build. Verificado servido estático (servidor Node mínimo
+  con gzip): hidrata sin errores en consola, menú (abrir, cerrar con link y con Escape), anchors
+  bajo la nav, copy-pill con portapapeles real, `<head>` sin duplicados tras hidratar.
+- **5i — Reduced motion.** Auditadas todas las `transition`/`animation`: solo el fundido del
+  `<dialog>` del menú corría fuera de `@media (prefers-reduced-motion: no-preference)` (lo
+  frenaba la red de seguridad de `_reset`); ya está dentro. Las demás (nav, pills, botones, link de
+  card, copy-pill, scroll suave) ya lo estaban. `_reset` conserva su red de seguridad.
+- **5j — Lighthouse 12.8.2 + contraste.** Contra el build estático: mobile 93 / 100 / 100 / 100,
+  desktop 100 / 100 / 100 / 100 (Perf / A11y / BP / SEO), antes y después: no hubo arreglos de
+  bajo esfuerzo. Lo que resta en mobile es la simulación de red lenta sobre ~212 kB de JS y 56 kB
+  de HTML (estilos de componente inline). En localhost Lighthouse contó los tamaños sin comprimir
+  aunque el servidor enviaba gzip: la cifra real será igual o mejor. `unused-javascript` (~66 kB,
+  el framework) y `bf-cache` (artefacto del entorno de prueba) se dejan. Contraste: ver
+  `design-tokens.md` ("Auditoría F5").
+- **5k — `npm audit` (solo reporte, sin cambios).** Runtime: los `@angular/*` 20.3.x instalados
+  tienen avisos high (XSS/sanitización) que cierra un parche de la misma minor. `@angular/ssr`
+  (critical) y `@angular/platform-server` solo corren en el build; sus avisos son de manejo de
+  peticiones en un servidor, que aquí no existe. El resto es tooling de desarrollo. Subir al
+  último parche 20.3.x queda en la lista post-lanzamiento.

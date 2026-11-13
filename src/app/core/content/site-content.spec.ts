@@ -131,6 +131,15 @@ describe('SITE_CONTENT', () => {
     }
   });
 
+  it('names the current employer in About as in its project card', () => {
+    for (const [locale, content] of entries) {
+      // "Five9 — enterprise marketing website" → "Five9".
+      const [employer] = content.projects.selected[0].heading.split(' — ');
+
+      expect(content.about.body).withContext(locale).toContain(`website of ${employer},`);
+    }
+  });
+
   it('starts the logo link name with the visible name (WCAG 2.5.3)', () => {
     for (const [locale, content] of entries) {
       expect(content.shell.logoLinkLabel.startsWith(content.shell.logo.name))

@@ -52,7 +52,7 @@ mensajes de commit *como texto para copiar*, nunca ejecutarlos.
 
 ## Estado actual
 
-> **Última revisión: 2026-11-12 · Fase actual: 5 (Lanzamiento), sesión 1 hecha (5a–5e); falta la 2.**
+> **Última revisión: 2026-11-12 · Fase actual: Lanzamiento / deploy — Fase 5 cerrada (5a–5k); el build es estático.**
 > Alcance recortado a lanzamiento (F3–F5); la F6 es post-lanzamiento. Ver `references/architecture.md`.
 
 **Esta tabla puede estar desactualizada. Verifícala contra el repo antes de confiar en ella**
@@ -66,7 +66,8 @@ mensajes de commit *como texto para copiar*, nunca ejecutarlos.
 | Fase 2 — Shell | ✅ Terminada (2a–2h) | `ls src/app/sections/nav/` |
 | Fase 3 — Primitivas UI | ✅ Terminada (3a–3g); `copy-pill` llegó en la 5e | `ls src/app/ui/` |
 | Fase 4 — Secciones | ✅ Terminada (4.0, 4.5 y las 5 secciones) | `ls src/app/sections/` |
-| Fase 5 — Lanzamiento | 🟡 En curso: sesión 1 (5a–5e: links en card, copy de Projects, hover de botones, a11y, QA) hecha; sesión 2 (meta/SEO, prerender, reduced motion, Lighthouse) pendiente | ¿`index.html` tiene `meta description`? |
+| Fase 5 — Lanzamiento | ✅ Terminada (5a–5k): copy real, SEO, prerender estático, reduced motion, Lighthouse | `ng build` → "Prerendered 1 static route" |
+| Deploy | ⬜ Hosting sin elegir (aplazado, ver `architecture.md`) | — |
 | Código legado | ✅ Eliminado (F4): sin `components/` ni `_variables` | `ls src/app/components/` → no existe |
 | Assets | ✅ Foto (AVIF+WebP, 524w/400w, sin 2x real) y PDF del CV, servidos desde `public/` | `ls public/images/` |
 
@@ -146,10 +147,13 @@ propósito, callejones sin salida. Si se deduce con un `ls` o un `git log`, no v
 cortas, con fecha, más reciente arriba. **Máximo 5 entradas**: al añadir la sexta, borra la más
 vieja — si algo de ahí sigue importando, ya debería ser una regla o una decisión cerrada.
 
+- **2026-11-12** — Fase 5 cerrada, en dos sesiones. Prerender 100 % estático (`outputMode:
+  "static"`, sin Express); `@angular/ssr` 20.3.9 a mano (`ng add` chocaba con el lockfile).
+  `<head>` por `applySeo()` idempotente. Lighthouse en localhost no ve el gzip: el 93 de Perf
+  mobile es pesimista. Post-lanzamiento: OG image, favicon propio, parche de `@angular/*`.
 - **2026-11-12** — Fase 4 cerrada, en dos sesiones. QA 4.5 (Dany), desviaciones de Figma: sin
   `bg-hex` (sustituto animado en la F6), contenedor único (mixin `container`, tope 1280). El
-  display **no** crece por encima de 1440: lo pidió Dany, pero rompía el límite de zoom 2.5×;
-  eligió el tope en 150. Projects con `[TODO]` visible; `ui/card` ganó `headingLevel`. Contact
+  display **no** crece por encima de 1440 (rompía el límite de zoom 2.5×): tope en 150. Contact
   sin padding inferior: el hueco a la regla es `--dv-footer-gap`. Legado borrado entero.
 - **2026-11-12** — Fase 3 cerrada (3a–3g). Botón = `<app-button>` que envuelve un `<a>` (ESLint
   exige selector de elemento); `bg-hex` = un SVG en `public/images/`, no en el sprite (las 5
@@ -165,7 +169,6 @@ vieja — si algo de ahí sigue importando, ya debería ser una regla o una deci
   `<dialog>`; fuera `_grid`/`_helpers`/`_ui`/`_globals`, navbar y router. Aplazado a la F4:
   parches del legado (`min-height` en hero/about, `flex-wrap` en skills) y `_variables`;
   `providersFile` del builder `unit-test`, cuando deje de ser experimental.
-- **2026-09-17** — Fase 1 cerrada (1a–1g). Legado mixto: aceptado.
 
 ## Contexto de negocio (por qué el rediseño)
 

@@ -30,6 +30,10 @@ describe('About', () => {
     );
   });
 
+  it('renders the body copy from the content layer', () => {
+    expect(host.querySelector('.about__body')?.textContent?.trim()).toBe(content.body);
+  });
+
   it('renders the pillars as a list of h3 + description, in content order', () => {
     const pillars = Array.from(host.querySelectorAll('.about__pillars > li'));
 

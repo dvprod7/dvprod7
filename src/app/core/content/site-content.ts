@@ -173,7 +173,21 @@ export interface ContactContent {
   };
 }
 
+// <head> of the page: title, description and the Person facts behind the
+// JSON-LD. Applied at prerender time by core/seo.
+export interface SeoContent {
+  readonly title: string;
+  readonly description: string;
+  readonly person: {
+    readonly name: string;
+    readonly jobTitle: string;
+    readonly locality: string;
+    readonly country: string;
+  };
+}
+
 export interface SiteContent {
+  readonly seo: SeoContent;
   readonly shell: ShellContent;
   readonly hero: HeroContent;
   readonly skills: SkillsContent;
@@ -192,6 +206,17 @@ export interface SiteContent {
 export type SiteContentByLocale = Readonly<Record<typeof DEFAULT_LOCALE, SiteContent>> &
   Readonly<Partial<Record<Locale, SiteContent>>>;
 
+// Canonical address of the site (served from the domain root). Also in
+// public/robots.txt and public/sitemap.xml, which a spec keeps in sync.
+export const SITE_URL = 'https://dvprod7.com/';
+
+// Facts reused across sections and the <head>, written once.
+const PERSON_NAME = 'Daniel Valenzuela';
+// Title case for metadata; the hero shows it in caps via CSS.
+const JOB_TITLE = 'Web Developer';
+const LOCALITY = 'Bogotá';
+const COUNTRY = 'Colombia';
+
 const LOGO: LogoContent = { open: '</', name: 'dvprod7', close: '>' };
 
 // Public contact address: the Email link, the "Say hello" button and the copy
@@ -201,6 +226,12 @@ const EMAIL_HREF = `mailto:${EMAIL}`;
 
 export const SITE_CONTENT: SiteContentByLocale = {
   en: {
+    seo: {
+      title: `${PERSON_NAME} — ${JOB_TITLE}`,
+      description:
+        'Daniel Valenzuela, web developer in Bogotá. I build reliable websites and web apps, from front-end interfaces to CMS-driven backends in Drupal and WordPress.',
+      person: { name: PERSON_NAME, jobTitle: JOB_TITLE, locality: LOCALITY, country: COUNTRY },
+    },
     shell: {
       logo: LOGO,
       logoLinkLabel: 'dvprod7 — home',
@@ -221,12 +252,12 @@ export const SITE_CONTENT: SiteContentByLocale = {
         copyright: 'dvprod7 ©',
       },
       footer: {
-        brand: { logo: LOGO, suffix: ' — Daniel Valenzuela' },
-        location: 'Bogotá, Colombia · Available for remote work',
+        brand: { logo: LOGO, suffix: ` — ${PERSON_NAME}` },
+        location: `${LOCALITY}, ${COUNTRY} · Available for remote work`,
       },
     },
     hero: {
-      eyebrow: 'Hi, I’m Daniel Valenzuela',
+      eyebrow: `Hi, I’m ${PERSON_NAME}`,
       title: 'Web developer',
       lead: 'I build reliable websites and web apps — from front-end interfaces to CMS-driven backends.',
       primaryCta: { label: 'View Projects', sectionId: 'projects' },
@@ -272,7 +303,7 @@ export const SITE_CONTENT: SiteContentByLocale = {
     },
     about: {
       heading: { eyebrow: 'About', title: 'I like to code', emoji: '💻' },
-      body: 'I’m Daniel, a web developer who builds reliable websites and web applications. I work across the stack — from front-end interfaces to CMS-driven backends in Drupal and WordPress — and I ship in real teams, with Git, code reviews, and deployment workflows. Today I work on the web platform of a US-based SaaS company.',
+      body: 'I’m Daniel, a web developer who builds reliable websites and web applications. I work across the stack — from front-end interfaces to CMS-driven backends in Drupal and WordPress — and I ship in real teams, with Git, code reviews, and deployment workflows. Today I work on the marketing website of Five9, a US-based customer experience software company.',
       pillars: [
         {
           title: 'Production experience',
@@ -295,7 +326,7 @@ export const SITE_CONTENT: SiteContentByLocale = {
     },
     projects: {
       heading: { eyebrow: 'Projects', title: 'Selected work' },
-      intro: 'Real work and real decisions — not demos. Evidence over adjectives.',
+      intro: 'Real work and real decisions. Evidence over adjectives.',
       selected: [
         {
           heading: 'Five9 — enterprise marketing website',
@@ -318,8 +349,7 @@ export const SITE_CONTENT: SiteContentByLocale = {
           tags: ['Angular', 'UI/UX', 'Continuous deployment'],
           links: [
             { label: 'Live site', href: 'https://dubtoaststore.web.app/', newTab: true },
-            // TODO(content): "Code" link to the Dubtoast repo on GitHub, once its URL is known:
-            // { label: 'Code', href: 'https://github.com/…', newTab: true },
+            { label: 'Code', href: 'https://github.com/dvprod7/dubtoast-store', newTab: true },
           ],
         },
         {

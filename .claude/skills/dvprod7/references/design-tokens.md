@@ -114,6 +114,18 @@ en los tokens, no en los componentes:
 - `--dv-color-cta` (`#DD6031`) queda **solo para rellenos y bordes**. Texto naranja → siempre
   `--dv-color-cta-text`.
 
+### Auditoría F5 (2026-11-12)
+
+Recalculado (WCAG 2.x) con los estados nuevos de la F5; Lighthouse `color-contrast` 100.
+Texto: base/bg 10.68 · `.85`/bg 8.17 · `.75`/bg 6.77 · `.6`/bg 4.92 · base/sunken 13.93 (link de
+card) · `.75`/sunken 8.37 · acento/bg 11.79 (hover de nav, pills, copy-pill) · acento/sunken
+15.39 (hover del link de card, chips) · acento/inverse 17.25 (outline, hover de `accent`) ·
+accent-contrast/acento 17.25 (hover de `cta` y `outline`) · cta-contrast/cta 5.10 ·
+cta-text/bg 4.73 · cta-text/sunken 6.17. Mínimo 4.73 ✅. Anillo de foco 11.79 ✅.
+
+> **Copia literal del fondo:** `<meta name="theme-color">` de `index.html` lleva `#333333`
+> (= `--dv-grey-800`). Si cambia ese primitivo, cámbialo también ahí.
+
 ---
 
 ## 2. Tipografía
