@@ -1,8 +1,7 @@
 @use 'sass:map';
 
 // Structural reflow points only. Everything in between is fluid (clamp/minmax).
-// Private on purpose: legacy _variables.scss still exposes its own, now unused,
-// $breakpoints (with 2xl) until it is deleted in phase 4.
+// Private: components only reach them through up().
 $-breakpoints: (
   'sm': 480px,
   'md': 768px,
@@ -18,6 +17,14 @@ $-breakpoints: (
   @media (min-width: map.get($-breakpoints, $breakpoint)) {
     @content;
   }
+}
+
+// The one page container: nav, menu, every section and the footer share the
+// same left edge. The gutter rules until the content reaches its cap; past
+// that, the extra width goes to the sides. Padding percentages resolve
+// against the containing block, so put it on a full-width block.
+@mixin container {
+  padding-inline: max(var(--dv-gutter), (100% - var(--dv-content-max)) / 2);
 }
 
 // `/ ABOUT`, `/ Hi, I'm …`: the small accent line above a heading. The slash

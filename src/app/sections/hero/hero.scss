@@ -1,38 +1,16 @@
 @use 'mixins' as *;
 
-// Clip: the decoration bleeds far past every edge.
+// No bg-hex: dropped in QA (4.5), see architecture.md.
 .hero {
-  position: relative;
+  @include container;
+
   padding-block: var(--dv-section-padding-block);
-  padding-inline: var(--dv-gutter);
-  overflow: clip;
 
-  // Drawn at the SVG's intrinsic size, rotated around its center. In the
-  // mobile frame it sits entirely off canvas, so it only exists from md up.
-  &__hex {
-    position: absolute;
-    inset-block-start: var(--dv-hex-hero-y);
-    inset-inline-start: var(--dv-hex-hero-x);
-    display: none;
-    max-inline-size: none;
-    pointer-events: none;
-    opacity: var(--dv-hex-opacity-hero);
-    transform: var(--dv-hex-transform);
-
-    @include up(md) {
-      display: block;
-    }
-  }
-
-  // Positioned so it paints above the decoration without a z-index.
   &__inner {
-    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--dv-space-16);
     align-items: flex-start;
-    max-inline-size: var(--dv-content-max);
-    margin-inline: auto;
 
     @include up(md) {
       gap: var(--dv-space-24);
@@ -43,9 +21,11 @@
     @include eyebrow;
   }
 
-  // One text box: "WEB DEVELOPER" is wider than the content at every width,
-  // so it always breaks into the two lines of the design.
+  // One text box, one word per line as in both frames: min-content makes the
+  // box as wide as "DEVELOPER", so it breaks the same on a 1280 container.
+  // Capped at 150px (4.5): see design-tokens.md, zoom limit.
   &__title {
+    max-inline-size: min-content;
     font-size: var(--dv-text-display);
     font-weight: var(--dv-weight-extrabold);
     line-height: var(--dv-leading-display);

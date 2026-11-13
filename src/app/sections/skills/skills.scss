@@ -1,17 +1,14 @@
 @use 'mixins' as *;
 
-// No bg-hex here: in Figma the node (725:11) sits entirely off the canvas, so
-// it paints nothing, and the mobile frame has none.
 .skills {
+  @include container;
+
   padding-block: var(--dv-section-padding-block);
-  padding-inline: var(--dv-gutter);
 
   &__inner {
     display: flex;
     flex-direction: column;
     gap: var(--dv-space-24);
-    max-inline-size: var(--dv-content-max);
-    margin-inline: auto;
 
     @include up(md) {
       gap: var(--dv-space-30);

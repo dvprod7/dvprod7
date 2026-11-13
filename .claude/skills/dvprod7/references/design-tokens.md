@@ -211,6 +211,9 @@ Interpolación: `clamp(mobile, calc(b + m·100vw), desktop)` con
 > **2.5×** su mínimo; si no, con zoom al 200% el texto puede no llegar a duplicarse. El
 > display está justo en el límite (150 / 60 = 2.5). Cualquier token de texto nuevo o
 > reajustado respeta esa proporción.
+> **Por eso el display no crece por encima de 1440 (4.5, Dany, 2026-11-12):** con el contenedor
+> de 1280 habría hecho falta ~168 px (2.8×). Se quedó en 150: "DEVELOPER" ocupa ~77 % del
+> contenido a 1440 y ~68 % desde 1580.
 
 ### Tracking y line-height
 
@@ -253,14 +256,17 @@ Mapeo de valores sueltos de Figma (paso más cercano, empate → menor):
 | Token | Desktop | Mobile | Nota |
 |---|---|---|---|
 | `--dv-gutter` | `150px` | `24px` | |
-| `--dv-content-max` | `1140px` | `392px` | |
+| `--dv-content-max` | `1280px` | — | **Tope** del ancho de contenido (4.5). Por debajo manda el gutter: 392 a 440, 1140 a 1440; desde ahí crece hasta 1280 (a 1580) |
 | `--dv-nav-height` | `90px` | `80px` | |
 | `--dv-section-padding-block` | `96px` | `52px` | Todas las secciones (Contact 110/80 y hero mobile 44/60 se normalizan a este) |
 | `--dv-footer-gap` | `64px` | `18px` | Espacio a cada lado de la regla del footer (Figma: 72/64 desktop, 18/18 mobile). Abajo, el footer usa `--dv-section-padding-block` (Figma 80/48) |
 | `--dv-about-columns-gap` | `80px` | — | Solo desde `lg`; por debajo las columnas se apilan |
 | `--dv-hero-lead-max` | `700px` | — | Ancho máximo del lead del hero (ancho fijo en Figma) |
+| `--dv-contact-body-max` | `780px` | — | Ancho máximo del párrafo de Contact (ancho fijo en Figma) |
 | `--dv-about-photo-max` | `392px` | — | Tope de la caja de la foto: ancho de mobile; apilada entre 440 y `lg` no crece más. Desde `lg` manda la columna (≤360) |
 
+> **Contenedor único (4.5):** mixin `container` → `padding-inline: max(var(--dv-gutter), (100% − var(--dv-content-max)) / 2)`
+> en el bloque de ancho completo (nav, menú, secciones, footer). Mismo borde izquierdo en todos.
 > Desktop: frame de 1440 con 150px a cada lado → contenido de **1140px**.
 > Mobile: frame de 440 con 24px a cada lado → contenido de **392px**.
 > Grid de proyectos: 2 columnas de 556px con gap de 28px (= 1140).
@@ -365,37 +371,14 @@ porque el menú mobile lo necesita para su `matchMedia`. Es la única copia; si 
 
 ---
 
-## 10. Decoración: `bg-hex`
+## 10. Decoración: `bg-hex` — retirada (4.5, 2026-11-12)
 
-Las secciones Hero, Skills y Contact llevan un SVG decorativo grande (`bg-hex`, ~1942×2022)
-rotado y posicionado fuera del flujo, muy tenue, sangrando por los bordes.
-
-- Es **puramente decorativo** → `aria-hidden="true"`, `pointer-events: none`.
-- Va posicionado absoluto dentro de una sección con `position: relative; overflow: clip`.
-- Es un asset (`public/images/bg-hex.svg`, como `<img alt="">`), no va en el sprite ni inline en
-  el template. Se pinta a su **tamaño intrínseco** (1389.22 × 1608.75, el del SVG): nunca se le
-  fija ancho ni alto en CSS, solo `max-inline-size: none` para escapar del reset.
-- Node IDs en `figma-map.md` (desktop y mobile).
-
-**Tokens (creados en la F4, 2026-11-12).** La opacidad es la del grupo, no un alfa de color, así
-que **no** entra en la rampa de §1: tiene su propia familia, una por sección que la pinta.
-
-| Token | Valor | Uso |
-|---|---|---|
-| `--dv-hex-transform` | `rotate(-150deg) scaleY(-1)` | El giro de Figma, igual en todos los nodos; gira sobre el centro |
-| `--dv-hex-opacity-hero` | `0.5` | Hero |
-| `--dv-hex-opacity-contact` | `0.34` | Contact (el `.3` de mobile es deriva) |
-| `--dv-hex-hero-x` / `-y` | `-896px` / `-714px` | Esquina sup.-izq. de la imagen sin girar, desde la esquina de la sección |
-
-- **Cómo se sacan las coordenadas:** centro del recuadro del nodo en Figma (`left + w/2`,
-  `top + h/2`, con el recuadro de 1941.9 × 2022.25) menos la mitad del SVG (694.61, 804.38).
-  Hero desktop: centro (−200.95, 90.52) → (−896, −714). Contact hará lo mismo en su subpaso.
-- **Skills no lleva hex** (y por eso no hay `--dv-hex-opacity-skills`, `.26`): su nodo `725:11`
-  queda entero fuera del lienzo (centro x ≈ −1491) y no pinta nada; verificado en el screenshot
-  de `702:10`. Mobile tampoco lo tiene.
-- **Hero mobile no lo pinta:** el nodo `726:19` existe pero cae fuera del frame de 440 (centro
-  x ≈ −861). En código el `<img>` va `display: none` hasta `md` y lleva `loading="lazy"`, así que
-  en mobile ni se descarga.
+**No hay decoración de fondo en V3.** Figma pone un SVG `bg-hex` en Hero, Skills y Contact; se
+implementó en el Hero en la F4 y **se quitó en la QA (4.5, decisión de Dany)**: `<img>`, tokens
+`--dv-hex-*` y cualquier plan para Contact. Es una desviación deliberada de Figma (ver
+`architecture.md`, "Fase 4"). El asset `public/images/bg-hex.svg` se queda en el repo, sin uso.
+Su sustituto, un fondo animado con figuras difusas que se mueven con el scroll, está en la
+lista de post-lanzamiento (F6). No reintroduzcas el hex.
 
 ---
 

@@ -73,6 +73,34 @@ describe('SITE_CONTENT', () => {
     }
   });
 
+  it('keeps project headings unique, and tags unique within each project', () => {
+    for (const [locale, content] of entries) {
+      const projects = [...content.projects.selected, ...content.projects.buildingNow.projects];
+      const headings = projects.map((p) => p.heading);
+
+      expect(new Set(headings).size)
+        .withContext(`${locale}: duplicated heading`)
+        .toBe(headings.length);
+      for (const project of projects) {
+        expect(new Set(project.tags).size)
+          .withContext(`${locale}: ${project.heading}`)
+          .toBe(project.tags.length);
+        // The status chip is added by the card; repeating it as a tag would show it twice.
+        expect(project.tags).not.toContain(content.projects.buildingNow.status);
+      }
+    }
+  });
+
+  it('points the contact button and the Email link at the same address', () => {
+    for (const [locale, content] of entries) {
+      const email = content.socialLinks.find((link) => link.id === 'email');
+
+      expect(content.contact.cta.href)
+        .withContext(locale)
+        .toBe(email?.href ?? '');
+    }
+  });
+
   it('has no empty strings', () => {
     const strings = entries.flatMap(([locale, content]) => collectStrings(content, locale));
 

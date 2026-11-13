@@ -12,7 +12,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "lint:styles": "stylelint \"src/**/*.scss\"",
-    "lint:track": "! grep -rEn 'track \\$index|track i\\)' src --include='*.html' --exclude-dir=components",
+    "lint:track": "! grep -rEn 'track \\$index|track i\\)' src --include='*.html'",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

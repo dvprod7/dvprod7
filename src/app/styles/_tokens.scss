@@ -121,27 +121,17 @@ $-root-font-size: 16px;
 
   // Layout
   --dv-gutter: #{-fluid(24px, 150px, px)};
-  --dv-content-max: #{-fluid(392px, 1140px, px)};
+
+  // Cap of the content width. Below it the width is the viewport minus the
+  // gutters: 392 at 440, 1140 at 1440, then it grows until 1280 (at 1580).
+  --dv-content-max: 1280px;
   --dv-nav-height: #{-fluid(80px, 90px, px)};
   --dv-section-padding-block: #{-fluid(52px, 96px, px)};
   --dv-footer-gap: #{-fluid(18px, 64px, px)};
   --dv-about-columns-gap: 80px;
   --dv-hero-lead-max: 700px;
+  --dv-contact-body-max: 780px;
   --dv-about-photo-max: 392px;
-
-  // ---------------------------------------------------------------------------
-  // Decoration: bg-hex (public/images/bg-hex.svg, drawn at its intrinsic size)
-  // ---------------------------------------------------------------------------
-  // Same turn in every section; Figma draws it rotated and flipped.
-  --dv-hex-transform: rotate(-150deg) scaleY(-1);
-
-  // Group opacity per section. Not a color alpha, so outside the alpha ramp.
-  --dv-hex-opacity-hero: 0.5;
-  --dv-hex-opacity-contact: 0.34;
-
-  // Top-left corner of the unrotated image, from the section's top-left.
-  --dv-hex-hero-x: -896px;
-  --dv-hex-hero-y: -714px;
 
   // ---------------------------------------------------------------------------
   // Radius

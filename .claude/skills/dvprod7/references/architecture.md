@@ -61,13 +61,13 @@ src/
       _tokens.scss                         :root con todas las custom properties
       _reset.scss
       _base.scss                           elementos: html, body, h1-h6, p, a
-      _mixins.scss                         up(), visually-hidden(), focus-ring()
+      _mixins.scss                         up(), container(), eyebrow(), section-title(), visually-hidden()
       _layers.scss                         @layer reset, tokens, base, layout, components, utils
   styles.scss                              orquesta lo anterior + @font-face (UNA sola vez)
 public/
   fonts/inter-latin-wght.woff2             subset propio (ver design-tokens.md)
   icons/sprite.svg + Tabler-Icons-MIT.txt
-  images/                                  foto de perfil + bg-hex.svg (decoración, fuera del sprite)
+  images/                                  foto de perfil + bg-hex.svg (sin uso desde la 4.5)
 ```
 
 Notas:
@@ -174,7 +174,8 @@ Pendientes concretos que entran aquí:
   hoy empiezan en y=132 y Figma los pone en y=210; con las pills colocadas se ve el reparto
   completo y se decide si hace falta ajustar (ver `figma-map.md`).
 
-**Fase 4 — Secciones**, en este orden (de menor a mayor incertidumbre):
+**Fase 4 — Secciones** ✅ **Cerrada el 2026-11-12** (decisiones abajo, en "Fase 4"). Plan original,
+en este orden (de menor a mayor incertidumbre):
 Hero → Skills → About → Projects → Contact.
 Skills va temprano porque es la más simple en V3 y valida la escala tipográfica.
 About va después de Skills porque depende de la foto real, que todavía no existe.
@@ -195,6 +196,8 @@ estructura `Record<Locale, …>` se queda tal cual.
 - Copy ES y switch ESP/ENG (ruta `/es`).
 - Animaciones de entrada.
 - Analytics.
+- Fondo decorativo animado (figuras difusas que se mueven con el scroll), sustituye al bg-hex
+  (retirado en la 4.5).
 
 Animaciones de entrada: cuando entren, **CSS nativo** con
 `animation-timeline: view()` por sección, sin librerías, solo dentro de
@@ -273,8 +276,9 @@ Mientras tanto la revisión es local con `ng serve`. Hechos ya conocidos:
 - **Shell y footer (2e).** El footer es un componente propio, `sections/footer/` (decidido por
   Dany): en Figma vive dentro de Contact, pero el landmark `contentinfo` tiene que quedar fuera
   de `<main>`. La regla y el espacio a ambos lados (`--dv-footer-gap`) son del footer.
-  **Pendiente para la Fase 4:** decidir cómo se suma el padding inferior de Contact a ese hueco
-  (en Figma hay 72 px entre la fila de CTA y la regla). El skip link aparece en
+  ~~**Pendiente para la Fase 4:** decidir cómo se suma el padding inferior de Contact a ese hueco
+  (en Figma hay 72 px entre la fila de CTA y la regla).~~ ✅ **Resuelto en la F4:** Contact va
+  sin padding inferior y el hueco es `--dv-footer-gap` (64; 18 en mobile). El skip link aparece en
   flujo al recibir foco (sin `position: fixed` ni `z-index`) y `<main tabindex="-1">` recibe el
   foco sin anillo. Los hosts de sección llevan `display: block` desde `app.scss` para que las
   anclas midan bien.
@@ -355,12 +359,26 @@ la F4 (o ya en la nav). Todas son tontas: reciben datos por `input()` y no leen 
   `* text=auto eol=lf` (manda sobre `core.autocrlf`) y marca como `binary` avif, webp, png, ico,
   woff2 y pdf. `format:check` pasa tal cual en Windows, sin `--end-of-line auto`.
 
-## Fase 4 (en curso; sesión 1 del 2026-11-12: 4.0 + Hero, Skills, About)
+## Fase 4 (2026-11-12) — cerrada
 
-La F4 va en dos sesiones (decidido por Dany). La sesión 2 hace Projects, Contact, el borrado
-final del legado (`components/`, `_variables` y su `@use` en `styles.scss`, entradas de las tres
-listas de ignores) y el cierre de fase.
+En dos sesiones (decidido por Dany): la 1 hizo 4.0, Hero, Skills y About; la 2, la QA 4.5,
+Projects, Contact, el borrado final del legado y el cierre.
 
+- **4.5 — Ajustes de QA (Dany, 2026-11-12). Desviaciones deliberadas de Figma:**
+  1. **Sin `bg-hex`.** Fuera el `<img>` del Hero y los tokens `--dv-hex-*`; Contact no lo lleva.
+     El SVG se queda en `public/images/`. Sustituto en la F6 (fondo animado).
+  2. **Contenedor único.** Mixin `container` (`_mixins`): `padding-inline: max(gutter,
+     (100% − content-max) / 2)` sobre el bloque de ancho completo. Nav, menú, secciones y footer
+     comparten borde izquierdo (antes, a 1536, el logo iba en x=150 y el contenido en x=190). Las
+     secciones ya no llevan `max-inline-size` + `margin-inline: auto` en su `__inner`.
+  3. **Contenido hasta 1280.** `--dv-content-max` pasa de un `clamp` (392→1140) a un tope de
+     1280. Por debajo de 1580 manda el gutter, así que hasta 1440 nada cambia (1140 a 1440) y de
+     1440 a 1580 el contenido crece hasta 1280; después crecen los márgenes. Sin breakpoint nuevo.
+  4. **Display sin cambios: tope en 150.** Pedido: que escalara por encima de 1440 (~77 % del
+     contenedor). Hacía falta ~168 px, 2.8× el mínimo de mobile, y rompía el límite de zoom de
+     `design-tokens.md` (≤ 2.5×). Dany eligió mantener el tope: "DEVELOPER" queda en ~77 % a 1440
+     y ~68 % desde 1580.
+  Verificado a 440, 800, 1100, 1440, 1536 y 1920.
 - **4.0 — EOL y enlaces.** `.gitattributes` con LF y binarios (ver "format:check" arriba);
   email público `dvprod7@gmail.com`; perfiles externos en pestaña nueva (ver "Social links").
 - **Secciones = `sections/<nombre>/`, tontas respecto al contenido de otras:** cada una lee solo
@@ -373,9 +391,9 @@ listas de ignores) y el cierre de fase.
   igual que en la nav. El título del hero también (`'Web developer'` + `text-transform`).
 - **Emojis decorativos** (`😎`, `💻`): campo `emoji` aparte en el content layer, pintado en un
   `<span aria-hidden>`; no entran en el nombre accesible.
-- **Hero.** El título es una sola caja que envuelve: "WEB DEVELOPER" es más ancho que el
-  contenido a cualquier ancho, así que siempre cae en las dos líneas del diseño (verificado a
-  440, 768, 800, 1024, 1100 y 1440). CTAs: `cta` → `#projects`, `outline` → `#contact`.
+- **Hero.** El título es una sola caja con `max-inline-size: min-content`: mide lo que
+  "DEVELOPER" y siempre cae en las dos líneas del diseño, también con el contenedor de 1280 (a
+  1920 "WEB DEVELOPER" cabía en una línea). CTAs: `cta` → `#projects`, `outline` → `#contact`.
 - **Skills.** 1 columna → 2 desde `md` → 4 desde `lg`. La regla es el `border-block-start` del
   grupo. Grupos `h3` + `ul`.
 - **About.** Apilado hasta `lg`, luego grid `35fr 18fr` (= 700 : 360) con
@@ -385,3 +403,20 @@ listas de ignores) y el cierre de fase.
 - **Alto de sección:** todas con `--dv-section-padding-block`, sin `min-height`. About queda más
   baja que el frame de Figma (820, con el contenido centrado en mucho aire): aceptado por la regla
   de normalización de `design-tokens.md`.
+- **Projects.** Dos grids del mismo `ui/card` (1 columna → 2 desde `md`), en `<ul>`. El `<li>` es
+  grid para que la tarjeta llene su celda y las de una fila igualen el alto. "/ BUILDING NOW" es
+  un `h3` naranja (`--dv-color-cta-text`, tamaño `label`, tracking de eyebrow); por eso
+  `ui/card` ganó `headingLevel: 3 | 4` (sus tarjetas son `h4`). El chip de estado sale de
+  `buildingNow.status`, no de los tags.
+- **Placeholders de Projects.** Cada proyecto lleva `// TODO(content):` encima y `[TODO]` visible
+  delante del título y de la descripción, conservando el texto de Figma para que Dany edite en
+  vez de escribir de cero. Para llenarlos: solo `site-content.ts`. Un spec garantiza títulos
+  únicos y tags únicos por tarjeta (son claves de `track`).
+- **Contact.** `app-button` `accent` `sm` + `ui/social-links` `pill` en una fila que envuelve
+  (en mobile las pills caen debajo del botón como un bloque). "Say hello" apunta al mismo
+  `mailto` que el link Email: una constante `EMAIL_HREF` en el content layer, y un spec lo
+  comprueba. Sin padding inferior: el hueco hasta la regla es del footer. Sin formulario.
+- **Borrado final.** Fuera `components/` (projects, contact), `_variables.scss` y su `@use` en
+  `styles.scss`; las tres listas de ignores quedan sin legado y `lint:track` deja de excluir
+  `components`. El aviso de presupuesto (`anyComponentStyle`, 4 kB) era del `skills.scss` legado
+  y ya no aparece en `ng build` de producción desde la sesión 1.

@@ -6,16 +6,7 @@ const prettier = require('eslint-config-prettier/flat');
 
 module.exports = tseslint.config(
   {
-    ignores: [
-      'dist/**',
-      '.angular/**',
-      // --- Legacy V1/V2 presentation layer -------------------------------
-      // This list is the deletion checklist. Remove each entry in the phase
-      // noted and run the linter again; when the list is empty, the legacy
-      // layer is gone. Never add new code here.
-      'src/app/components/**', // phase 4, session 2: projects, contact
-      // -------------------------------------------------------------------
-    ],
+    ignores: ['dist/**', '.angular/**'],
   },
   {
     files: ['**/*.ts'],

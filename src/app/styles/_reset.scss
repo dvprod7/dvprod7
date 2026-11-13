@@ -44,8 +44,8 @@ h6 {
   overflow-wrap: break-word;
 }
 
-// !important on purpose: inside a layer it beats unlayered CSS (legacy included),
-// so reduced motion wins everywhere.
+// !important on purpose: inside a layer it beats unlayered CSS and every later
+// layer, so reduced motion wins everywhere.
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -1,0 +1,17 @@
+<section class="contact" aria-labelledby="contact-title">
+  <div class="contact__inner">
+    <p class="contact__eyebrow"><span aria-hidden="true">/</span> {{ content.heading.eyebrow }}</p>
+
+    <h2 id="contact-title" class="contact__title">{{ content.heading.title }}</h2>
+
+    <p class="contact__body">{{ content.body }}</p>
+
+    <div class="contact__actions">
+      <app-button [href]="content.cta.href" variant="accent" size="sm">{{
+        content.cta.label
+      }}</app-button>
+
+      <app-social-links [links]="socialLinks" variant="pill" [newTabHint]="newTabHint" />
+    </div>
+  </div>
+</section>

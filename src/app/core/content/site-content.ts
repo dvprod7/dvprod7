@@ -114,11 +114,44 @@ export interface AboutContent {
   readonly photoAlt: string;
 }
 
+// One card. Tags are unique within a project (the @for track key) and headings
+// are unique across the section (same reason).
+export interface Project {
+  readonly heading: string;
+  readonly description: string;
+  readonly tags: readonly string[];
+}
+
+export interface ProjectsContent {
+  readonly heading: SectionHeading;
+  readonly intro: string;
+  readonly selected: readonly Project[];
+  readonly buildingNow: {
+    // Plain case, like every eyebrow-style label.
+    readonly title: string;
+    readonly intro: string;
+    // The chip every card of this block shows first.
+    readonly status: string;
+    readonly projects: readonly Project[];
+  };
+}
+
+export interface ContactContent {
+  readonly heading: SectionHeading;
+  readonly body: string;
+  readonly cta: {
+    readonly label: string;
+    readonly href: string;
+  };
+}
+
 export interface SiteContent {
   readonly shell: ShellContent;
   readonly hero: HeroContent;
   readonly skills: SkillsContent;
   readonly about: AboutContent;
+  readonly projects: ProjectsContent;
+  readonly contact: ContactContent;
   readonly socialLinks: readonly SocialLink[];
   readonly a11y: {
     // Added to the accessible name of every link that opens a new tab.
@@ -132,6 +165,9 @@ export type SiteContentByLocale = Readonly<Record<typeof DEFAULT_LOCALE, SiteCon
   Readonly<Partial<Record<Locale, SiteContent>>>;
 
 const LOGO: LogoContent = { open: '</', name: 'dvprod7', close: '>' };
+
+// Public contact address: the Email link and the "Say hello" button.
+const EMAIL_HREF = 'mailto:dvprod7@gmail.com';
 
 export const SITE_CONTENT: SiteContentByLocale = {
   en: {
@@ -226,11 +262,60 @@ export const SITE_CONTENT: SiteContentByLocale = {
       },
       photoAlt: 'Portrait of Daniel Valenzuela',
     },
+    // Projects are placeholders until Dany writes the real copy: each one has a
+    // TODO(content) comment and a visible [TODO] marker. The component cannot
+    // tell, and does not need to.
+    projects: {
+      heading: { eyebrow: 'Projects', title: 'Selected work' },
+      intro: 'Real work and real decisions — not demos. Evidence over adjectives.',
+      selected: [
+        // TODO(content): real project copy and tags.
+        {
+          heading: '[TODO] Enterprise SaaS website — performance',
+          description:
+            '[TODO] Investigated slow mobile load across five priority pages (LCP, TBT, CLS) and audited the tag-management setup. Delivered a prioritized, evidence-based optimization roadmap the team adopted.',
+          tags: ['Performance', 'Core Web Vitals', 'GTM'],
+        },
+        // TODO(content): real project copy and tags.
+        {
+          heading: '[TODO] dvprod7 — this portfolio',
+          description:
+            '[TODO] Designed the UI in Figma and built it as an Angular app — an end-to-end project from design to deploy. Built to scale as I keep adding work over time.',
+          tags: ['Angular', 'Figma', 'Design → Deploy'],
+        },
+      ],
+      buildingNow: {
+        title: 'Building now',
+        intro: 'Two projects in progress — shipping soon. Momentum you can watch on GitHub.',
+        status: 'Building now',
+        projects: [
+          // TODO(content): real project copy and tags.
+          {
+            heading: '[TODO] Meta Conversions API — WP plugin',
+            description:
+              '[TODO] A free, open-source alternative to connect Meta’s Conversions API manually via hooks — no third-party tool required. Born from a real client need.',
+            tags: ['PHP', 'WordPress'],
+          },
+          // TODO(content): real project copy and tags.
+          {
+            heading: '[TODO] Custom ecommerce — React',
+            description:
+              '[TODO] A storefront bringing marketing, front-end and back-end together in one build — my project to close the gap with the backend.',
+            tags: ['React', 'Full-stack'],
+          },
+        ],
+      },
+    },
+    contact: {
+      heading: { eyebrow: 'Contact', title: 'Ready to start?' },
+      body: 'Got a project or a role in mind? I build and ship web, and I’m open to remote work and collaborations. Let’s talk.',
+      cta: { label: 'Say hello', href: EMAIL_HREF },
+    },
     socialLinks: [
       {
         id: 'email',
         label: 'Email',
-        href: 'mailto:dvprod7@gmail.com',
+        href: EMAIL_HREF,
         icon: 'at',
         newTab: false,
       },

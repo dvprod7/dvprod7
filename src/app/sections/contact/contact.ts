@@ -1,0 +1,21 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+import { DEFAULT_LOCALE, SITE_CONTENT } from '../../core/content/site-content';
+import { Button } from '../../ui/button/button';
+import { SocialLinks } from '../../ui/social-links/social-links';
+
+// Direct links only: there is no contact form in V3. The footer (its own
+// component, outside <main>) follows right after, so this section has no
+// bottom padding.
+@Component({
+  selector: 'app-contact',
+  imports: [Button, SocialLinks],
+  templateUrl: './contact.html',
+  styleUrl: './contact.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class Contact {
+  protected readonly content = SITE_CONTENT[DEFAULT_LOCALE].contact;
+  protected readonly socialLinks = SITE_CONTENT[DEFAULT_LOCALE].socialLinks;
+  protected readonly newTabHint = SITE_CONTENT[DEFAULT_LOCALE].a11y.newTabHint;
+}

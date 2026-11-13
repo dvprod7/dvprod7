@@ -1,8 +1,9 @@
 @use 'mixins' as *;
 
 .about {
+  @include container;
+
   padding-block: var(--dv-section-padding-block);
-  padding-inline: var(--dv-gutter);
 
   // Text, then the photo below it; side by side from lg. The two tracks keep
   // the design's 700 : 360 split at any width.
@@ -10,8 +11,6 @@
     display: grid;
     gap: var(--dv-space-16);
     align-items: center;
-    max-inline-size: var(--dv-content-max);
-    margin-inline: auto;
 
     @include up(lg) {
       grid-template-columns: 35fr 18fr;

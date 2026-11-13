@@ -32,6 +32,14 @@ describe('Card', () => {
     expect(host.querySelector('.card__description')?.textContent?.trim()).toBe('Description');
   });
 
+  it('drops the heading to level 4 when asked', async () => {
+    fixture.componentRef.setInput('headingLevel', 4);
+    await fixture.whenStable();
+
+    expect(host.querySelector('article h3')).toBeNull();
+    expect(host.querySelector('article h4.card__title')?.textContent?.trim()).toBe('Title');
+  });
+
   it('lists the tags as plain chips, in order', () => {
     expect(chips()).toEqual([
       { text: 'Angular', cta: false },

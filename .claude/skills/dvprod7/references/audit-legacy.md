@@ -3,6 +3,10 @@
 Estado del repo en `main` @ `73f301c`. Este documento existe para que nadie —humano o agente—
 tome el código actual como referencia, y para saber exactamente qué se borra.
 
+> ✅ **Legado eliminado por completo al cerrar la Fase 4 (2026-11-12).** No queda
+> `src/app/components/`, ni `_variables.scss`, ni entradas de legado en las listas de ignores.
+> Este documento queda como historia: explica por qué el código nuevo es como es.
+
 ## Parches temporales vivos (a fecha de 2026-09-17)
 
 Código legado tocado a propósito para no dejar la página rota mientras se reescribe. **No son
@@ -34,20 +38,21 @@ un diseño abandonado. Reescribir sale más barato y más limpio que adaptar.
 
 ## Qué se borra
 
-- Todo el `src/app/styles/` legado (`_variables`, ~~`_fonts`~~, ~~`_globals`~~, ~~`_grid`~~,
+- ✅ Todo el `src/app/styles/` legado (~~`_variables`~~, ~~`_fonts`~~, ~~`_globals`~~, ~~`_grid`~~,
   ~~`_helpers`~~, ~~`_ui`~~). `_fonts` ✅ borrado en la Fase 1f; los otros cuatro ✅ en la 2c.
-  Solo queda `_variables` (Fase 4).
-- Todos los componentes de sección: ~~`hero`~~, ~~`about`~~, ~~`skills`~~, `projects`, `contact`,
-  ~~`socials`~~. ✅ Hero, about, skills y socials borrados en la F4 (sesión 1, 2026-11-12), con
-  sus specs; quedan `projects` y `contact`. `_variables` ya no lo usa ningún componente: solo
-  el `@use` de `styles.scss`.
+  ~~Solo queda `_variables` (Fase 4).~~ ✅ `_variables` y su `@use` en `styles.scss`, borrados al
+  cerrar la F4.
+- ✅ Todos los componentes de sección: ~~`hero`~~, ~~`about`~~, ~~`skills`~~, ~~`projects`~~,
+  ~~`contact`~~, ~~`socials`~~. ✅ Hero, about, skills y socials borrados en la F4 (sesión 1, 2026-11-12), con
+  sus specs; `projects` y `contact`, en la sesión 2. `src/app/components/` ya no existe.
 - ~~El layout de scroll-snap en `app.scss` + `styles.scss`.~~ ✅ Borrado en la Fase 2b.
 - ~~Las fuentes Manrope y Roboto Condensed (ambas copias).~~ ✅ Borradas en la Fase 1f.
-- Los `.spec.ts` de los componentes — stubs generados por el CLI, no prueban nada.
+- ✅ Los `.spec.ts` de los componentes (borrados con ellos) — stubs generados por el CLI, no prueban nada.
   (`app.spec.ts` **no** era un stub inocuo: ver Higiene.)
 - ~~`src/assets/` completa (migra a `public/`).~~ ✅ Borrada en la Fase 1g; fuera del build.
 
-**Regla de borrado: tres listas de ignores.** El legado está excluido de los linters en tres
+**Regla de borrado: tres listas de ignores.** ✅ **Cumplida (F4):** las tres están vacías de
+legado, y `lint:track` ya no excluye `components`. El legado está excluido de los linters en tres
 sitios: `ignores` de `eslint.config.js`, `ignoreFiles` de `.stylelintrc.json` y
 `.prettierignore`. Cada fase que reescriba una parte del legado quita su entrada **de las tres**
 y vuelve a correr `lint`, `lint:styles` y `format:check`. Cuando las tres estén vacías de
@@ -137,8 +142,8 @@ iconos.
 
 **9. La paleta ya divergió del diseño.** `$bolt: #f5f749` en SCSS, contra el `#FAFF70` de V3.
 ~~El SVG del logo en `navbar.html` trae `stroke="#FAFF70"` hardcodeado.~~ ✅ Ese SVG murió con el
-navbar en la 2f; ✅ el amarillo viejo murió con hero, skills y socials en la F4. Solo queda el
-`$bolt` de `_variables.scss`, sin consumidores.
+navbar en la 2f; ✅ el amarillo viejo murió con hero, skills y socials en la F4. El `$bolt` de
+`_variables.scss` murió con el archivo al cerrar la F4.
 
 **10. ~~`app.html` renderiza `<app-hero>` dos veces~~** como relleno de la cuarta sección.
 ✅ **Resuelto en la Fase 2b.**
@@ -161,7 +166,7 @@ sanitizador. **Sustituto listo en la Fase 3** (`public/icons/sprite.svg` + `ui/i
 
 **14. Sin signals.** ~~`Navbar.isMenuOpen` es un booleano público mutable.~~ ✅ Resuelto en la
 2f/2g: ese componente ya no existe y el menú usa un signal. Desde la 2a.1 la app es **zoneless**
-y todo lo nuevo lleva `OnPush`; los componentes legados siguen sin `OnPush` hasta la Fase 4.
+y todo lo nuevo lleva `OnPush`; ✅ desde la F4 no queda ningún componente sin `OnPush`.
 
 **15. ~~`Socials.trackByName()` es código muerto~~** ✅ Murió con socials en la F4.
 
@@ -180,7 +185,7 @@ sigue en los providers.~~
 - ~~El toggle del menú no tiene `aria-expanded` ni `aria-controls`.~~ ✅ 2g.
 - ~~El overlay no atrapa el foco, no cierra con `Escape`, no bloquea el scroll del body.~~
   ✅ 2g, con `<dialog>` modal y bloqueo de scroll en `_base`.
-- Ningún SVG decorativo tiene `aria-hidden` (queda en el legado; lo nuevo sí lo marca).
+- ~~Ningún SVG decorativo tiene `aria-hidden`.~~ ✅ El legado ya no existe; lo nuevo lo marca.
 - ~~No hay skip-link, ni landmarks (`<header>`, `<footer>`), ni estilos de `:focus-visible`.~~
   ✅ 2e/2f: skip link, `banner` / `main` / `contentinfo` / `navigation` y anillo de foco global.
 - ~~`.social-links .icon:hover { transform: rotateY(360deg) }` ignora `prefers-reduced-motion`.~~

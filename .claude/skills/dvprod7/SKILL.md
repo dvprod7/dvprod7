@@ -1,6 +1,6 @@
 ---
 name: dvprod7
-description: Context and working rules for the dvprod7 Angular portfolio during its V3 rebuild. Use this skill for ANY task in this repo — reading, planning, or writing code — because the committed code implements an ABANDONED design and must not be used as a pattern reference. Covers the V3 Figma source of truth, the token-first design system, target architecture, and what is being deliberately deleted. Triggers on: dvprod7, portafolio, portfolio, hero, navbar, skills section, projects section, contact section, design tokens, Figma V3.
+description: Context and working rules for the dvprod7 Angular portfolio, rebuilt to the V3 design. Use this skill for ANY task in this repo — reading, planning, or writing code. Covers the V3 Figma source of truth, the token-first design system, the architecture and its decisions, and the history of the deleted V1/V2 code (never a pattern reference). Triggers on: dvprod7, portafolio, portfolio, hero, navbar, skills section, projects section, contact section, design tokens, Figma V3.
 ---
 
 # dvprod7 — Portafolio Angular (reconstrucción V3)
@@ -10,19 +10,13 @@ Repo: la raíz del repo (rutas relativas a ella). Angular 20 standalone, SCSS, s
 
 ## ⚠️ Regla número uno
 
-**El código commiteado implementa un diseño MUERTO.** El proyecto estuvo 6 meses parado y el
-diseño se rehízo por completo. Lo que está en `src/app/components/` y `src/app/styles/` es
-maqueta de una versión anterior (V1/V2) con otra narrativa, otra tipografía, otra paleta y
-otro layout.
+**El legado V1/V2 ya no existe** (borrado al cerrar la F4). El código de `src/` es V3. Pero el
+historial de git anterior a la F4 implementa un diseño **muerto**: nunca saques de ahí patrones,
+tokens ni nombres, y no recuperes componentes viejos.
 
-Por lo tanto:
-
-- **NUNCA** uses el código actual como referencia de patrones, tokens, nombres o estructura.
-- **NUNCA** "adaptes" un componente viejo al diseño nuevo. Se reescribe.
-- La única fuente de verdad visual es **Figma V3** → ver `references/figma-map.md`.
+- La única fuente de verdad visual es **Figma V3** → `references/figma-map.md`. Las desviaciones
+  deliberadas de Figma (QA 4.5: sin `bg-hex`, contenedor único) están en `architecture.md`.
 - La única fuente de verdad de tokens es `references/design-tokens.md`.
-- Antes de tocar cualquier cosa del legado, lee `references/audit-legacy.md` para saber qué
-  se conserva (muy poco) y qué se borra (casi todo).
 
 ## Idioma
 
@@ -58,7 +52,7 @@ mensajes de commit *como texto para copiar*, nunca ejecutarlos.
 
 ## Estado actual
 
-> **Última revisión: 2026-11-12 · Fase actual: 4 (Secciones), en curso — sesión 1 de 2 hecha.**
+> **Última revisión: 2026-11-12 · Fase actual: 5 (Lanzamiento) — Fase 4 cerrada (4.0–4.5, 5 secciones).**
 > Alcance recortado a lanzamiento (F3–F5); la F6 es post-lanzamiento. Ver `references/architecture.md`.
 
 **Esta tabla puede estar desactualizada. Verifícala contra el repo antes de confiar en ella**
@@ -71,9 +65,9 @@ mensajes de commit *como texto para copiar*, nunca ejecutarlos.
 | Fase 1 — Tokens y fundación | ✅ Terminada (1a–1g) | ¿existe `src/app/styles/_tokens.scss`? |
 | Fase 2 — Shell | ✅ Terminada (2a–2h) | `ls src/app/sections/nav/` |
 | Fase 3 — Primitivas UI | ✅ Terminada (3a–3g) | `ls src/app/ui/` (button, card, chip, icon, logo, social-links) |
-| Fase 4 — Secciones | 🟡 4.0, Hero, Skills, About hechos. Quedan Projects, Contact, borrado final y cierre (sesión 2) | `ls src/app/sections/` |
+| Fase 4 — Secciones | ✅ Terminada (4.0, 4.5 y las 5 secciones; Projects con placeholders `[TODO]`) | `ls src/app/sections/` |
 | Fase 5 — Copy EN, SEO, prerender | ⬜ No iniciada | ¿`index.html` tiene `meta description`? |
-| Código legado | 🟡 Quedan `projects`, `contact` y `_variables` (mueren en la sesión 2 de la F4) | `ls src/app/components/` |
+| Código legado | ✅ Eliminado (F4): sin `components/` ni `_variables` | `ls src/app/components/` → no existe |
 | Assets | ✅ Foto (AVIF+WebP, 524w/400w, sin 2x real) y PDF del CV, servidos desde `public/` | `ls public/images/` |
 
 Leyenda: ⬜ no iniciada · 🟡 en curso · ✅ terminada · 🔴 problema conocido
@@ -81,7 +75,7 @@ Leyenda: ⬜ no iniciada · 🟡 en curso · ✅ terminada · 🔴 problema cono
 ### Protocolo de orientación (al empezar cualquier sesión de construcción)
 
 ```bash
-ls src/app/styles/ src/app/ui/ src/app/sections/ src/app/components/ 2>&1 | head -40
+ls src/app/styles/ src/app/ui/ src/app/sections/ 2>&1 | head -40
 ```
 
 **El código es la fuente de verdad del progreso, no esta tabla.** Si hay discrepancia,
@@ -105,7 +99,7 @@ la versión exacta, vale una que cumpla `engines.node`. No instales Node.
 | `references/design-tokens.md` | Siempre que escribas SCSS, elijas un color, tamaño, radio o espaciado |
 | `references/figma-map.md` | Antes de construir cualquier sección: **flujo paso a paso**, node IDs, medidas desktop/mobile |
 | `references/architecture.md` | Antes de crear archivos, decidir estructura de carpetas o patrones de Angular; fases y alcance |
-| `references/audit-legacy.md` | Antes de borrar o modificar algo del código existente |
+| `references/audit-legacy.md` | Historia: qué tenía el legado y por qué se borró (antes de recuperar algo de git) |
 
 ## Reglas de código no negociables
 
@@ -119,7 +113,7 @@ la versión exacta, vale una que cumpla `engines.node`. No instales Node.
   inline en templates.
 - **El sitio se prerenderiza.** Nunca toques `window` / `document` / `localStorage` en el
   cuerpo de un componente: va en `afterNextRender()` o detrás de `isPlatformBrowser()`.
-- **Accesibilidad de entrada, no después.** El legado no tenía nada: `aria-expanded` en el
+- **Accesibilidad de entrada, no después.** `aria-expanded` en el
   toggle, foco visible, `aria-hidden` en SVG decorativos, anchors reales (`#about`, no `#`).
 - **SVG por sprite**, nunca inline en template ni `bypassSecurityTrustHtml`.
 
@@ -135,7 +129,6 @@ desfasada. Es parte de terminar, como compilar.
 - **Dany tocó Figma** → relee los nodos y actualiza `design-tokens.md` / `figma-map.md` **antes**
   del código; si no, el token queda documentado con el valor viejo.
 - **Decisión de arquitectura tomada o revertida** → `architecture.md`, con fecha y el porqué.
-- **Se borró código legado** → tacha la entrada en `audit-legacy.md`.
 - **Instrucción nueva de Dany sobre cómo trabajar** → `SKILL.md`, no un comentario en el código.
 
 **Estado volátil nunca va en las referencias:** `design-tokens.md` dice cuál es el token, no quién lo usa.
@@ -153,6 +146,11 @@ propósito, callejones sin salida. Si se deduce con un `ls` o un `git log`, no v
 cortas, con fecha, más reciente arriba. **Máximo 5 entradas**: al añadir la sexta, borra la más
 vieja — si algo de ahí sigue importando, ya debería ser una regla o una decisión cerrada.
 
+- **2026-11-12** — Fase 4 cerrada, en dos sesiones. QA 4.5 (Dany), desviaciones de Figma: sin
+  `bg-hex` (sustituto animado en la F6), contenedor único (mixin `container`, tope 1280). El
+  display **no** crece por encima de 1440: lo pidió Dany, pero rompía el límite de zoom 2.5×;
+  eligió el tope en 150. Projects con `[TODO]` visible; `ui/card` ganó `headingLevel`. Contact
+  sin padding inferior: el hueco a la regla es `--dv-footer-gap`. Legado borrado entero.
 - **2026-11-12** — Fase 3 cerrada (3a–3g). Botón = `<app-button>` que envuelve un `<a>` (ESLint
   exige selector de elemento); `bg-hex` = un SVG en `public/images/`, no en el sprite (las 5
   instancias solo difieren en opacidad → CSS en la F4); iconos de Tabler (MIT). Links del menú
@@ -168,7 +166,6 @@ vieja — si algo de ahí sigue importando, ya debería ser una regla o una deci
   parches del legado (`min-height` en hero/about, `flex-wrap` en skills) y `_variables`;
   `providersFile` del builder `unit-test`, cuando deje de ser experimental.
 - **2026-09-17** — Fase 1 cerrada (1a–1g). Legado mixto: aceptado.
-- **2026-09-16** — Fase 0 cerrada (0a–0c). Aplazado: presupuesto de `skills.scss` → F4.
 
 ## Contexto de negocio (por qué el rediseño)
 

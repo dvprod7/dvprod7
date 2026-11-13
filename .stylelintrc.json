@@ -43,10 +43,5 @@
     }
   ],
 
-  "ignoreFiles": [
-    "dist/**",
-    ".angular/**",
-    "src/app/styles/_variables.scss",
-    "src/app/components/**/*.scss"
-  ]
+  "ignoreFiles": ["dist/**", ".angular/**"]
 }

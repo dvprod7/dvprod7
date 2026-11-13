@@ -1,0 +1,40 @@
+<section class="projects" aria-labelledby="projects-title">
+  <div class="projects__inner">
+    <p class="projects__eyebrow"><span aria-hidden="true">/</span> {{ content.heading.eyebrow }}</p>
+
+    <h2 id="projects-title" class="projects__title">{{ content.heading.title }}</h2>
+
+    <p class="projects__intro">{{ content.intro }}</p>
+
+    <ul class="projects__grid">
+      @for (project of content.selected; track project.heading) {
+        <li class="projects__item">
+          <app-card
+            [heading]="project.heading"
+            [description]="project.description"
+            [tags]="project.tags"
+          />
+        </li>
+      }
+    </ul>
+
+    @let building = content.buildingNow;
+    <h3 class="projects__subtitle"><span aria-hidden="true">/</span> {{ building.title }}</h3>
+
+    <p class="projects__subintro">{{ building.intro }}</p>
+
+    <ul class="projects__grid">
+      @for (project of building.projects; track project.heading) {
+        <li class="projects__item">
+          <app-card
+            [heading]="project.heading"
+            [description]="project.description"
+            [tags]="project.tags"
+            [status]="building.status"
+            [headingLevel]="4"
+          />
+        </li>
+      }
+    </ul>
+  </div>
+</section>

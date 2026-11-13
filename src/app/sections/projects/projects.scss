@@ -1,0 +1,73 @@
+@use 'mixins' as *;
+
+.projects {
+  @include container;
+
+  padding-block: var(--dv-section-padding-block);
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dv-space-20);
+
+    @include up(md) {
+      gap: var(--dv-space-30);
+    }
+  }
+
+  &__eyebrow {
+    @include eyebrow;
+
+    text-transform: uppercase;
+  }
+
+  &__title {
+    @include section-title;
+  }
+
+  &__intro {
+    font-size: var(--dv-text-body-lg);
+    line-height: var(--dv-leading-normal);
+    color: var(--dv-color-text-muted);
+  }
+
+  // Stacked on mobile, the design's two columns from md. Cards in a row
+  // stretch to the same height (the card fills its cell).
+  &__grid {
+    display: grid;
+    gap: var(--dv-space-20) var(--dv-space-28);
+    padding: 0;
+    list-style: none;
+
+    @include up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  // Grid, so the card host stretches to the row height and every card in a
+  // row ends at the same line.
+  &__item {
+    display: grid;
+  }
+
+  // "/ BUILDING NOW": an eyebrow-style label in orange that heads its block.
+  // Figma adds an 8px spacer above it on desktop.
+  &__subtitle {
+    font-size: var(--dv-text-label);
+    font-weight: var(--dv-weight-semibold);
+    line-height: var(--dv-leading-normal);
+    color: var(--dv-color-cta-text);
+    text-transform: uppercase;
+    letter-spacing: var(--dv-tracking-eyebrow);
+
+    @include up(md) {
+      padding-block-start: var(--dv-space-8);
+    }
+  }
+
+  &__subintro {
+    font-size: var(--dv-text-body);
+    line-height: var(--dv-leading-normal);
+    color: var(--dv-color-text-muted);
+  }
+}

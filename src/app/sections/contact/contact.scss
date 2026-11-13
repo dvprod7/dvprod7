@@ -1,0 +1,52 @@
+@use 'mixins' as *;
+
+// No bottom padding: the footer below opens with --dv-footer-gap, which is
+// the design's gap between this row of actions and the footer rule.
+.contact {
+  @include container;
+
+  padding-block-start: var(--dv-section-padding-block);
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dv-space-16);
+    align-items: flex-start;
+
+    @include up(md) {
+      gap: var(--dv-space-20);
+    }
+  }
+
+  &__eyebrow {
+    @include eyebrow;
+
+    text-transform: uppercase;
+  }
+
+  &__title {
+    @include section-title;
+
+    font-size: var(--dv-text-h2-lg);
+  }
+
+  &__body {
+    max-inline-size: var(--dv-contact-body-max);
+    font-size: var(--dv-text-body-lg);
+    line-height: var(--dv-leading-normal);
+    color: var(--dv-color-text-muted);
+  }
+
+  // Button and pills share a row on desktop; on mobile the pills wrap below
+  // the button as one block. Figma adds a small spacer above the row.
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--dv-space-16) var(--dv-space-14);
+    align-items: center;
+
+    @include up(md) {
+      padding-block-start: var(--dv-space-8);
+    }
+  }
+}

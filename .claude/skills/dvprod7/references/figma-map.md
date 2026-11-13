@@ -79,8 +79,8 @@ Orden en la página. Alturas del frame desktop.
 
 ### 2. Hero — `702:12` (1440×780) · `726:18` (440×428)
 
-- Decoración `bg-hex` (`725:10` desktop · `726:19` mobile). El de mobile cae fuera del frame y no
-  se ve: en código solo existe desde `md` (ver `design-tokens.md` §10).
+- ~~Decoración `bg-hex` (`725:10` desktop · `726:19` mobile).~~ **Retirada en la QA 4.5** (Dany,
+  2026-11-12): no se implementa en ninguna sección. Ver `design-tokens.md` §10.
 - Eyebrow `/ Hi, I'm Daniel Valenzuela` en amarillo, 20px/600/+1px tracking (en código usa
   `--dv-text-eyebrow`, 18/16, como el resto de eyebrows).
 - *Deriva mobile:* eyebrow naranja, CTA "View Projects" amarillo + "Contact" outline gris,
@@ -133,8 +133,7 @@ Orden en la página. Alturas del frame desktop.
 
 ### 4. Skills — `702:14` (1440×511) · `728:31` (440×876)
 
-- Decoración `bg-hex` (`725:11`). **Mobile no lleva `bg-hex`.** Y en desktop el nodo cae entero
-  fuera del lienzo (no pinta nada en `702:10`): **en código Skills no lleva hex.**
+- ~~Decoración `bg-hex` (`725:11`).~~ Retirada (4.5); de todos modos este nodo caía fuera del lienzo.
 - Eyebrow `/ SKILLS` + título "What I work with".
 - `skill-groups` (`715:10`): **4 columnas de 264px, gap 28px**. Cada `skill-col`:
   regla superior de 2px (`rgba(236,235,243,.16)`), título 17px/600 amarillo,
@@ -168,15 +167,26 @@ de estado y el contenido.
 - **No hay imágenes de proyecto en V3** (la V1 sí las tenía). Son tarjetas de puro texto.
 - **No hay página de detalle de proyecto en V3.** El `Project Detail` que existe en la página
   vieja no se porta.
+- **En código (F4):** "/ BUILDING NOW" es un `h3` (y sus tarjetas, `h4`: `ui/card` lleva
+  `headingLevel`). Las tarjetas de una fila igualan su alto (Figma usa `items-start`; diferencia
+  mínima). El copy de los proyectos es **placeholder** con `[TODO]` visible (ver `architecture.md`).
+- *Deriva mobile (`729:10`):* subtítulos recortados, sin intro bajo "/ BUILDING NOW", borde de
+  tarjeta `.16`. En código, el copy y los colores de desktop.
 
 ### 6. Contact + footer — `702:16` (1440×628) · `729:55` (440×441)
 
-- Decoración `bg-hex` (`725:12` desktop · `729:56` mobile).
+- ~~Decoración `bg-hex` (`725:12` desktop · `729:56` mobile).~~ Retirada (4.5).
 - Eyebrow `/ CONTACT`, título "Ready to start?" (56/40, `--dv-text-h2-lg`), párrafo.
 - `cta-row` (`718:14`): botón `Say hello` (amarillo relleno) + 3 pills outline
   (`Email`, `GitHub`, `LinkedIn`, radio full, 40px de alto). En código: `app-button`
   `variant="accent" size="sm"` + `ui/social-links` con `variant="pill"` (mismos datos que el hero).
-- Divisor de 1px a lo ancho del contenido.
+- Divisor de 1px a lo ancho del contenido. **Es del footer**, no de Contact (ver `architecture.md`,
+  Fase 2: el footer es su propio componente fuera de `<main>`).
+- **Espaciado Contact → regla (F4):** Contact va sin padding inferior; el hueco lo pone el footer
+  con `--dv-footer-gap` (64 desktop, Figma 72; 18 mobile, Figma 18). El padding superior de 110/56
+  se normaliza a `--dv-section-padding-block`.
+- Párrafo con ancho máximo `--dv-contact-body-max` (780, el ancho fijo de Figma).
+- *Deriva mobile (`729:55`):* párrafo más corto, botón `#333` sobre amarillo. En código, desktop.
 - Footer: `</dvprod7> — Daniel Valenzuela` a la izquierda,
   `Bogotá, Colombia · Available for remote work` a la derecha. En mobile van apilados.
 - **No hay formulario de contacto en V3.** La V1 lo tenía (name/email/message/send); se
@@ -193,8 +203,8 @@ de estado y el contenido.
   (`89b87` hero d/m, `72571` skills, `0fd86` contact d, `0dfba` contact m) tienen la misma
   geometría, degradado, blur (12) y tamaño, y el mismo recuadro en el nodo; **solo cambia la
   opacidad del grupo**: hero **.5**, skills **.26**, contact **.34** (mobile .3 = deriva). Un solo
-  asset, `public/images/bg-hex.svg`, sin opacidad; la posición (x/y de cada nodo) y la opacidad
-  las pone cada sección en la F4.
+  asset, `public/images/bg-hex.svg`, sin opacidad. **Sin uso desde la 4.5:** la decoración se
+  retiró (ver `design-tokens.md` §10).
 - ~~Iconos reales para las social pills~~ ✅ Fase 3: Tabler Icons (MIT) en el sprite.
 - ~~El PDF del CV~~ ✅ En el repo desde 2026-08-20:
   `public/DanielValenzuela_FrontEndDeveloper_CV_EN_2025.pdf` (96 KB).

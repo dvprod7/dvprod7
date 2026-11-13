@@ -13,6 +13,10 @@
       }
     </ul>
   }
-  <h3 class="card__title">{{ heading() }}</h3>
+  @if (headingLevel() === 4) {
+    <h4 class="card__title">{{ heading() }}</h4>
+  } @else {
+    <h3 class="card__title">{{ heading() }}</h3>
+  }
   <p class="card__description">{{ description() }}</p>
 </article>

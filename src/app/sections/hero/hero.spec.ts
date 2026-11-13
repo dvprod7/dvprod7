@@ -61,10 +61,7 @@ describe('Hero', () => {
     expect(host.querySelectorAll('app-social-links app-icon').length).toBe(links.length);
   });
 
-  it('marks the decoration as decorative', () => {
-    const hex = host.querySelector('img.hero__hex');
-
-    expect(hex?.getAttribute('alt')).toBe('');
-    expect(hex?.getAttribute('aria-hidden')).toBe('true');
+  it('has no decorative background image', () => {
+    expect(host.querySelector('img')).toBeNull();
   });
 });

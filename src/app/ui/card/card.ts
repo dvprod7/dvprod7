@@ -18,4 +18,6 @@ export class Card {
   // Unique within a card: they double as the @for track key.
   readonly tags = input<readonly string[]>([]);
   readonly status = input<string>();
+  // Follows the outline of the page: 4 when the cards sit under an h3.
+  readonly headingLevel = input<3 | 4>(3);
 }
