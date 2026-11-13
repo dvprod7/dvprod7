@@ -36,13 +36,25 @@ describe('Contact', () => {
     expect(button?.hasAttribute('target')).toBeFalse();
   });
 
-  it('shows the social links as text pills', () => {
+  it('shows GitHub and LinkedIn as text pills, without the Email link', () => {
     const pills = Array.from(
       host.querySelectorAll<HTMLAnchorElement>('app-social-links .social-links__pill'),
     );
+    const others = links.filter((l) => l.id !== 'email');
 
-    expect(pills.map((a) => a.getAttribute('href'))).toEqual(links.map((l) => l.href));
+    expect(pills.map((a) => a.getAttribute('href'))).toEqual(others.map((l) => l.href));
     expect(host.querySelector('app-social-links app-icon')).toBeNull();
+  });
+
+  it('turns Email into a copy button, first in the row of pills', () => {
+    const pills = host.querySelector('.contact__pills');
+    const copy = pills?.firstElementChild;
+
+    expect(copy?.tagName.toLowerCase()).toBe('app-copy-pill');
+    expect(copy?.querySelector('button')?.getAttribute('aria-label')).toBe(
+      content.copyEmail.actionLabel,
+    );
+    expect(host.querySelector('.contact__pills a[href^="mailto:"]')).toBeNull();
   });
 
   it('has no form: contact is direct links only', () => {

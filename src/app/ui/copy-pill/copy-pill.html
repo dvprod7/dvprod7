@@ -1,0 +1,20 @@
+<button
+  class="copy-pill"
+  type="button"
+  [class.copy-pill--copied]="copied()"
+  [attr.aria-label]="actionLabel()"
+  (click)="copy()"
+>
+  <span class="copy-pill__label">
+    @if (copied()) {
+      {{ copiedLabel() }}<app-icon name="check" />
+    } @else {
+      {{ label() }}
+    }
+  </span>
+  <span class="copy-pill__reveal"
+    ><span class="copy-pill__value">{{ value() }}</span></span
+  >
+</button>
+<!-- Always in the DOM, so screen readers pick up the change. -->
+<span class="copy-pill__status" aria-live="polite">{{ copied() ? copiedAnnouncement() : '' }}</span>

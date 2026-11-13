@@ -49,4 +49,17 @@
       padding-block-start: var(--dv-space-8);
     }
   }
+
+  // Copy pill + social pills, same gap as between the social pills, so the
+  // three read as one row; the copy pill grows and pushes the others along.
+  &__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--dv-space-8);
+    align-items: center;
+
+    @include up(md) {
+      gap: var(--dv-space-14);
+    }
+  }
 }

@@ -341,6 +341,9 @@ no reabrir.
 Figma no dibuja `hover` ni `focus` de los links. Decisión: `:hover` y `:focus-visible` pasan el
 link a `--dv-color-accent`, con `transition: color 0.2s ease` **solo** dentro de
 `@media (prefers-reduced-motion: no-preference)`. El anillo de foco es el global de `_base`.
+La misma regla se aplica a las pills de Contact (mixin `pill`), a los links de tarjeta y, desde la
+5c, a los botones: `cta`/`outline` se rellenan de `--dv-color-accent`; `accent` se invierte a
+`--dv-color-surface-inverse` con texto y borde acento. Sin tokens nuevos.
 
 ## 8. Efectos
 

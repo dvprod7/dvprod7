@@ -52,7 +52,7 @@ mensajes de commit *como texto para copiar*, nunca ejecutarlos.
 
 ## Estado actual
 
-> **Última revisión: 2026-11-12 · Fase actual: 5 (Lanzamiento) — Fase 4 cerrada (4.0–4.5, 5 secciones).**
+> **Última revisión: 2026-11-12 · Fase actual: 5 (Lanzamiento), sesión 1 hecha (5a–5e); falta la 2.**
 > Alcance recortado a lanzamiento (F3–F5); la F6 es post-lanzamiento. Ver `references/architecture.md`.
 
 **Esta tabla puede estar desactualizada. Verifícala contra el repo antes de confiar en ella**
@@ -64,9 +64,9 @@ mensajes de commit *como texto para copiar*, nunca ejecutarlos.
 | Fase 0 — Higiene | ✅ Terminada (0a+0b+0c) | ¿existe `.nvmrc`? ¿hay ESLint en `package.json`? |
 | Fase 1 — Tokens y fundación | ✅ Terminada (1a–1g) | ¿existe `src/app/styles/_tokens.scss`? |
 | Fase 2 — Shell | ✅ Terminada (2a–2h) | `ls src/app/sections/nav/` |
-| Fase 3 — Primitivas UI | ✅ Terminada (3a–3g) | `ls src/app/ui/` (button, card, chip, icon, logo, social-links) |
-| Fase 4 — Secciones | ✅ Terminada (4.0, 4.5 y las 5 secciones; Projects con placeholders `[TODO]`) | `ls src/app/sections/` |
-| Fase 5 — Copy EN, SEO, prerender | ⬜ No iniciada | ¿`index.html` tiene `meta description`? |
+| Fase 3 — Primitivas UI | ✅ Terminada (3a–3g); `copy-pill` llegó en la 5e | `ls src/app/ui/` |
+| Fase 4 — Secciones | ✅ Terminada (4.0, 4.5 y las 5 secciones) | `ls src/app/sections/` |
+| Fase 5 — Lanzamiento | 🟡 En curso: sesión 1 (5a–5e: links en card, copy de Projects, hover de botones, a11y, QA) hecha; sesión 2 (meta/SEO, prerender, reduced motion, Lighthouse) pendiente | ¿`index.html` tiene `meta description`? |
 | Código legado | ✅ Eliminado (F4): sin `components/` ni `_variables` | `ls src/app/components/` → no existe |
 | Assets | ✅ Foto (AVIF+WebP, 524w/400w, sin 2x real) y PDF del CV, servidos desde `public/` | `ls public/images/` |
 

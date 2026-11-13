@@ -1,5 +1,7 @@
 <header class="nav">
-  <a class="nav__logo" href="#main"><app-logo [logo]="content.logo" /></a>
+  <a class="nav__logo" href="#main" [attr.aria-label]="content.logoLinkLabel"
+    ><app-logo [logo]="content.logo"
+  /></a>
 
   <nav class="nav__menu" [attr.aria-label]="content.nav.ariaLabel">
     <ul class="nav__links">
@@ -40,7 +42,11 @@
 >
   <div class="menu__inner">
     <div class="menu__bar">
-      <a class="menu__logo" href="#main" (click)="closeMenu()"
+      <a
+        class="menu__logo"
+        href="#main"
+        [attr.aria-label]="content.logoLinkLabel"
+        (click)="closeMenu()"
         ><app-logo [logo]="content.logo"
       /></a>
 

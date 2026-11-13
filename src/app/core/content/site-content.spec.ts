@@ -91,13 +91,51 @@ describe('SITE_CONTENT', () => {
     }
   });
 
-  it('points the contact button and the Email link at the same address', () => {
+  it('gives every project link a unique label, a usable href and the right tab', () => {
+    for (const [locale, content] of entries) {
+      const projects = [...content.projects.selected, ...content.projects.buildingNow.projects];
+
+      for (const project of projects) {
+        const links = project.links ?? [];
+        const labels = links.map((link) => link.label);
+
+        expect(new Set(labels).size)
+          .withContext(`${locale}: ${project.heading}`)
+          .toBe(labels.length);
+        for (const link of links) {
+          expect(link.href)
+            .withContext(`${locale}: ${link.label}`)
+            .toMatch(/^https:\/\//);
+          // External links open a new tab, as the social links do.
+          expect(link.newTab).withContext(`${locale}: ${link.label}`).toBeTrue();
+        }
+      }
+    }
+  });
+
+  it('points the contact button, the copy pill and the Email link at the same address', () => {
     for (const [locale, content] of entries) {
       const email = content.socialLinks.find((link) => link.id === 'email');
+      const copy = content.contact.copyEmail;
 
       expect(content.contact.cta.href)
         .withContext(locale)
         .toBe(email?.href ?? '');
+      expect(copy.fallbackHref)
+        .withContext(locale)
+        .toBe(email?.href ?? '');
+      expect(copy.fallbackHref).withContext(locale).toBe(`mailto:${copy.address}`);
+      expect(copy.label)
+        .withContext(locale)
+        .toBe(email?.label ?? '');
+    }
+  });
+
+  it('starts the logo link name with the visible name (WCAG 2.5.3)', () => {
+    for (const [locale, content] of entries) {
+      expect(content.shell.logoLinkLabel.startsWith(content.shell.logo.name))
+        .withContext(locale)
+        .toBeTrue();
     }
   });
 

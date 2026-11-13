@@ -57,6 +57,7 @@ src/
     ui/                                    primitivas reutilizables, sin lógica de negocio
       button/     chip/        card/
       icon/       logo/        social-links/
+      copy-pill/                           (F5) pill que copia el email en Contact
     styles/
       _tokens.scss                         :root con todas las custom properties
       _reset.scss
@@ -312,7 +313,7 @@ la F4 (o ya en la nav). Todas son tontas: reciben datos por `input()` y no leen 
 | `ui/icon` | `social-links` (y quien necesite un icono) | `name: IconName` |
 | `ui/button` | Hero (View Projects, Hire me), About (Download CV), Contact (Say hello) | `href`, `variant: cta \| outline \| accent`, `size: md \| sm`, `download` |
 | `ui/chip` | `ui/card` | `variant: default \| cta`; texto proyectado |
-| `ui/card` | Projects (Selected work y Building now) | `heading`, `description`, `tags`, `status?` |
+| `ui/card` | Projects (Selected work y Building now) | `heading`, `description`, `tags`, `status?`, `headingLevel`, `links?` + `newTabHint` (F5) |
 | `ui/social-links` | Menú mobile (ya), Hero (`icon`) y Contact (`pill`) en la F4 | `links: SocialLink[]`, `variant: icon \| pill` |
 
 - **Sprite (3a).** `public/icons/sprite.svg`, servido como `/icons/sprite.svg` (`ICON_SPRITE` en
@@ -334,7 +335,7 @@ la F4 (o ya en la nav). Todas son tontas: reciben datos por `input()` y no leen 
   navegan (ancla, PDF, mailto). Un selector de atributo (`a[app-button]`) choca con la regla
   `component-selector` (tipo elemento) de ESLint, y no se toca la regla. Los tres variantes llevan
   el mismo borde de `--dv-border-btn` (transparente en los rellenos) para medir igual. Figma no
-  dibuja hover: los botones no tienen; se revisa en la pasada visual de la F5.
+  dibuja hover; ~~los botones no tienen~~ **resuelto en la 5c** (ver "Fase 5").
 - **Card (3d):** `<article>` con `<h3>`; el `status` (texto) pinta el chip `cta` delante de los
   tags y el borde naranja. Los tags hacen de clave de `track`, así que no se repiten en una card.
 - **Social links (3e):** los datos viven en `SITE_CONTENT[locale].socialLinks` (id, label, href,
@@ -408,7 +409,7 @@ Projects, Contact, el borrado final del legado y el cierre.
   un `h3` naranja (`--dv-color-cta-text`, tamaño `label`, tracking de eyebrow); por eso
   `ui/card` ganó `headingLevel: 3 | 4` (sus tarjetas son `h4`). El chip de estado sale de
   `buildingNow.status`, no de los tags.
-- **Placeholders de Projects.** Cada proyecto lleva `// TODO(content):` encima y `[TODO]` visible
+- ~~**Placeholders de Projects.**~~ **Sustituidos por el copy real en la 5b.** Cada proyecto llevaba `// TODO(content):` encima y `[TODO]` visible
   delante del título y de la descripción, conservando el texto de Figma para que Dany edite en
   vez de escribir de cero. Para llenarlos: solo `site-content.ts`. Un spec garantiza títulos
   únicos y tags únicos por tarjeta (son claves de `track`).
@@ -420,3 +421,53 @@ Projects, Contact, el borrado final del legado y el cierre.
   `styles.scss`; las tres listas de ignores quedan sin legado y `lint:track` deja de excluir
   `components`. El aviso de presupuesto (`anyComponentStyle`, 4 kB) era del `skills.scss` legado
   y ya no aparece en `ng build` de producción desde la sesión 1.
+
+## Fase 5 (2026-11-12) — en curso
+
+En dos sesiones (decidido por Dany): la 1 hace contenido y ajustes visibles (5a–5e); la 2,
+meta/SEO, prerender, reduced motion, Lighthouse y el cierre.
+
+- **5a — Links en `ui/card`.** `links?: CardLink[]` (`label`, `href`, `newTab`) en el dato del
+  proyecto; la tarjeta los pinta en un `<ul>` al pie (`margin-block-start: auto`, así se alinean en
+  una fila de tarjetas del mismo alto). Mismo contrato que `social-links`: externos con
+  `target="_blank" rel="noopener noreferrer"` y `a11y.newTabHint` en un `<span>` visualmente
+  oculto; la pista llega por `input` (la card no lee el content layer). Sin links, la tarjeta no
+  cambia. Estilo solo con tokens existentes: texto `--dv-color-text` semibold, subrayado en
+  `--dv-color-border-accent` con `text-underline-offset: --dv-space-4`; hover/focus = regla de la
+  nav (pasa a `--dv-color-accent`). `padding-block: --dv-space-4` sube el objetivo a ≥ 24 px
+  (WCAG 2.5.8). Sin token nuevo.
+- **5b — Copy real de Projects.** 4 tarjetas en Selected work (grid 2×2) y 1 en Building now (ocupa
+  media fila desde `md`). Apóstrofos tipográficos (`’`) como el resto del copy. El link "Code" de
+  Dubtoast queda como `TODO(content)` comentado en el dato: **la tarjeta sale solo con "Live
+  site"** hasta tener la URL del repo. Intro de Building now: "One client project in progress
+  right now." (la anterior hablaba de dos proyectos y de GitHub).
+- **5c — Estados de `ui/button`.** Figma no los dibuja. Regla, coherente con nav y pills ("el
+  acento toma el control"): `cta` y `outline` → relleno `--dv-color-accent` con
+  `--dv-color-accent-contrast`; `accent` (ya amarillo) → se invierte al look outline
+  (`--dv-color-surface-inverse`, texto y borde acento). Mismo estado en `:hover` y
+  `:focus-visible`; el anillo global sigue fuera del relleno por el offset. Transición 0.2 s solo
+  con `prefers-reduced-motion: no-preference`.
+- **5d — Accesibilidad.** Los links del logo (nav y menú; el del footer no es link) llevan
+  `aria-label` = `shell.logoLinkLabel` ("dvprod7 — home"), que empieza por el nombre visible
+  (WCAG 2.5.3; un spec lo comprueba). Emojis decorativos: revisados, ya iban en
+  `<span aria-hidden>` (hero, About) desde la F4; sin cambios.
+- **5e — Desviaciones de Figma (QA, Dany, 2026-11-12):**
+  1. **Nav desktop alineada a la derecha.** Grid `1fr auto`: los links quedan pegados al borde
+     derecho del contenedor. El hueco central de Figma era del switch ESP/ENG (post-lanzamiento);
+     cuando vuelva, ocupa una tercera columna implícita. El menú mobile no cambia.
+  2. **Email de Contact copiable.** Nueva primitiva `ui/copy-pill` (un `<button>`, no un link):
+     en reposo muestra "Email"; con `:hover` / `:focus-visible` (o mientras dura "Copied") se
+     ensancha y muestra la dirección, animando **solo** su columna (`grid-template-columns: auto
+     0fr → auto 1fr`; las pills vecinas se desplazan; con reduced motion no hay transición). Clic,
+     tap o Enter copian con `navigator.clipboard.writeText`; "Copied" + icono `check` ~2 s y
+     anuncio en un `aria-live="polite"` siempre presente. Sin clipboard o si falla → `mailto`
+     (`location.assign`). Clipboard, `location` y el timer solo en el handler (prerender). Nombre
+     accesible "Copy email address" (contiene el visible "Email"). Textos en
+     `contact.copyEmail`; `fallbackHref` es la misma constante que "Say hello" y el link Email.
+     En Contact, `socialLinks` se filtra sin `email`; en el hero y el menú Email sigue siendo link.
+  - El estilo de pill pasó a un mixin `pill` en `_mixins` (lo comparten `social-links` y
+    `copy-pill`); recibe declaraciones extra por `@content` para evitar el aviso `mixed-decls`
+    de Sass. Icono `check` de Tabler v3.31.0 añadido al sprite (el `✓` no está en el subset de
+    Inter).
+  Verificado a 440, 800, 1100, 1440, 1536 y 1920 (Chrome headless por CDP: capturas, hover,
+  copia real con permiso de portapapeles y reset a los 2 s).

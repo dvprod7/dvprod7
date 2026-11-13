@@ -19,4 +19,22 @@
     <h3 class="card__title">{{ heading() }}</h3>
   }
   <p class="card__description">{{ description() }}</p>
+  @if (links().length) {
+    <ul class="card__links">
+      @for (link of links(); track link.label) {
+        <li>
+          <a
+            class="card__link"
+            [href]="link.href"
+            [attr.target]="link.newTab ? '_blank' : null"
+            [attr.rel]="link.newTab ? 'noopener noreferrer' : null"
+            >{{ link.label }}
+            @if (link.newTab) {
+              <span class="card__hint"> {{ newTabHint() }}</span>
+            }
+          </a>
+        </li>
+      }
+    </ul>
+  }
 </article>

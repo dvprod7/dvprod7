@@ -38,31 +38,8 @@
 
   // Relative: anchors the visually hidden hint inside the pill.
   &__pill {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    padding: var(--dv-space-8) var(--dv-space-16);
-    font-size: var(--dv-text-body);
-    font-weight: var(--dv-weight-semibold);
-    line-height: var(--dv-leading-normal);
-    color: var(--dv-color-text-strong);
-    text-decoration: none;
-    white-space: nowrap;
-    border: var(--dv-border-pill);
-    border-radius: var(--dv-radius-full);
-
-    @include up(md) {
-      padding: var(--dv-space-12) var(--dv-space-20);
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      transition: color 0.2s ease;
-    }
-
-    // Same rule as the nav links (design-tokens.md, "Estados de la nav").
-    &:hover,
-    &:focus-visible {
-      color: var(--dv-color-accent);
+    @include pill {
+      position: relative;
     }
   }
 

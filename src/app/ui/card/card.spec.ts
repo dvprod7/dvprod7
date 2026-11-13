@@ -63,4 +63,48 @@ describe('Card', () => {
 
     expect(host.querySelector('ul')).toBeNull();
   });
+
+  describe('links', () => {
+    const hint = '(opens in a new tab)';
+    const links = () => Array.from(host.querySelectorAll<HTMLAnchorElement>('.card__link'));
+    // Whitespace collapsed, as the accessible name computation does.
+    const text = (a: HTMLAnchorElement) => a.textContent?.replace(/\s+/g, ' ').trim();
+
+    it('renders no link list by default, so the card looks as before', () => {
+      expect(host.querySelector('.card__links')).toBeNull();
+    });
+
+    it('lists the links in order, at the foot of the card', async () => {
+      fixture.componentRef.setInput('newTabHint', hint);
+      fixture.componentRef.setInput('links', [
+        { label: 'Live site', href: 'https://example.com/', newTab: true },
+        { label: 'Case study', href: '#projects', newTab: false },
+      ]);
+      await fixture.whenStable();
+
+      expect(links().map((a) => a.getAttribute('href'))).toEqual([
+        'https://example.com/',
+        '#projects',
+      ]);
+      expect(host.querySelector('article > :last-child')?.classList).toContain('card__links');
+    });
+
+    it('opens external links in a new tab, safely, and says so to assistive tech', async () => {
+      fixture.componentRef.setInput('newTabHint', hint);
+      fixture.componentRef.setInput('links', [
+        { label: 'Live site', href: 'https://example.com/', newTab: true },
+        { label: 'Case study', href: '#projects', newTab: false },
+      ]);
+      await fixture.whenStable();
+
+      const [external, internal] = links();
+
+      expect(external.getAttribute('target')).toBe('_blank');
+      expect(external.getAttribute('rel')).toBe('noopener noreferrer');
+      expect(text(external)).toBe(`Live site ${hint}`);
+      expect(internal.hasAttribute('target')).toBeFalse();
+      expect(internal.hasAttribute('rel')).toBeFalse();
+      expect(text(internal)).toBe('Case study');
+    });
+  });
 });

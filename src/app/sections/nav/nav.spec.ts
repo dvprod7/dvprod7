@@ -47,6 +47,15 @@ describe('Nav', () => {
     expect(logo?.textContent).toBe('</dvprod7>');
   });
 
+  it('gives both logo links an accessible name from the content layer', () => {
+    const logos = Array.from(host.querySelectorAll<HTMLAnchorElement>('.nav__logo, .menu__logo'));
+
+    expect(logos.length).toBe(2);
+    for (const logo of logos) {
+      expect(logo.getAttribute('aria-label')).toBe(content.logoLinkLabel);
+    }
+  });
+
   it('links every section anchor, in content order', () => {
     const links = Array.from(host.querySelectorAll<HTMLAnchorElement>('.nav__link'));
 

@@ -13,6 +13,8 @@
             [heading]="project.heading"
             [description]="project.description"
             [tags]="project.tags"
+            [links]="project.links ?? []"
+            [newTabHint]="newTabHint"
           />
         </li>
       }
@@ -32,6 +34,8 @@
             [tags]="project.tags"
             [status]="building.status"
             [headingLevel]="4"
+            [links]="project.links ?? []"
+            [newTabHint]="newTabHint"
           />
         </li>
       }

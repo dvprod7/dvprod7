@@ -11,7 +11,20 @@
         content.cta.label
       }}</app-button>
 
-      <app-social-links [links]="socialLinks" variant="pill" [newTabHint]="newTabHint" />
+      <!-- One block: on mobile the pills wrap below the button together. -->
+      <div class="contact__pills">
+        @let copy = content.copyEmail;
+        <app-copy-pill
+          [label]="copy.label"
+          [value]="copy.address"
+          [fallbackHref]="copy.fallbackHref"
+          [actionLabel]="copy.actionLabel"
+          [copiedLabel]="copy.copiedLabel"
+          [copiedAnnouncement]="copy.copiedAnnouncement"
+        />
+
+        <app-social-links [links]="socialLinks" variant="pill" [newTabHint]="newTabHint" />
+      </div>
     </div>
   </div>
 </section>

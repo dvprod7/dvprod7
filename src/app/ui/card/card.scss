@@ -43,4 +43,48 @@
     line-height: var(--dv-leading-normal);
     color: var(--dv-color-text-muted);
   }
+
+  // Pushed to the foot of the card, so links line up across a row of cards
+  // of the same height.
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--dv-space-8) var(--dv-space-20);
+    padding: 0;
+    margin-block-start: auto;
+    list-style: none;
+  }
+
+  // Text link: underlined in the chip-border yellow at rest; the hover and
+  // focus rule is the nav's (design-tokens.md, "Estados de la nav"). The block
+  // padding takes the target past 24px (WCAG 2.5.8). Relative: anchors the
+  // visually hidden hint.
+  &__link {
+    position: relative;
+    display: inline-block;
+    padding-block: var(--dv-space-4);
+    font-size: var(--dv-text-body);
+    font-weight: var(--dv-weight-semibold);
+    line-height: var(--dv-leading-normal);
+    color: var(--dv-color-text);
+    text-decoration: underline;
+    text-decoration-color: var(--dv-color-border-accent);
+    text-underline-offset: var(--dv-space-4);
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition:
+        color 0.2s ease,
+        text-decoration-color 0.2s ease;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--dv-color-accent);
+      text-decoration-color: var(--dv-color-accent);
+    }
+  }
+
+  &__hint {
+    @include visually-hidden;
+  }
 }

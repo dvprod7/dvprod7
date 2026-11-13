@@ -25,6 +25,9 @@ export interface LogoContent {
 
 export interface ShellContent {
   readonly logo: LogoContent;
+  // Accessible name of the logo links (nav and menu); starts with the visible
+  // name, so voice control still matches what is on screen.
+  readonly logoLinkLabel: string;
   readonly skipLink: string;
   readonly nav: {
     readonly ariaLabel: string;
@@ -114,12 +117,22 @@ export interface AboutContent {
   readonly photoAlt: string;
 }
 
+// A link at the foot of a card ("Live site", "Code"). External ones open in a
+// new tab, like the social links; the flag lives in the data, not in the href.
+export interface CardLink {
+  // Unique within a card: it doubles as the @for track key.
+  readonly label: string;
+  readonly href: string;
+  readonly newTab: boolean;
+}
+
 // One card. Tags are unique within a project (the @for track key) and headings
 // are unique across the section (same reason).
 export interface Project {
   readonly heading: string;
   readonly description: string;
   readonly tags: readonly string[];
+  readonly links?: readonly CardLink[];
 }
 
 export interface ProjectsContent {
@@ -142,6 +155,21 @@ export interface ContactContent {
   readonly cta: {
     readonly label: string;
     readonly href: string;
+  };
+  // The Email pill on Contact: a button that copies the address (and falls
+  // back to mailto). Elsewhere Email stays a plain social link.
+  readonly copyEmail: {
+    // Visible text at rest; the same as the Email social link.
+    readonly label: string;
+    // Shown when the pill expands, and what gets copied.
+    readonly address: string;
+    readonly fallbackHref: string;
+    // Accessible name of the button.
+    readonly actionLabel: string;
+    // Replaces the label for ~2 s after a copy (a check icon follows it).
+    readonly copiedLabel: string;
+    // Read by the polite live region after a copy.
+    readonly copiedAnnouncement: string;
   };
 }
 
@@ -166,13 +194,16 @@ export type SiteContentByLocale = Readonly<Record<typeof DEFAULT_LOCALE, SiteCon
 
 const LOGO: LogoContent = { open: '</', name: 'dvprod7', close: '>' };
 
-// Public contact address: the Email link and the "Say hello" button.
-const EMAIL_HREF = 'mailto:dvprod7@gmail.com';
+// Public contact address: the Email link, the "Say hello" button and the copy
+// pill on Contact.
+const EMAIL = 'dvprod7@gmail.com';
+const EMAIL_HREF = `mailto:${EMAIL}`;
 
 export const SITE_CONTENT: SiteContentByLocale = {
   en: {
     shell: {
       logo: LOGO,
+      logoLinkLabel: 'dvprod7 — home',
       skipLink: 'Skip to content',
       nav: {
         ariaLabel: 'Primary',
@@ -262,46 +293,53 @@ export const SITE_CONTENT: SiteContentByLocale = {
       },
       photoAlt: 'Portrait of Daniel Valenzuela',
     },
-    // Projects are placeholders until Dany writes the real copy: each one has a
-    // TODO(content) comment and a visible [TODO] marker. The component cannot
-    // tell, and does not need to.
     projects: {
       heading: { eyebrow: 'Projects', title: 'Selected work' },
       intro: 'Real work and real decisions — not demos. Evidence over adjectives.',
       selected: [
-        // TODO(content): real project copy and tags.
         {
-          heading: '[TODO] Enterprise SaaS website — performance',
+          heading: 'Five9 — enterprise marketing website',
           description:
-            '[TODO] Investigated slow mobile load across five priority pages (LCP, TBT, CLS) and audited the tag-management setup. Delivered a prioritized, evidence-based optimization roadmap the team adopted.',
-          tags: ['Performance', 'Core Web Vitals', 'GTM'],
+            'I’m a front-end/Drupal developer on the marketing website of a US-based customer experience software company. I build reusable page components, connect them to the CMS so the marketing team can publish on their own, and work on making pages load faster and meet Google’s web performance standards (Core Web Vitals). Every change goes through code review, staging environments and automated checks.',
+          tags: ['Drupal', 'Components', 'Web performance'],
+          links: [{ label: 'Live site', href: 'https://www.five9.com/', newTab: true }],
         },
-        // TODO(content): real project copy and tags.
         {
-          heading: '[TODO] dvprod7 — this portfolio',
+          heading: 'Grupo Sima 360 — business website from scratch',
           description:
-            '[TODO] Designed the UI in Figma and built it as an Angular app — an end-to-end project from design to deploy. Built to scale as I keep adding work over time.',
-          tags: ['Angular', 'Figma', 'Design → Deploy'],
+            'End-to-end website for an occupational health and safety consultancy in Cali, Colombia. I mapped the site structure, wrote the copy, created a small design system and the page designs, built it on WordPress, and still manage the site. The goal: turn their offer into a site that brings in clients.',
+          tags: ['WordPress', 'Content strategy', 'Design system'],
+          links: [{ label: 'Live site', href: 'https://sima360.com.co/', newTab: true }],
+        },
+        {
+          heading: 'Dubtoast Store — Angular storefront MVP',
+          description:
+            'A storefront for beats and music production bundles, built from scratch in Angular instead of WooCommerce, to learn how an online shop works under the hood. Product detail pages, a real-time cart and smooth UI motion, deployed continuously. MVP scope: storefront only, no payments or backend.',
+          tags: ['Angular', 'UI/UX', 'Continuous deployment'],
+          links: [
+            { label: 'Live site', href: 'https://dubtoaststore.web.app/', newTab: true },
+            // TODO(content): "Code" link to the Dubtoast repo on GitHub, once its URL is known:
+            // { label: 'Code', href: 'https://github.com/…', newTab: true },
+          ],
+        },
+        {
+          heading: 'dvprod7 — this portfolio',
+          description:
+            'Designed in Figma and built in Angular 20 with a token-based design system, signals, prerendering and accessibility from day one. Built in reviewed phases with an AI coding agent working from a written spec. I review and commit every change.',
+          tags: ['Angular', 'Figma', 'Accessibility'],
+          links: [{ label: 'Code', href: 'https://github.com/dvprod7/dvprod7', newTab: true }],
         },
       ],
       buildingNow: {
         title: 'Building now',
-        intro: 'Two projects in progress — shipping soon. Momentum you can watch on GitHub.',
+        intro: 'One client project in progress right now.',
         status: 'Building now',
         projects: [
-          // TODO(content): real project copy and tags.
           {
-            heading: '[TODO] Meta Conversions API — WP plugin',
+            heading: 'Stella Tovar Realtor — business website',
             description:
-              '[TODO] A free, open-source alternative to connect Meta’s Conversions API manually via hooks — no third-party tool required. Born from a real client need.',
-            tags: ['PHP', 'WordPress'],
-          },
-          // TODO(content): real project copy and tags.
-          {
-            heading: '[TODO] Custom ecommerce — React',
-            description:
-              '[TODO] A storefront bringing marketing, front-end and back-end together in one build — my project to close the gap with the backend.',
-            tags: ['React', 'Full-stack'],
+              'Same end-to-end approach as Sima 360, for a real estate agent in Georgia, USA: site structure, copy, a design system and a custom WordPress build, without a template. Currently in design and development.',
+            tags: ['WordPress', 'Real estate'],
           },
         ],
       },
@@ -310,6 +348,14 @@ export const SITE_CONTENT: SiteContentByLocale = {
       heading: { eyebrow: 'Contact', title: 'Ready to start?' },
       body: 'Got a project or a role in mind? I build and ship web, and I’m open to remote work and collaborations. Let’s talk.',
       cta: { label: 'Say hello', href: EMAIL_HREF },
+      copyEmail: {
+        label: 'Email',
+        address: EMAIL,
+        fallbackHref: EMAIL_HREF,
+        actionLabel: 'Copy email address',
+        copiedLabel: 'Copied',
+        copiedAnnouncement: 'Email address copied to the clipboard',
+      },
     },
     socialLinks: [
       {

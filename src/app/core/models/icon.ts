@@ -1,6 +1,6 @@
 // Icons available in the sprite. Each name is a <symbol id> in
 // public/icons/sprite.svg: add the symbol there before adding the name here.
-export const ICON_NAMES = ['at', 'github', 'linkedin'] as const;
+export const ICON_NAMES = ['at', 'github', 'linkedin', 'check'] as const;
 
 export type IconName = (typeof ICON_NAMES)[number];
 

@@ -10,13 +10,14 @@
 }
 
 .nav {
-  // Opaque: the page scrolls underneath. Third column keeps the links centred
-  // while the language switch is hidden. Same container as the sections, so
-  // the logo lines up with their content.
+  // Opaque: the page scrolls underneath. Logo on the left, links flush with
+  // the right edge of the container (QA 5e, 2026-11-12: Figma centres them to
+  // leave room for the ESP/ENG switch, which is post-launch). Same container
+  // as the sections, so the logo lines up with their content.
   @include container;
 
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr auto;
   align-items: center;
   block-size: var(--dv-nav-height);
   background-color: var(--dv-color-bg);
@@ -76,6 +77,8 @@
     color: var(--dv-color-cta-text);
   }
 
+  // Post-launch: when the switch comes back, it takes a third (implicit)
+  // column after the links.
   &__lang {
     grid-column: 3;
     justify-self: end;
@@ -84,12 +87,12 @@
     color: var(--dv-color-cta-text);
   }
 
-  // Explicit column: below lg the hidden <nav> is not a grid item, so auto
-  // placement would drop the toggle in the middle.
+  // Explicit column: below lg the hidden <nav> is not a grid item; the toggle
+  // takes its place on the right.
   &__toggle {
     display: flex;
     flex-direction: column;
-    grid-column: 3;
+    grid-column: 2;
     gap: var(--dv-space-4);
     justify-self: end;
     padding: var(--dv-space-8);

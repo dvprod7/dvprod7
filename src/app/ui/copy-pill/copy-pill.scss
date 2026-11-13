@@ -1,0 +1,52 @@
+@use 'mixins' as *;
+
+// Relative: anchors the visually hidden live region.
+:host {
+  position: relative;
+  display: inline-flex;
+}
+
+// Label and value side by side; the value's column goes from 0fr to 1fr, so
+// only this pill's width animates and its neighbours move with it.
+.copy-pill {
+  @include pill {
+    display: inline-grid;
+    grid-template-columns: auto 0fr;
+    cursor: pointer;
+    background: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition:
+      color 0.2s ease,
+      grid-template-columns 0.2s ease;
+  }
+
+  // Copied implies open: on touch a tap both reveals the value and copies it.
+  &:hover,
+  &:focus-visible,
+  &--copied {
+    grid-template-columns: auto 1fr;
+  }
+
+  &__label {
+    display: inline-flex;
+    gap: var(--dv-space-4);
+    align-items: center;
+  }
+
+  // The column can collapse to nothing; the gap lives inside it.
+  &__reveal {
+    min-inline-size: 0;
+    overflow: hidden;
+  }
+
+  &__value {
+    display: block;
+    padding-inline-start: var(--dv-space-8);
+  }
+
+  &__status {
+    @include visually-hidden;
+  }
+}

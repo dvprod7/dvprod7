@@ -25,24 +25,54 @@
     padding: var(--dv-space-16) var(--dv-space-30);
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
   &--sm {
     font-size: var(--dv-text-btn-sm);
   }
 
+  // Hover and keyboard focus: the accent takes over, as on the nav links and
+  // the pills. The two non-yellow variants fill with it; the yellow one swaps
+  // to the outline look. The focus ring is still the global one (_base), kept
+  // off the fill by its offset.
   &--cta {
     color: var(--dv-color-cta-contrast);
     background-color: var(--dv-color-cta);
     border-color: transparent;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--dv-color-accent-contrast);
+      background-color: var(--dv-color-accent);
+    }
   }
 
   &--outline {
     color: var(--dv-color-accent);
     background-color: var(--dv-color-surface-inverse);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--dv-color-accent-contrast);
+      background-color: var(--dv-color-accent);
+    }
   }
 
   &--accent {
     color: var(--dv-color-accent-contrast);
     background-color: var(--dv-color-accent);
     border-color: transparent;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--dv-color-accent);
+      background-color: var(--dv-color-surface-inverse);
+      border-color: var(--dv-color-accent);
+    }
   }
 }

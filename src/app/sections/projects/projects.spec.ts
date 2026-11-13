@@ -58,4 +58,26 @@ describe('Projects', () => {
       expect(card.querySelector('.chip')?.textContent?.trim()).toBe(content.buildingNow.status);
     }
   });
+
+  it('gives each card the links of its project, external ones in a new tab', () => {
+    const projects = [...content.selected, ...content.buildingNow.projects];
+    const cards = Array.from(host.querySelectorAll('app-card'));
+
+    expect(cards.length).toBe(projects.length);
+    for (const [i, project] of projects.entries()) {
+      const anchors = Array.from(cards[i].querySelectorAll<HTMLAnchorElement>('.card__link'));
+      const links = project.links ?? [];
+
+      expect(anchors.map((a) => a.getAttribute('href')))
+        .withContext(project.heading)
+        .toEqual(links.map((l) => l.href));
+      expect(anchors.map((a) => a.getAttribute('target')))
+        .withContext(project.heading)
+        .toEqual(links.map((l) => (l.newTab ? '_blank' : null)));
+    }
+  });
+
+  it('has no placeholder copy left', () => {
+    expect(host.textContent).not.toContain('[TODO]');
+  });
 });
