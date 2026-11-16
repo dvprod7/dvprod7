@@ -124,7 +124,9 @@ accent-contrast/acento 17.25 (hover de `cta` y `outline`) · cta-contrast/cta 5.
 cta-text/bg 4.73 · cta-text/sunken 6.17. Mínimo 4.73 ✅. Anillo de foco 11.79 ✅.
 
 > **Copia literal del fondo:** `<meta name="theme-color">` de `index.html` lleva `#333333`
-> (= `--dv-grey-800`). Si cambia ese primitivo, cámbialo también ahí.
+> (= `--dv-grey-800`). Si cambia ese primitivo, cámbialo también ahí. Lo mismo con
+> `public/favicon.svg` (`#333333` y `#FAFF70` = `--dv-yellow-400`), y regenera desde él
+> `favicon.ico` y `apple-touch-icon.png`.
 
 ---
 

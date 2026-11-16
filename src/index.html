@@ -9,7 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Same value as --dv-color-bg (--dv-grey-800). -->
     <meta name="theme-color" content="#333333" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!-- favicon.svg is the source; favicon.ico (16/32/48) and apple-touch-icon.png
+         (180, full-bleed) are rendered from it. Colors: --dv-yellow-400 on --dv-grey-800. -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link
       rel="preload"
       href="/fonts/inter-latin-wght.woff2"

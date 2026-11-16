@@ -204,8 +204,11 @@ estructura `Record<Locale, …>` se queda tal cual.
 - Fondo decorativo animado (figuras difusas que se mueven con el scroll), sustituye al bg-hex
   (retirado en la 4.5).
 - Imagen OG 1200×630 (`og:image` / `twitter:image`; hoy la card es `summary` sin imagen, 5g).
-- Favicon propio: el de `public/favicon.ico` es el de Angular por defecto (5g).
-- Subir `@angular/*` al último parche 20.3.x (avisos de `npm audit`, 5k).
+- ~~Favicon propio~~ ✅ 2026-11-15: `public/favicon.svg` es la fuente (`</>` en trazos, sin
+  texto); `favicon.ico` (16/32/48, PNG dentro) y `apple-touch-icon.png` (180, sin esquinas: iOS
+  pone su máscara) se renderizaron con Chrome headless + un script de una vez fuera del repo.
+- ~~Subir `@angular/*` al último parche 20.3.x~~ ✅ 2026-11-15: framework 20.3.35, CLI 20.3.43.
+  Quedan avisos solo en tooling de build/dev (sass, browserslist, postcss, Karma, ESLint).
 
 Animaciones de entrada: cuando entren, **CSS nativo** con
 `animation-timeline: view()` por sección, sin librerías, solo dentro de
