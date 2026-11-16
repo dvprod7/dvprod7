@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Page not found — dvprod7</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <!-- Self-contained on purpose: the app's CSS is content-hashed. Literal copies of
+         the design tokens (see design-tokens.md, "Copia literal"). -->
+    <meta name="theme-color" content="#333333" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link
+      rel="preload"
+      href="/fonts/inter-latin-wght.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <style>
+      @font-face {
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 400 800;
+        font-display: swap;
+        src: url('/fonts/inter-latin-wght.woff2') format('woff2');
+      }
+
+      html {
+        color-scheme: dark;
+      }
+
+      body {
+        display: grid;
+        place-content: center;
+        min-block-size: 100vh;
+        margin: 0;
+        padding: 24px;
+        font-family: Inter, system-ui, sans-serif;
+        line-height: 1.5;
+        color: #ecebf3;
+        background-color: #333333;
+      }
+
+      .not-found__eyebrow {
+        margin: 0;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: #faff70;
+      }
+
+      .not-found__title {
+        margin: 8px 0 16px;
+        font-size: clamp(34px, 6vw, 46px);
+        font-weight: 800;
+        line-height: 1.1;
+      }
+
+      .not-found__text {
+        margin: 0 0 32px;
+        color: rgb(236 235 243 / 0.75);
+      }
+
+      .not-found__link {
+        display: inline-block;
+        padding: 12px 24px;
+        font-weight: 700;
+        color: #0d160b;
+        text-decoration: none;
+        background-color: #faff70;
+        border: 2px solid #faff70;
+        border-radius: 8px;
+      }
+
+      .not-found__link:hover,
+      .not-found__link:focus-visible {
+        color: #faff70;
+        background-color: #0d160b;
+      }
+
+      .not-found__link:focus-visible {
+        outline: 2px solid #faff70;
+        outline-offset: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="not-found">
+      <p class="not-found__eyebrow"><span aria-hidden="true">/ </span>404</p>
+      <h1 class="not-found__title">Page not found</h1>
+      <p class="not-found__text">This page doesn’t exist or has moved.</p>
+      <a class="not-found__link" href="/">Back to home</a>
+    </main>
+  </body>
+</html>

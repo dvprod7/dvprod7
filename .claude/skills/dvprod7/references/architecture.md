@@ -251,6 +251,11 @@ Mientras tanto la revisión es local con `ng serve`. Hechos ya conocidos:
   `dist/dvprod7-app/browser/` HTML prerenderizado + assets, sin servidor ni runtime de Node.
   Sirve cualquier host de archivos estáticos; debe comprimir el texto (gzip/brotli) y cachear
   para siempre los `*-HASH.js/css` y `/fonts/`. Sigue aplazado **cuál** host.
+- **Elegido (2026-11-15): Cloudflare Workers, solo Static Assets** (sin script de Worker).
+  `wrangler.jsonc` en la raíz → `dist/dvprod7-app/browser`, `not_found_handling: "404-page"`
+  (no SPA: una sola ruta). `public/404.html` autocontenido (noindex). `public/.assetsignore`
+  excluye `index.csr.html` (Angular copia dotfiles de `public/`). Node por `.nvmrc`; wrangler
+  por `npx`, nunca como dependencia. Caché/`_headers`: bloque aparte tras el deploy.
 
 ## Cambios de orden (2026-09-16)
 
